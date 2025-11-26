@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 // Base URL for API requests
-export const BASE_URL = 'http://127.0.0.1:8001/api';
+export const BASE_URL = 'http://51.21.169.68:8000/api';
 
 // TokenManager to handle JWT access and refresh tokens
 export const TokenManager = {
