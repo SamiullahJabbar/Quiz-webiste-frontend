@@ -1,0 +1,282 @@
+.register-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f4f7f9; /* Light, subtle background */
+  padding: 20px;
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.register-card {
+  background: white;
+  padding: 40px; /* Padding kam kiya */
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Thoda refined shadow */
+  border: 1px solid #e8e8e8;
+  width: 100%;
+  max-width: 600px; /* Width badhaya (520px se 600px) */
+  transition: all 0.3s ease;
+}
+
+.register-card:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 32px; /* Margin kam kiya */
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.logo-icon {
+  font-size: 28px;
+}
+
+.logo h1 {
+  color: #1a1a1a;
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.register-header h2 {
+  color: #1a1a1a;
+  margin: 0 0 6px 0;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.register-header p {
+  color: #666;
+  margin: 0;
+  font-size: 14px;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px; /* Sections ke beech ka gap kam kiya */
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Groupings ke beech ka gap kam kiya */
+}
+
+.section-title {
+  color: #324dc7; /* Blue for section title */
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #e0e7ff; /* Light blue border */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px; /* Label aur Input ke beech ka gap kam kiya */
+}
+
+.form-group label {
+  color: #333;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+  padding: 10px 12px; /* Padding kam kiya */
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  background-color: #fcfcfc;
+  color: #1a1a1a;
+  font-family: inherit;
+}
+
+.form-group input::placeholder {
+  color: #999 !important;
+  opacity: 1;
+}
+
+.form-group select {
+  color: #1a1a1a;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='%231a1a1a' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px;
+  padding-right: 30px;
+}
+
+.form-group select:invalid {
+  color: #999;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #324dc7;
+  box-shadow: 0 0 0 2px rgba(50, 77, 199, 0.2); /* Thoda subtle shadow */
+}
+
+.form-group input.error,
+.form-group select.error {
+  border-color: #ef4444; /* Red color */
+  background-color: #fffafa;
+}
+
+.error-text {
+  color: #ef4444;
+  font-size: 11px;
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+.general-error {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #ef4444;
+  padding: 10px 14px; /* Padding kam kiya */
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.error-icon {
+  font-size: 15px;
+}
+
+.register-btn {
+  background-color: #324dc7; /* Same button color */
+  color: white;
+  border: none;
+  padding: 12px 20px; /* Button padding kam kiya */
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px; /* Height kam kiya */
+}
+
+.register-btn:hover:not(:disabled) {
+  background-color: #2a42b5;
+  box-shadow: 0 4px 10px rgba(50, 77, 199, 0.4);
+}
+
+.register-btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.register-btn:disabled {
+  background-color: #aeb8c9; /* Disabled color change */
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.loading-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 24px; /* Margin kam kiya */
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.login-link p {
+  color: #666;
+  margin: 0;
+  font-size: 13px;
+}
+
+.login-link-text {
+  color: #324dc7;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-link-text:hover {
+  color: #2a42b5;
+  text-decoration: underline;
+}
+
+.privacy-notice {
+  text-align: center;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.privacy-notice p {
+  color: #aaa;
+  margin: 0;
+  font-size: 11px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .register-card {
+    padding: 30px 20px;
+    max-width: 90%;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .register-container {
+    padding: 10px;
+    align-items: flex-start;
+  }
+
+  .register-card {
+    padding: 20px 15px;
+  }
+
+  .register-form {
+    gap: 20px;
+  }
+}

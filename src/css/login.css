@@ -1,0 +1,259 @@
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f4f7f9; /* Light background matching the image */
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; /* Standardized font */
+}
+
+.login-card {
+  background: white;
+  padding: 40px; 
+  border-radius: 12px; /* Slightly tighter border-radius to match image */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06); /* Subtle shadow matching image */
+  border: 1px solid #e0e0e0; /* Subtle border */
+  width: 100%;
+  max-width: 400px; /* Adjusted width to closely match image appearance */
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 25px; /* Adjusted spacing */
+}
+
+/* --- LOGO STYLING (Blue Circle Acorn) --- */
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px; /* Spacing below the logo */
+}
+
+.logo-icon {
+  width: 60px; /* Size match */
+  height: 60px;
+  background-color: #324dc7; /* Primary blue color matching image */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-icon svg {
+  width: 28px; 
+  height: 28px;
+  fill: white; 
+}
+
+.login-header h2 {
+  color: #1a1a1a;
+  margin: 0; 
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* Step 2: User Email */
+.user-email {
+  color: #4b5563; /* Darker grey color for the email text */
+  font-weight: 400;
+  font-size: 14px;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.email-icon {
+    font-size: 16px;
+    color: #4b5563; /* Icon color matching the email text */
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Spacing between form groups/button */
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px; /* Space between label and input */
+}
+
+.form-group label {
+  color: #1a1a1a;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Input/Password Wrapper Styling */
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper input {
+    flex-grow: 1;
+    padding-right: 40px !important; /* Space for the toggle button */
+}
+
+.toggle-password {
+    position: absolute;
+    right: 1px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    padding: 0 10px;
+    cursor: pointer;
+    color: #9ca3af; /* Light grey for the eye icon */
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.toggle-password:hover {
+    color: #324dc7;
+}
+
+.eye-icon-span {
+    font-size: 18px;
+}
+
+/* Input styling */
+.form-group input {
+  padding: 12px 14px; 
+  border: 1px solid #d1d5db; /* Light border color */
+  border-radius: 6px;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  background-color: white;
+  color: #1a1a1a;
+  font-family: inherit;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #324dc7;
+  box-shadow: 0 0 0 1px #324dc7; /* Single line focus shadow */
+}
+
+.error-text {
+  color: #dc2626;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+/* General Error Message (Optional, for API errors) */
+.general-error {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 10px 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.login-btn {
+  background-color: #324dc7; /* Primary blue button */
+  color: white;
+  border: none;
+  padding: 13px 24px; /* Slightly less padding to match image */
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px; /* Min height to maintain size */
+  margin-top: 5px; /* Spacing above button */
+}
+
+.login-btn:hover:not(:disabled) {
+  background-color: #2a42b5;
+}
+
+.login-btn:disabled {
+  background-color: #a4b2e2; /* Lighter blue disabled color for better visual */
+  cursor: not-allowed;
+}
+
+/* Loading Spinner (if needed) */
+.loading-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* --- STEP 1 & STEP 2 LINKS (Centralized, vertically stacked) --- */
+.help-links, .password-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; 
+  align-items: center;
+  margin-top: 10px; /* Space after button */
+  padding-top: 15px;
+}
+
+.help-link-item, .link-only {
+  color: #324dc7;
+  text-decoration: none; 
+  font-size: 14px;
+  font-weight: 500;
+  transition: text-decoration 0.2s ease, color 0.2s ease;
+  background: none; /* For button to look like link */
+  border: none; /* For button to look like link */
+  cursor: pointer;
+  padding: 0;
+}
+
+.help-link-item:hover, .link-only:hover {
+  text-decoration: underline; 
+}
+
+/* --- REGISTER LINK (Bottom link, matches image style) --- */
+.register-link {
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #f0f0f0; /* Separator line matching image */
+}
+
+.register-link-text {
+  color: #1a1a1a; /* Dark text for the bottom link as per image */
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.register-link-text:hover {
+  color: #324dc7;
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 24px 20px;
+  }
+}

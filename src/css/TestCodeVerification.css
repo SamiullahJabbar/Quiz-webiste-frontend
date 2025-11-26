@@ -1,0 +1,193 @@
+/* --- Global Styles --- */
+.start-code-container {
+    height: 100vh;
+    width: 100vw;
+    background-color: #e6ffe6; /* Light green background color from Image 1 */
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    overflow: hidden; /* Prevent any scrollbars if content slightly overflows */
+}
+
+/* --- Top Navigation Bar --- */
+.top-nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+    background-color: white; /* White line/bar at the top, matching Image 1 */
+    color: #333;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow like Image 1 */
+    border-bottom: 1px solid #eee; /* Very subtle bottom border */
+    height: 50px; /* Fixed height for consistency */
+    box-sizing: border-box; /* Include padding in height */
+}
+
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    font-size: 14px; /* Adjust font size to match Image 1 */
+    color: #555;
+}
+
+.nav-left .nav-icon,
+.nav-right .nav-icon {
+    font-size: 20px; /* Adjust icon size */
+    color: #777;
+}
+
+.nav-right .nav-icon {
+    margin-left: 5px;
+}
+
+/* --- Main Content Area --- */
+.main-content-area {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* Pushes the footer to the bottom */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* --- Start Code Box (The central green block) --- */
+.start-code-box {
+    background-color: #e6ffe6; /* Slightly lighter green for the inner box, matching Image 1 */
+    padding: 50px 70px; /* Increased padding to make it wider, closer to Image 1 */
+
+    text-align: center;
+   
+    margin-top: 5vh; /* Center vertically, but leave space for footer */
+    max-width: 500px; /* Max width to keep it centered and not too wide */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.start-code-title {
+    font-size: 26px; /* Slightly larger title, matching Image 1 */
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.start-code-instruction {
+    font-size: 15px; /* Slightly smaller font, closer to Image 1 */
+    color: #555;
+    margin-bottom: 30px;
+    line-height: 1.6; /* Increased line height for readability */
+    /* ***UPDATED: To ensure "numbers only" is strong and the entire paragraph styling matches the image closely*** */
+    font-weight: 500; 
+}
+
+/* ***UPDATED: The strong tag inside the instruction box is specifically for the bold "numbers only"*** */
+.start-code-instruction strong {
+    font-weight: 700; /* Bolder for emphasis */
+}
+
+/* --- Code Input Fields --- */
+.code-input-group {
+    display: flex;
+    gap: 10px; /* Slightly increased gap between inputs, matching Image 1 */
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.code-input-box {
+    width: 45px; /* Slightly wider input boxes, matching Image 1 */
+    height: 45px; /* Slightly taller input boxes, matching Image 1 */
+    font-size: 26px; /* Larger font inside inputs */
+    text-align: center;
+    /* background-color: white;  */
+    border: 2px solid #d4d4d4; 
+    border-radius: 6px; /* Standard border radius */
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05); 
+}
+
+.code-input-box:focus {
+    border-color: #007bff; /* Highlight on focus */
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25); /* Focus ring */
+}
+
+/* --- Start Test Button --- */
+.start-test-button {
+    background-color: #f0f0f0; /* Slightly lighter gray for a softer look, closer to Image 1 */
+    color: #555;
+    border: 1px solid #c0c0c0; /* Slightly darker border for definition */
+    padding: 12px 30px; /* Adjusted padding */
+    font-size: 16px;
+    border-radius: 20px; /* More rounded corners to match Image 1's semi-pill shape */
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08); /* Subtle button shadow for a slightly embossed feel */
+}
+
+.start-test-button:hover:not(:disabled) {
+    background-color: #e0e0e0; /* Slightly darker hover */
+    border-color: #a0a0a0;
+    color: #333;
+}
+
+.start-test-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* --- Instructions Footer --- */
+.instructions-footer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px; /* Slightly increased margin from the bottom, matching Image 1 */
+    box-sizing: border-box;
+}
+
+.instruction-box {
+    display: flex;
+    align-items: center;
+    background-color: white; /* White background for the instruction box */
+    padding: 12px 25px; /* Adjusted padding */
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Softer, more spread-out shadow, matching Image 1 */
+    border: 1px solid #eee; /* Very light border */
+    max-width: 350px; /* Constrain width for a compact look */
+    width: 150%;
+    box-sizing: border-box;
+}
+
+/* ***UPDATED: Wrapper for the icon to match the boxy feel of the document icon in Image 2*** */
+.document-icon-wrapper {
+    background-color: #f0f0f0; /* Light gray background to give it a white/gray document look */
+    padding: 5px; 
+    border-radius: 4px;
+    margin-right: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.document-icon {
+    /* ***UPDATED: Black/Dark Gray icon color to match the black/white look of the icon in Image 2*** */
+    color: #333; 
+    font-size: 24px;
+}
+
+.instruction-box p {
+    font-size: 14px;
+    color: #333;
+    margin: 0;
+    line-height: 1.4;
+    /* ***UPDATED: To ensure the two lines break correctly as in the image*** */
+    white-space: normal; 
+    text-align: left;
+}
+
+/* ***CRITICAL FIX: Strong tag for "review the Instructions" to be blue and bold*** */
+.instruction-box p strong {
+    color: #007bff; /* Blue for 'Instructions' to match the link style in Image 2 */
+    font-weight: bold;
+}
