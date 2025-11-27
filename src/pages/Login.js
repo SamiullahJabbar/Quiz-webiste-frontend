@@ -210,7 +210,7 @@ const Login = () => {
                   onClick={() => setShowPassword(prev => !prev)}
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
-                  <span className='eye-icon-span'>{showPassword ? '🙈' : '👁'}</span>
+                  <span className='eye-icon-span'>{showPassword ? '' : ''}</span>
                 </button>
               </div>
               {errors.password && (
