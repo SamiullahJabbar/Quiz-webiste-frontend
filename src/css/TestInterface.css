@@ -12,10 +12,14 @@
   justify-content: space-between;
   align-items: center;
   padding: 8px 16px; 
-  background-color: #e9ecf7;
-  border-bottom: 1px solid #d0d7e9;
-  height: 60px;
+  background-color: #E6EDF9;
+  height: 75px;
   position: relative; 
+  /* Dashed bottom border using gradient */
+  background-image: linear-gradient(to right, #020202 70%, transparent 30%);
+  background-position: bottom;
+  background-size: 20px 2.4px; /* Pehla number = dash length, doosra = thickness */
+  background-repeat: repeat-x;
 }
 
 /* --- TOP HEADER LEFT (Section Info & Directions) --- */
@@ -28,9 +32,10 @@
 }
 
 .section-info-top {
-  font-size: 13px;
+  font-size: 18px;
   font-weight: 600;
   color: #1a1a1a;
+  margin-left: 20px;
 }
 
 .directions-dropdown-style {
@@ -43,12 +48,15 @@
 }
 
 .directions-text-top {
-    font-weight: 500;
+    font-weight: 550;
+    margin-left: 20px;
 }
 
 .directions-icon-top {
-    font-size: 16px;
-    line-height: 1;
+    font-size: 25px;
+    line-height: 2;
+    margin-left: -3px;
+    margin-top: -12%;
 }
 
 /* --- TOP HEADER CENTER (Timer & Hide) --- */
@@ -57,35 +65,39 @@
     flex-direction: column;
     align-items: center; 
     justify-content: center;
-    gap: 2px;
+    gap: 1px;
     position: absolute; 
     left: 50%;
     transform: translateX(-50%);
     height: 100%;
     padding-top: 5px; 
-    
 }
 .timer {
-  font-size: 18px;
+  font-size: 25px;
   font-weight: 700;
   color: #1a1a1a;
   font-family: 'Courier New', monospace;
   background-color: #e9ecf7;
-  padding: 2px 8px;
+  padding: 1px 6px;
   border-radius: 4px;
+  letter-spacing: -1.8px;
+  margin-bottom: 7px;
+  margin-top: 27%;
 }
 
 .hide-time-btn {
   background: none;
-  border: 1px solid #1e2125; 
+  border: 1px solid #111213; 
   color: #141313;
-  padding: 0 8px;
+  padding: 7 15px;
   border-radius: 10px; 
-  font-size: 11px;
+  font-size: 15px;
   cursor: pointer;
   font-weight: 500;
-  height: 18px;
-  line-height: 16px;
+  height: 24px;
+  width: 80%;
+  line-height: 20px;
+  margin-bottom: 30%;
 }
 
 /* --- TOP HEADER RIGHT (Tools & More) --- */
@@ -101,11 +113,8 @@
 /* --- PARENT CONTAINER: Aligns Highlights and More horizontally --- */
 .tool-options-horizontal {
     display: flex;
-    /* Aligns items vertically in the center */
     align-items: center; 
-    /* Space between the Highlights group and the More option */
     gap: 16px; 
-    /* NEW: Ensures content starts from the left (as you requested previously) */
     justify-content: flex-start;
 }
 /* --- 1. OUTER CONTAINER: Holds all tools horizontally --- */
@@ -113,18 +122,14 @@
     display: flex;
     align-items: center; 
     gap: 16px; 
-    /* Ensures tools start from the far left */
     justify-content: flex-start;
 }
 
 /* --- 2. HIGHLIGHTS GROUP: Vertical stack for Icons/Text --- */
 .tool-set-highlights {
     display: flex;
-    /* Stacks icon row and text vertically */
     flex-direction: column; 
-    /* Centers icon row and text horizontally */
     align-items: center; 
-    /* Vertical space between icon row and text */
     gap: 4px; 
     color: #0c0d0e; 
 }
@@ -132,26 +137,23 @@
 .tool-icon-row {
     display: flex;
     align-items: center;
-    gap: 4px; 
+    gap: 1px; 
 }
 /* --- MORE OPTION GROUP: Vertical stack for Icon/Text --- */
 .tool-set-more-option {
     display: flex;
-    /* KEY FIX: Stacks the icon (⋮) above the text (More:) */
     flex-direction: column; 
-    /* Centers icon and text horizontally */
     align-items: center; 
-    /* Vertical space between the icon and the text */
     gap: 4px; 
     color: #4a5568; 
     cursor: pointer; 
+    margin-right: -5%;
+    font-size: 1.3%;
 }
 
 /* --- ICON STYLE: Targeting the vertical ellipsis --- */
 .tool-more-icon-top {
-    /* Make the ellipsis larger to look like a proper icon */
     font-size: 18px; 
-    /* Ensure no text-specific font weight is affecting it */
     font-weight: bold; 
     color: #4a5568;
 }
@@ -159,7 +161,7 @@
 /* --- TEXT STYLE --- */
 .tool-text-top {
     font-size: 12px;
-    font-weight: 500;
+    font-weight: 550;
     color: #000000;
 }
 
@@ -174,6 +176,32 @@
   height: 100%;
 }
 
+/* BATTERY CONTAINER STYLES */
+.battery-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin-right: 20px; 
+    margin-top: -30%;
+}
+.battery-icon-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.battery-percentage-overlay {
+    position: absolute;
+    top: 50%;
+    left: -60%;
+    transform: translate(-50%, -50%);
+    font-size: 10px;
+    font-weight: 700;
+    color: #434343;
+    pointer-events: none;
+    margin-top: -12%;
+}
+
 /* Main Content (Split 50/50: Question Text | Options) */
 .test-main-content {
   min-height: calc(100vh - 63px - 3px - 60px); 
@@ -181,57 +209,60 @@
   position: relative;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 /* LEFT SIDE: Question Text / Passage Area */
 .question-text-area {
   flex: 1; 
-  padding: 40px 32px;
-  border-right: 2px solid #ccc; /* Vertical Separator (Bold) */
-  overflow-y: auto; 
+  padding: 60px 32px;
+  border-right: 4px solid #7e7b7b; /* Vertical Separator (Bold) */
+  overflow: visible;  
   position: relative; 
+  font-family: 'Open Sans', sans-serif !important;
 }
 
-/* --- RESIZE HANDLE CSS (UPDATED BLOCK for Monitor Icon) --- */
-
-.resize-handle-container {
+/* --- FULLSCREEN HANDLE CSS (UPDATED - BACKGROUND REMOVED) --- */
+.fullscreen-handle-container {
     position: absolute;
-    /* Monitor icon ki position ko thoda adjust kiya hai taake woh line par centre ho */
-    right: -12px; 
+    right: -16px;
     top: 50%;
     transform: translateY(-50%);
-    background-color: white; /* Monitor icon ke liye background white rakha hai */
-    width: 24px; /* Icon ka size */
-    height: 24px; /* Icon ka size */
-    border-radius: 4px; 
-    cursor: col-resize; 
+    background-color: transparent; /* BACKGROUND REMOVED */
+    width: 28px;
+    height: 26px;
+    border-radius: 4px;
+    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10;
-    /* Shadow ya border remove kar diya hai, sirf icon dikhega */
-    box-shadow: none; 
+    z-index: 1000;
+    border: none; /* BORDER REMOVED */
+    box-shadow: none; /* SHADOW REMOVED */
 }
 
-/* Monitor icon ko thoda chota karna hai aur color set karna hai */
-.resize-handle-icon {
-    width: 20px;
-    height: 20px;
-    fill: #333; /* Icon ka color dark grey/black */
+.fullscreen-icon-style {
+    width: 24px;
+    height: 24px;
+    fill: #000000;
+    transition: fill 0.2s ease;
 }
 
 
 .passage-text {
-  font-size: 15px;
+  font-size: 19px;
   line-height: 1.6;
   color: #1a1a1a;
   margin: 0; 
-  font-weight: 400;
+  font-weight: 450;
+  font-family :Georgia, 'Times New Roman', Times, serif;
 }
 
 /* RIGHT SIDE: Options Only Area */
 .options-only-area {
   flex: 1; 
   padding: 20px 32px;
-  overflow-y: auto;
+  overflow: visible; 
+  z-index: 1; /* Lower than icon */
+  position: relative;
 }
 
 
@@ -241,32 +272,37 @@
   align-items: center;
   gap: 10px;
   padding-bottom: 5px;
+  background-color: #e4e4e4da;
   /* Set color for Mark Icon group */
-  color: #666;
+  color: #a30e0e;
+  
 }
 
 /* Question Number Box - NOTE: CSS class name should match JSX - updated */
 .question-number-box-center { 
-  padding: 4px 8px;
+  padding: 8px 12px;
   background: #1a1a1a;
   color: white;
-  border-radius: 4px;
-  font-weight: 700;
-  font-size: 14px;
+  border-radius: 2px;
+  font-weight: 900;
+  font-size: 21px;
+  font-family :cursive     !important;
+  
 }
 
 
 /* Mark Icon (Bookmark) style - managed by the general SVG class */
 .mark-icon-bookmark {
-    /* Color set by parent .question-header-image-style */
-    /* size and fill set by general SVG class */
+    height: 100%;
 }
 
 .mark-for-review-text {
-  font-size: 13px;
-  color: #666;
+  font-size: 17px;
+  color: #0f0f0f;
   font-weight: 500;
   margin-right: auto; 
+  font-family: Verdana, Geneva, Tahoma, sans-serif !important;
+  margin-left: -1%;
 }
 
 /* ABC Icon Container */
@@ -277,7 +313,34 @@
     gap: 2px;
     padding: 0 5px;
     position: relative;
+    background-color: #372AAC ; /* BLUE BACKGROUND */
+    border-radius: 7px;
+    margin-left: 10%;
+    transition: all 0.3s ease;
+
+
 }
+
+/* Click hone par tershi line lag jayegi */
+.abc-icon-container.clicked::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        135deg, 
+        transparent 0%, 
+        transparent 45%, 
+        #ffffff 44%, 
+        #ffffff 40%, 
+        transparent 55%, 
+        transparent 100%
+    );
+    pointer-events: none;
+}
+
 
 .abc-icon-text {
     font-size: 12px;
@@ -298,10 +361,15 @@
 .question-divider-color-line {
     display: flex;
     height: 2px;
-    margin-top: 10px;
+    margin-top: 0px;
     margin-bottom: 20px;
     gap: 1px;
     width: 100%;
+    /* Dashed line on top */
+    background-image: linear-gradient(to right, #020202 80%, transparent 50%);
+    background-position: top;
+    background-size: 30px 2.4px; /* Pehla number = dash length, doosra = thickness */
+    background-repeat: repeat-x;
 }
 
 .color-bar {
@@ -312,15 +380,18 @@
 
 /* Question Content/Stem */
 .question-content-image-style {
-  margin-bottom: 30px;
+  margin-bottom: 5px;
 }
 
 .question-stem {
-  font-size: 15px;
+  font-size: 23px;
   line-height: 1.6;
   color: #1a1a1a;
   font-weight: 500;
-  margin: 0;
+  margin: 5;
+  font-family :Georgia, 'Times New Roman', Times, serif;
+  word-spacing: 3px;
+  margin-top: -1%;
 }
 
 
@@ -332,7 +403,7 @@
 .options-list {
   display: flex;
   flex-direction: column;
-  gap: 10px; 
+  gap: 15px; 
 }
 
 .option-item-image-style {
@@ -341,9 +412,12 @@
   align-items: center;
   padding: 10px 15px;
   border: 1px solid #cbd5e0;
-  border-radius: 4px;
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.2s ease;
+  max-width: 600px; 
+  width: 100%;
+  position: relative; /* IMPORTANT for .option-right-box-style */
 }
 
 .option-item-image-style:hover {
@@ -351,8 +425,9 @@
 }
 
 .option-item-image-style.selected {
-    border-color: #304dcf;
-    box-shadow: 0 0 0 2px rgba(48, 77, 207, 0.2);
+    border-color: #461B7E;
+    box-shadow: 0 0 0 3px #8F9CD8;
+    border: 5px solid #461B7E;
 }
 
 .option-label-container {
@@ -363,49 +438,127 @@
     cursor: pointer;
 }
 
-/* Option Circle Label */
+/* Option Circle Label (Left side circle) */
 .option-circle-label {
-    width: 24px;
-    height: 24px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
-    border: 2px solid #1a1a1a;
+    border: 2px solid #5A5A5A;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
+    flex-shrink: 0%;
+    font-weight: 700 !important;
+    font-size: 30px !important;
+    font-family: 'Open Sans', sans-serif !important;
 }
 
+
 .option-item-image-style.selected .option-circle-label {
-    background-color: #304dcf;
-    border-color: #304dcf;
+    background-color: #324bc7;
+    border-color: #2e2b2bd8;
+    
 }
 
 .option-item-image-style.selected .option-label-text {
-    color: white;
+    color: rgb(255, 255, 255);
 }
 
 .option-label-text {
-  font-weight: 600;
-  color: #1a1a1a;
-  font-size: 12px;
+  font-weight: 700;
+  color: #5A5A5A;
+  font-size: 16px;
+  
 }
 
 .option-text-image-style {
-  font-size: 14px;
+  font-size: 17px;
   line-height: 1.5;
   color: #1a1a1a;
-  font-weight: 400;
+  font-weight: 500;
+  font-family: Georgia, 'Times New Roman', Times, serif !important;
+  
 }
 
 .option-add-btn {
     background: none;
     border: none;
-    color: #4a5568;
+    color: #002b75;
     font-size: 18px;
     cursor: pointer;
     font-weight: 300;
     padding: 0 5px;
 }
+
+/* ================================================= */
+/* === UPDATED STYLES: Right Circle OUTSIDE Box === */
+/* ================================================= */
+
+/* Right Box Container (Holds the circle) */
+.option-right-box-style {
+    /* KEY CHANGE: Move it outside the border (Option Box ki width 600px hai) */
+    position: absolute;
+    /* Yeh right: 15px se zyada hona chahiye taake option box ki hadd se bahar nikle */
+    right: -60px; 
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    pointer-events: none; 
+}
+
+/* The Circle with Label and Line (As seen in the image) */
+.option-circle-with-line {
+    width: 25px; /* Circle size */
+    height: 25px; /* Circle size */
+    border-radius: 50%;
+    border: 2px solid #5A5A5A; /* Border color */
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* The Label inside the circle (A, B, C, D) */
+.option-right-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #5A5A5A;
+    position: relative;
+    z-index: 2; /* Ensure label is above the line */
+}
+
+/* The Horizontal Line inside the circle (Using pseudo-element) */
+.option-circle-with-line::before {
+    content: '';
+    position: absolute;
+    width: 150%; /* Width of the line inside the circle */
+    height: 2px; /* Thickness of the line */
+    background-color: #5A5A5A; /* Line color */
+    top: 50%;
+    left: 50%; 
+    transform: translate(-50%, -50%);
+    z-index: 1; /* Ensure line is under the label */
+}
+
+/* Styling for SELECTED option to make the right circle look selected too (Optional but good practice) */
+.option-item-image-style.selected .option-circle-with-line {
+    border-color: #324bc7; /* Change border color when selected */
+}
+
+.option-item-image-style.selected .option-right-label {
+    color: #324bc7; /* Change label color when selected */
+}
+
+.option-item-image-style.selected .option-circle-with-line::before {
+    background-color: #324bc7; /* Change line color when selected */
+}
+
+/* ================================================= */
+
 
 /* NEW: Bottom Navigation Divider Line */
 .bottom-nav-divider-color-line {
@@ -418,12 +571,12 @@
     z-index: 1001; 
     flex-wrap: wrap;
     margin-bottom: 10px;
-   
 }
 
 .color-bar-bottom {
     flex: 17px;
     height: 100%;
+    
 }
 
 
@@ -434,7 +587,7 @@
   left: 0;
   width: 100%;
   height: 60px;
-  background-color: #e9ecf7; 
+  background-color: #E6EDF9; 
   color: #1a1a1a; 
   display: flex;
   justify-content: space-between;
@@ -442,6 +595,11 @@
   padding: 0 20px;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
   z-index: 1000;
+  /* Dashed top border using gradient */
+  background-image: linear-gradient(to right, #020202 80%, transparent 50%);
+  background-position: top;
+  background-size: 30px 2.4px; /* Pehla number = dash length, doosra = thickness */
+  background-repeat: repeat-x;
 }
 
 .nav-left-image-style {
@@ -452,15 +610,16 @@
 }
 
 .user-name {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 650;
   color: #1a1a1a; 
   padding: 0 10px; 
-  background-color: #e9ecf7; 
+  background-color: #E6EDF9; 
   height: 40px;
   display: flex;
   align-items: center;
   border-radius: 4px;
+  font-family: Georgia, 'Times New Roman', Times, serif !important;
 }
 
 .nav-center-image-style {
@@ -473,10 +632,12 @@
   background: #1a1a1a;
   color: white;
   padding: 10px 15px;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 13px;
   font-weight: 700;
   text-align: center;
+  font-family: Georgia, 'Times New Roman', Times, serif; 
+  margin-right: -7%;
 }
 
 .nav-right-image-style {
@@ -488,39 +649,24 @@
 }
 
 .nav-btn-bottom {
-  /* Restore the original padding to control the button size */
   padding: 8px 16px;
-  
-  /* KEY CHANGE: Set a very high border-radius to create the pill shape */
-  border-radius: 50px; /* Or use 999px for maximum rounding */
-  
-  /* Ensure the button width adjusts to its content */
+  border-radius: 50px; 
   min-width: 80px; 
-  
-  /* Remove fixed sizing from the previous attempt */
   width: unset; 
   height: unset; 
-  
-  /* Keep necessary styles */
   border: none;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: center;
-  
-  /* Remove flex centering if it only contains text (unless needed for icon centering) */
   display: block; 
 }
 
 .back-btn {
-  background: #304dcf; 
+  background: #324cbf; 
   color: white; 
 }
-
-/* .back-btn:hover:not(:disabled) {
-  background: #f0f0f0;
-} */
 
 .next-btn {
   background: #304dcf; 
@@ -530,12 +676,6 @@
 .next-btn:hover {
   background: #2b45c5;
 }
-
-/* .back-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-} */
-
 
 /* Loading and Error Styles (unchanged) */
 .loading-spinner-large {
@@ -578,7 +718,293 @@
   font-size: 14px;
 }
 
-/* Responsive Design (updated) */
+/* =================================================================== */
+/* COMPLETE MOBILE RESPONSIVE FIX (768px se choti screens) */
+/* =================================================================== */
+
+@media (max-width: 768px) {
+  /* Container padding fix */
+  .test-interface-container {
+    padding-bottom: 120px; /* Bottom navbar ke liye zyada space */
+  }
+
+  /* HEADER COMPLETE RESTRUCTURE */
+  .test-header {
+    height: auto;
+    min-height: 100px;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 10px 12px;
+    gap: 8px;
+    background-size: 15px 2px;
+  }
+
+  /* Header sections ko proper stack kiya */
+  .header-left-image-style,
+  .header-center-image-style,
+  .header-right-image-style {
+    flex-basis: auto;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  /* Left section - top align */
+  .header-left-image-style {
+    order: 1;
+    margin-bottom: 0;
+  }
+
+  .section-info-top {
+    font-size: 16px;
+    margin-left: 0;
+    font-weight: 600;
+  }
+
+  .directions-text-top {
+    margin-left: 0;
+    font-size: 14px;
+  }
+
+  /* Center section - timer row mein */
+  .header-center-image-style {
+    order: 2;
+    position: static;
+    transform: none;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: auto;
+    padding-top: 0;
+    margin: 5px 0;
+  }
+
+  .timer {
+    font-size: 20px;
+    margin: 0;
+    padding: 4px 10px;
+    background-color: #E6EDF9;
+  }
+
+  .hide-time-btn {
+    width: auto;
+    min-width: 80px;
+    height: 30px;
+    padding: 5px 12px;
+    margin: 0;
+    font-size: 13px;
+  }
+
+  /* Right section - tools properly aligned */
+  .header-right-image-style {
+    order: 3;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0;
+    gap: 5px;
+    margin-top: 5px;
+  }
+
+  .tool-options-horizontal {
+    gap: 15px;
+    justify-content: flex-start;
+    margin-right: 0;
+  }
+
+  /* Battery fix */
+  .battery-container {
+    margin: 0;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .battery-percentage-overlay {
+    position: static;
+    transform: none;
+    margin: 0;
+    font-size: 12px;
+  }
+
+  /* MAIN CONTENT - PROPER STACKING */
+  .test-main-content {
+    flex-direction: column;
+    min-height: auto;
+    padding-bottom: 20px;
+  }
+
+  /* Question text area - proper sizing */
+  .question-text-area {
+    flex: none;
+    border-right: none;
+    border-bottom: 3px solid #7e7b7b;
+    padding: 25px 15px;
+    min-height: 300px;
+    overflow-y: auto;
+  }
+
+  /* Fullscreen handle hide */
+  .fullscreen-handle-container {
+    display: none;
+  }
+
+  .passage-text {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  /* Options area - proper sizing */
+  .options-only-area {
+    flex: none;
+    padding: 20px 15px;
+    min-height: 400px;
+  }
+
+  /* Question header mobile optimization */
+  .question-header-image-style {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-bottom: 10px;
+  }
+
+  .question-number-box-center {
+    font-size: 18px;
+    padding: 6px 10px;
+  }
+
+  .mark-for-review-text {
+    font-size: 15px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .abc-icon-container {
+    margin-left: auto;
+    padding: 0 8px;
+  }
+
+  .question-stem {
+    font-size: 18px;
+    line-height: 1.4;
+    margin-top: 0;
+  }
+
+  /* Options list mobile optimization */
+  .options-section {
+    margin-top: 15px;
+  }
+
+  .options-list {
+    gap: 12px;
+  }
+
+  .option-item-image-style {
+    padding: 12px 15px;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .option-circle-label {
+    width: 22px;
+    height: 22px;
+    font-size: 14px !important;
+  }
+
+  .option-text-image-style {
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  /* Right side ABC circles hide on mobile */
+  .option-right-box-style {
+    display: none;
+  }
+
+  /* BOTTOM NAVBAR - COMPLETE RESTRUCTURE */
+  .test-bottom-navbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: auto;
+    min-height: 100px;
+    flex-wrap: wrap;
+    padding: 12px 15px;
+    background-size: 20px 2px;
+    z-index: 1000;
+  }
+
+  /* Navbar sections ko proper stack kiya */
+  .nav-left-image-style,
+  .nav-center-image-style,
+  .nav-right-image-style {
+    flex-basis: 100%;
+    margin: 5px 0;
+    justify-content: center;
+  }
+
+  /* User name - center align */
+  .nav-left-image-style {
+    order: 1;
+  }
+
+  .user-name {
+    font-size: 16px;
+    height: 35px;
+    padding: 0 20px;
+    text-align: center;
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Buttons - proper spacing */
+  .nav-right-image-style {
+    order: 2;
+    justify-content: space-between;
+    gap: 10px;
+    padding-right: 0;
+    margin: 8px 0;
+  }
+
+  .nav-btn-bottom {
+    flex: 1;
+    font-size: 15px;
+    padding: 10px 5px;
+    min-width: 0;
+    margin: 0 5px;
+  }
+
+  /* Question counter */
+  .nav-center-image-style {
+    order: 3;
+    margin-top: 5px;
+  }
+
+  .question-counter-box-center {
+    margin-right: 0;
+    font-size: 14px;
+    padding: 8px 20px;
+  }
+
+  /* Bottom divider hide */
+  .bottom-nav-divider-color-line {
+    display: none;
+  }
+
+  /* Additional mobile optimizations */
+  .question-divider-color-line {
+    background-size: 20px 2px;
+    margin-bottom: 15px;
+  }
+
+  .tool-text-top {
+    font-size: 11px;
+  }
+
+  .directions-dropdown-style {
+    font-size: 11px;
+  }
+}
+
+/* Tablet optimization */
 @media (max-width: 1024px) {
   .test-main-content {
     flex-direction: column;
@@ -586,66 +1012,15 @@
   
   .question-text-area {
     border-right: none;
-    border-bottom: 1px solid #e2e8f0;
-    padding: 20px;
-  }
-  
-  /* UPDATED: Resize handle ko mobile par bhi chupa den */
-  .resize-handle-container {
-    display: none;
+    border-bottom: 2px solid #7e7b7b;
+    padding: 30px 20px;
   }
   
   .options-only-area {
-    padding: 20px;
+    padding: 25px 20px;
   }
   
-  .test-header {
-    flex-direction: column;
-    height: auto;
-    gap: 10px;
-    align-items: flex-start;
-    margin-bottom: 6px;
-  }
-  
-  /* Reset center header positioning for small screens */
-  .header-center-image-style {
-      position: static;
-      transform: none;
-      flex-direction: row;
-      align-items: center;
-      justify-content: flex-start;
-      height: auto;
-      flex-grow: 0;
-  }
-  
-  .test-bottom-navbar {
-      flex-wrap: wrap;
-      height: auto;
-      padding: 10px 15px;
-  }
-  
-  .nav-left-image-style, .nav-center-image-style, .nav-right-image-style {
-      flex-basis: 100%;
-      justify-content: center;
-      margin: 5px 0;
-  }
-  
-  .nav-left-image-style {
-      justify-content: flex-start;
-  }
-  
-  .nav-right-image-style {
-      justify-content: space-between;
-      gap: 15px;
-  }
-  .nav-btn-bottom {
-      flex: 1;
-  }
-  
-  /* Adjust bottom divider for mobile layout */
-  .bottom-nav-divider-color-line {
-      bottom: auto; /* Remove fixed bottom position */
-      position: relative;
-      margin-top: 10px; /* Add some space above the divider */
+  .fullscreen-handle-container {
+    display: none;
   }
 }

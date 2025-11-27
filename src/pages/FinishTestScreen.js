@@ -1,11 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/FinishTestScreen.css'; 
-import laptopImage from '../images/laptop.png'; 
+import laptopImage from '../images/finalscreen.png'; 
 
 // --- SVG Icons (Unchanged) ---
 const HouseIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" enableBackground="new 0 0 24 24" height="20px" viewBox="0 0 24 24" width="20px" fill="currentColor">
+    <svg xmlns="http://www.w3.org/2000/svg" enableBackground="new 0 0 24 24" height="35px" viewBox="0 0 24 24" width="30px" fill="currentColor">
         <g><rect fill="none" height="24" width="24"/></g>
         <g><g><path d="M19,9.3V4h-3v2.6L12,3L2,12h3v8h6v-6h2v6h6v-8h3L19,9.3z M17,18h-2v-6H9v6H7v-7.81l5-4.5l5,4.5V18z"/>
         <path d="M10,10h4c0-1.1-0.9-2-2-2S10,8.9,10,10z"/></g></g>
@@ -13,11 +13,12 @@ const HouseIcon = () => (
 );
 
 const HelpIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px" fill="currentColor">
+    <svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="30px" fill="#B7B7B7">
         <path d="M0 0h24v24H0z" fill="none"/>
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
+        <path d="M482-244.67q17.67 0 29.83-12.16Q524-269 524-286.67q0-17.66-12.17-29.83-12.16-12.17-29.83-12.17-17.67 0-29.83 12.17Q440-304.33 440-286.67q0 17.67 12.17 29.84 12.16 12.16 29.83 12.16Zm-35.33-148.66h64q0-28.34 6.83-49 6.83-20.67 41.17-50.34 29.33-26 43-50.5 13.66-24.5 13.66-55.5 0-54-36.66-85.33-36.67-31.33-93.34-31.33-51.66 0-88.5 26.33Q360-662.67 344-620l57.33 22q9-24.67 29.5-42t52.5-17.33q33.34 0 52.67 18.16 19.33 18.17 19.33 44.5 0 21.34-12.66 40.17-12.67 18.83-35.34 37.83-34.66 30.34-47.66 54-13 23.67-13 69.34ZM480-80q-82.33 0-155.33-31.5-73-31.5-127.34-85.83Q143-251.67 111.5-324.67T80-480q0-83 31.5-156t85.83-127q54.34-54 127.34-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 82.33-31.5 155.33-31.5 73-85.5 127.34Q709-143 636-111.5T480-80Zm0-66.67q139.33 0 236.33-97.33t97-236q0-139.33-97-236.33t-236.33-97q-138.67 0-236 97-97.33 97-97.33 236.33 0 138.67 97.33 236 97.33 97.33 236 97.33ZM480-480Z"/>
     </svg>
 );
+
 
 // 1. Main FinishTestScreen Component
 const FinishTestScreen = () => {
@@ -33,12 +34,12 @@ const FinishTestScreen = () => {
             <div className="finish-screen-header">
                 <div className="header-left">
                     <span className="header-link help-link">
-                        <HelpIcon /> Help
+                        <HelpIcon /> <strong>Help</strong>
                     </span>
                 </div>
                 <div className="header-right">
                     <span className="header-link return-home-link" onClick={handleReturnToHomepage}>
-                        Return to Home <HouseIcon />
+                       <strong>Return to Home</strong> <HouseIcon />
                     </span>
                 </div>
             </div>

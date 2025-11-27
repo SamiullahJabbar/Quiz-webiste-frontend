@@ -4,7 +4,7 @@
 .finish-screen-container {
     width: 100vw;
     height: 100vh;
-    background-color: #1a2263; /* Deep blue background */
+    background-color: #1B2264; /* Deep blue background */
     color: white; 
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     display: flex;
@@ -52,15 +52,15 @@
     align-items: center;
     flex-grow: 1; 
     justify-content: center; 
-    padding-top: 50px; 
+    padding-top: -10px; 
     
     z-index: 5; /* Ensure main content is above confetti */
 }
 
 /* Congratulations text (Outside white box, on blue background) */
 .congratulations-title {
-    font-size: 30px;
-    font-weight: 700;
+    font-size: 35px;
+    font-weight: 500 !important;
     color: white; 
     margin-bottom: 5px;
 }
@@ -71,21 +71,28 @@
     margin-bottom: 30px;
 }
 
-/* 4. Main Content White Box (Based on image_f0ed0b.png) */
+
+
+/* 4. Main Content White Box (Box size fixed) */
 .finish-content-box {
     background-color: white;
     color: #1a1a1a; 
-    width: 110%;
-    height: 200;
-    max-width: 1000px;
-    padding: 80px 60px;
+    /* ✅ Width aur Max-Width fixed rakhi gayi hain */
+    width: 90%; /* Thoda kam kiya taake 1000px max-width theek se kaam kare */
+    max-width: 1000px; 
+    /* ✅ Height fixed rakhi gayi hai taake zoom karne par box na badhe */
+    height: 350px; /* Height ko badha kar fixed rakha gaya hai */
+    padding: 80px 80px;
     border-radius: 8px;
     text-align: center;
     position: relative; 
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     margin-bottom: 40px; 
-    justify-content: flex-start;
     padding-left: 20px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
 }
 
 .main-info-section {
@@ -93,40 +100,55 @@
     align-items: center;
     justify-content: center;
     text-align: left;
-    gap: 150px;
-    margin-top: 20px;
+    gap: 140px; 
+    margin-top: 10px;
+    width: 100%; 
+    max-width: 800px; 
 }
 
-/* 5. Laptop Image Styling */
+/* 5. Laptop Image Styling (Zoom ke liye Wrapper control) */
 .info-icon-area {
-    width: 180px; 
-    height: 200px; 
+    /* ✅ Wrapper ke liye fixed size set kiya gaya hai */
+    width: 350px; 
+    height: 250px; 
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 40px; 
+    padding: 25px; 
     margin-left: 0px;
 }
 
 .laptop-image {
-    max-width: 180%;
-    max-height: 250%;
-    object-fit: contain; 
+    /* ✅ Image ki width ko directly bada kar diya gaya hai (e.g., 300px) */
+    width: 600px; 
+    height: auto; /* Height auto rahegi taake aspect ratio theek rahe */
+    /* ✅ Object-fit: contain ko hata diya hai kyunki hum fixed width de rahe hain */
+    object-fit: initial; 
+    /* Max-width / Max-height ko bhi hata diya gaya hai */
+    max-width: none; 
+    max-height: none;
+    
+    /* Agar image container se bahar nikal jaati hai, toh box ka size nahi badhega */
+    /* Kyunki .info-icon-area ka size 250x250px fixed hai. */
 }
 
 /* 6. Instructions Text */
 .info-instructions {
-    max-width: 300px;
+    max-width: 300px; 
     color: #1a1a1a; 
     text-align: left; 
 }
 
 .instruction-item {
-    font-size: 16px;
-    line-height: 1.8;
-    margin-bottom: 10px;
-    color: #1a1a1a; /* All general text is black */
+    font-size: 21px;
+    line-height: 1.4;
+    margin-bottom: 45px;
+    color: #1b1a1a; 
+    font-weight: 550;
 }
+
+
+
 
 /* Specific styling for the bold blue phrases (e.g., Raise your hand, My SAT) */
 .blue-bold {
@@ -139,8 +161,8 @@
     background-color: #fbc02d; /* Yellow button */
     color: #1a1a1a; /* Black text on yellow button */
     border: none;
-    padding: 10px 30px;
-    border-radius: 20px;
+    padding: 20px 13px;
+    border-radius: 30px;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
@@ -201,5 +223,327 @@
     100% { 
         transform: translateY(100vh) translateX(20px) rotate(180deg); 
         opacity: 0; 
+    }
+}
+
+
+
+
+
+
+
+/* --- TestRatingModal Styles (IMAGE 2 Specific) --- */
+
+/* 1. Overlay (Background dimming) */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100; 
+    padding: 20px; /* Thoda padding taaki choti screen par scroll ho sake */
+}
+
+/* 2. Modal Content Box (The White Box - Image 2 Style) */
+.rating-modal-content.image-2-style {
+    background: white;
+    /* Image 2 ke anusaar padding top/bottom kam, sides zyada */
+    padding: 30px 40px; 
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px; /* Image 2 thoda chhota aur narrow lagta hai */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+    color: #1a1a1a;
+    display: flex; /* Flex-start alignment ke liye */
+    flex-direction: column;
+}
+
+/* 3. Close Button (Top Right 'x') */
+.modal-close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 28px; /* Thoda bada cross */
+    cursor: pointer;
+    color: #757575; /* Lighter cross icon */
+    line-height: 1; 
+}
+
+.modal-title {
+    font-size: 20px;
+    font-weight: 500; /* Regular weight */
+    margin-bottom: 25px;
+    text-align: center; /* Image 2 mein title centered lagta hai */
+    color: #333;
+}
+
+/* 4. Rating Options Styling (Image 2 Style) */
+.rating-options-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.rating-option.image-2-style {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 400;
+    transition: background-color 0.1s, color 0.1s;
+    justify-content: space-between; 
+    /* Image 2 mein options ka background hamesha white rehta hai, sirf selected option highlight hota hai */
+    background-color: white; 
+    color: #333;
+}
+
+.rating-option.image-2-style:hover {
+    background-color: #f7f7f7; /* Subtle hover effect */
+}
+
+/* Selected option (The light blue box in Image 2) */
+.rating-option.image-2-style.selected {
+    background-color: #e5f1ff; /* Light blue background */
+    border: 1px solid #cce0ff; /* Light border */
+    font-weight: 500; /* Text weight */
+    color: #333; 
+}
+
+
+/* Custom Radio Button Circle (Image 2 Style) */
+.custom-radio-circle {
+    /* Image 2 mein default circle bada aur hollow hota hai */
+    width: 20px; 
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid #8e8e8e; /* Gray border for unselected */
+    background-color: white;
+    display: block;
+    margin-left: 15px;
+}
+
+/* Inner dot when selected (Image 2 Style) */
+.rating-option.image-2-style.selected .custom-radio-circle {
+    border-color: #1B2264; /* Dark blue border when selected */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rating-option.image-2-style.selected .custom-radio-circle::after {
+    content: '';
+    /* Inner solid blue circle */
+    width: 10px; 
+    height: 10px;
+    border-radius: 50%;
+    background-color: #1B2264; /* Inner dark blue dot */
+    display: block;
+}
+
+/* 5. Feedback Textarea (Image 2 Style) */
+.feedback-prompt {
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: left;
+    color: #333;
+}
+
+.feedback-textarea.image-2-style {
+    width: 100%;
+    height: 100px; /* Thoda zyada height jaisa Image 2 mein hai */
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+    font-family: inherit;
+    font-size: 14px;
+    box-sizing: border-box; 
+}
+
+/* 6. Footer Buttons (Image 2 Style) */
+.modal-footer {
+    display: flex;
+    justify-content: flex-end; 
+    align-items: center;
+    margin-top: 25px;
+    gap: 15px;
+}
+
+.modal-dismiss-button.image-2-style {
+    background: none;
+    border: none;
+    color: #1B2264; /* Dark blue text */
+    font-size: 14px; /* Image 2 mein chhota text */
+    font-weight: 500; 
+    cursor: pointer;
+    padding: 8px 12px;
+}
+
+.modal-submit-button.image-2-style {
+    /* Yellow button with no rounded corners on the sides in Image 2 */
+    background-color: #fbc02d; 
+    color: #1a1a1a;
+    border: none;
+    padding: 10px 30px; /* Thoda zyada padding */
+    border-radius: 4px; /* Slightly rounded corners */
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s;
+}
+
+.modal-submit-button.image-2-style:hover {
+    background-color: #f9a825;
+}
+
+
+/*
+|================================================================================================
+| MOBILE RESPONSIVE MEDIA QUERIES (max-width: 768px)
+|================================================================================================
+*/
+@media (max-width: 768px) {
+
+    /* --- 1. FINISH SCREEN (BLUE BACKGROUND) --- */
+
+    /* Header adjustments */
+    .finish-screen-header {
+        padding: 0 15px; /* Padding kam kiya */
+        justify-content: space-around; /* Links ko distribute kiya */
+    }
+    
+    .header-link {
+        font-size: 12px; /* Font size chota kiya */
+        padding: 5px 8px;
+    }
+
+    /* Main Content text */
+    .congratulations-title {
+        font-size: 28px;
+    }
+
+    .submission-text {
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+
+    /* White Content Box (Key change) */
+    .finish-content-box {
+        /* Fixed height ko auto kar diya taake content stack ho sake */
+        height: auto; 
+        padding: 40px 20px; /* Padding kam kiya */
+        max-width: 95%; /* Box ko screen width ke qareeb kiya */
+        margin-bottom: 30px;
+    }
+
+    /* Info Section (Image and Text stacking) */
+    .main-info-section {
+        flex-direction: column; /* Upar-neeche stack kiya */
+        gap: 20px; /* Gap kam kiya */
+        max-width: 100%;
+        margin-top: 0;
+    }
+
+    /* Laptop Image Area adjustments */
+    .info-icon-area {
+        /* Fixed size ko hataya taake content adjust ho */
+        width: 100%;
+        height: auto;
+        padding: 0;
+        margin-left: 0;
+    }
+    
+    .laptop-image {
+        /* Image ko container width ke hisaab se scale kiya */
+        width: 100%; 
+        max-width: 300px; /* Image max size set ki */
+        height: auto;
+        /* Center image if it's smaller than the container */
+        display: block; 
+        margin: 0 auto; 
+    }
+
+    /* Instructions Text adjustments */
+    .info-instructions {
+        max-width: 100%;
+        text-align: center; /* Instructions center align ki */
+    }
+
+    .instruction-item {
+        font-size: 18px; /* Font size thoda chota kiya */
+        line-height: 1.5;
+        margin-bottom: 25px; /* Margins kam kiye */
+    }
+    
+    /* Return Button */
+    .return-button {
+        padding: 15px 10px; /* Padding kam kiya */
+        font-size: 15px;
+        width: 80%; /* Button ko zyada width di */
+        max-width: 300px;
+    }
+
+    /* Confetti Effect ko chota kiya (Optional) */
+    .confetti-line {
+        height: 15px;
+        width: 2px;
+    }
+    
+
+    /* --- 2. RATING MODAL (WHITE BOX) --- */
+    .modal-overlay {
+        padding: 10px; /* Overall padding kam kiya */
+    }
+
+    .rating-modal-content.image-2-style {
+        padding: 25px 20px; /* Padding kam kiya */
+        max-width: 95%; /* Screen width ke qareeb kiya */
+    }
+
+    .modal-title {
+        font-size: 18px; /* Title chota kiya */
+        margin-bottom: 20px;
+    }
+
+    /* Options and Radio Button */
+    .rating-option.image-2-style {
+        font-size: 15px;
+        padding: 12px 15px;
+    }
+
+    .custom-radio-circle {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* Footer Buttons */
+    .modal-footer {
+        flex-direction: column-reverse; /* Submit button top par, dismiss bottom par */
+        gap: 10px;
+    }
+    
+    .modal-submit-button.image-2-style, 
+    .modal-dismiss-button.image-2-style {
+        width: 100%; /* Full width buttons */
+        padding: 12px 0;
+    }
+    
+    .modal-dismiss-button.image-2-style {
+        font-size: 16px;
     }
 }
