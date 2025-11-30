@@ -185,9 +185,9 @@ const Login = () => {
 
             {/* Step 1 Help Links */}
             <div className="help-links">
-              <Link to="/unlock-account" className="help-link-item">Unlock account?</Link>
-              <Link to="/student-help" className="help-link-item">Student Help</Link>
-              <Link to="/professional-help" className="help-link-item">Professional Help</Link>
+              <Link to="/" className="help-link-item">Unlock account?</Link>
+              <Link to="/" className="help-link-item">Student Help</Link>
+              <Link to="/" className="help-link-item">Professional Help</Link>
             </div>
           </form>
         ) : (
@@ -235,11 +235,11 @@ const Login = () => {
 
             {/* Step 2 Links */}
             <div className="password-options">
-              <Link to="/forgot-password" className="link-only forgot-password">
+              <Link to="" className="link-only forgot-password">
                 Forgot password?
               </Link>
               
-              <Link to="/alternative-verify" className="link-only alternative-verify">
+              <Link to="" className="link-only alternative-verify">
                 Verify with something else
               </Link>
 

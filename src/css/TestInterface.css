@@ -16,9 +16,16 @@
   height: 75px;
   position: relative; 
   /* Dashed bottom border using gradient */
-  background-image: linear-gradient(to right, #020202 70%, transparent 30%);
+  background-image: linear-gradient(
+    to right, 
+    #020202 20%, /* 1. Black */
+    brown 20%, brown 40%, /* 2. Brown */
+    rgb(9, 61, 9) 40%, rgb(16, 112, 16) 60%, /* 3. Half Green (Lime) */
+    #020202 60%, #020202 80%, /* 4. Black */
+    transparent 80% /* 5. Transparent Gap */
+  );
   background-position: bottom;
-  background-size: 20px 2.4px; /* Pehla number = dash length, doosra = thickness */
+  background-size: 60px 2.5px; /* dash length = 50px, thickness = 2.4px */
   background-repeat: repeat-x;
 }
 
@@ -366,10 +373,17 @@
     gap: 1px;
     width: 100%;
     /* Dashed line on top */
-    background-image: linear-gradient(to right, #020202 80%, transparent 50%);
-    background-position: top;
-    background-size: 30px 2.4px; /* Pehla number = dash length, doosra = thickness */
-    background-repeat: repeat-x;
+    background-image: linear-gradient(
+    to right, 
+    #020202 20%, /* 1. Black */
+    brown 20%, brown 40%, /* 2. Brown */
+    rgb(9, 61, 9) 40%, rgb(16, 112, 16) 60%, /* 3. Half Green (Lime) */
+    #020202 60%, #020202 80%, /* 4. Black */
+    transparent 80% /* 5. Transparent Gap */
+  );
+  background-position: bottom;
+  background-size: 60px 2.5px; /* dash length = 50px, thickness = 2.4px */
+  background-repeat: repeat-x;
 }
 
 .color-bar {
@@ -596,9 +610,16 @@
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   /* Dashed top border using gradient */
-  background-image: linear-gradient(to right, #020202 80%, transparent 50%);
+  background-image: linear-gradient(
+    to right, 
+    #020202 20%, /* 1. Black */
+    brown 20%, brown 40%, /* 2. Brown */
+    rgb(9, 61, 9) 40%, rgb(16, 112, 16) 60%, /* 3. Half Green (Lime) */
+    #020202 60%, #020202 80%, /* 4. Black */
+    transparent 80% /* 5. Transparent Gap */
+  );
   background-position: top;
-  background-size: 30px 2.4px; /* Pehla number = dash length, doosra = thickness */
+  background-size: 60px 2.4px; /* dash length = 50px, thickness = 2.4px */
   background-repeat: repeat-x;
 }
 
@@ -796,7 +817,7 @@
 
   /* Right section - tools properly aligned */
   .header-right-image-style {
-    order: 3;
+    order: 4;
     justify-content: space-between;
     align-items: center;
     padding-top: 0;
@@ -1023,4 +1044,177 @@
   .fullscreen-handle-container {
     display: none;
   }
+}
+
+
+
+
+
+
+
+
+/* Image Styles */
+.question-image-container {
+  margin: 15px 0;
+  text-align: center;
+  max-width: 100%;
+}
+
+.question-image {
+  max-width: 100%;
+  max-height: 400px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.option-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.option-image-container {
+  text-align: center;
+  margin-top: 8px;
+}
+
+.option-image {
+  max-width: 100%;
+  max-height: 150px;
+  height: auto;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+}
+
+/* Adjust option item for images */
+.option-item-image-style.has-image {
+  padding: 12px;
+}
+
+.option-item-image-style.has-image .option-label-container {
+  align-items: flex-start;
+}
+
+/* Ensure text stays readable when images are present */
+.option-text-image-style {
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+
+
+
+
+/* ===================================================================
+   CSS FOR OPEN-ENDED QUESTION (BASED ON IMAGE_46912B.PNG)
+   ===================================================================
+*/
+
+/* Main wrapper for the entire open-ended input and preview area */
+.open-ended-input-section {
+    /* Padding and display settings as defined in the JS component, adjust as needed */
+    padding: 20px 30px 0; /* Removed bottom padding to bring Answer Preview closer */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Container holding the white input box */
+.answer-input-container {
+    /* Remove padding and border from the container itself */
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+/* The actual input/textarea element that mimics the look of the image */
+.open-ended-input-box {
+    width: 20%;
+    height: 20%;
+    /* The white rounded box */
+    background-color: #ffffff; 
+    border: 1px solid #ccc; /* Subtle light grey border */
+    border-radius: 8px; /* Rounded corners */
+    
+    /* Internal spacing to match the image's box size relative to the cursor */
+    padding: 10px 15px; 
+    
+    /* Font and text settings */
+    font-family: inherit;
+    font-size: 16px;
+    color: #333;
+    
+    /* For the blinking cursor and line */
+    caret-color: #000; /* Black cursor */
+    
+    /* Custom style for the blue underline (mimicking the image) */
+    /* This is an advanced technique, using box-shadow for a clean look */
+    box-shadow: 0 4px 0 -2px #000000; /* Blue line 4px from the bottom, 2px thick */
+    
+    /* Remove default textarea styles */
+    outline: none; 
+    resize: none; 
+    overflow: hidden; /* Hide scrollbar if content is small */
+
+    /* Ensure fixed height and width for resemblance to the image box */
+    min-height: 40px; /* Adjust height as needed */
+    height: 80px; /* Example fixed height for the small box in the image */
+    box-sizing: border-box;
+    
+    /* IMPORTANT: The image only shows a single line cursor, 
+       so setting rows=1 or height limits how much is shown.
+       The 'padding-bottom' ensures the text doesn't hide the blue line.
+    */
+    padding-bottom: 6px; 
+}
+
+/* ------------------------------------------------------------- */
+/* Answer Preview Area */
+/* ------------------------------------------------------------- */
+
+.answer-preview-container {
+    padding: 0;
+    margin-top: 50px; /* Space above "Answer Preview:" to match image spacing */
+}
+
+.answer-preview-container p {
+    /* Styling for "Answer Preview:" text */
+    margin: 0; 
+    font-size: 20px; /* Slightly larger/bolder text as in the image */
+    font-weight: bolder !important;
+    color: #333; /* Dark text color */
+    font-family: 'Times New Roman', serif; /* Use a serif font for that exact look */
+}
+
+.answer-preview-box {
+    /* This box will hold the copied text */
+    border: none; /* Remove border */
+    background: none; /* Remove background */
+    padding: 0;
+    margin-top: 10px; /* Small gap between "Answer Preview:" and the content */
+    
+    /* Ensure the text itself looks like normal question text */
+    font-size: 30px;
+    font-weight: bolder !important;
+    line-height: 1.5;
+    color: #000;
+    white-space: pre-wrap;
+    
+   
+}
+
+
+
+.test-interface-container {
+    position: relative; /* Important for z-index context */
+    height: 100vh;
+    overflow: auto; /* Allow scrolling if content is long */
+}
+
+/* Ensure main content has proper z-index */
+.test-main-content {
+    position: relative;
+    z-index: 1; /* Below the modal but above normal content */
 }

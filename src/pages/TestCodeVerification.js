@@ -1,7 +1,8 @@
 import React, { useState, forwardRef } from 'react';
+import { useNavigate } from 'react-router-dom'; // <--- useNavigate ADDED
 import '../css/TestCodeVerification.css';
 import { HelpOutline } from '@mui/icons-material';
-import { TokenManager, BASE_URL } from '../api/baseurls'; // <-- ADDED
+import { TokenManager, BASE_URL } from '../api/baseurls';
 
 // NEW ICON 1: Custom Home Icon (using provided SVG path)
 const CustomHomeIcon = forwardRef((props, ref) => (
@@ -34,6 +35,9 @@ const CustomDocumentIcon = forwardRef((props, ref) => (
 ));
 
 const StartCodeScreen = () => {
+    // Add useNavigate hook
+    const navigate = useNavigate();
+    
     const [code, setCode] = useState(new Array(6).fill(''));
     
     const handleChange = (element, index) => {
@@ -49,6 +53,7 @@ const StartCodeScreen = () => {
         }
     };
 
+    // --- UPDATED: handleStartTest function to handle new API response and navigation ---
     const handleStartTest = async () => {
         const fullCode = code.join('');
 
@@ -70,17 +75,24 @@ const StartCodeScreen = () => {
 
             const data = await response.json();
 
-            if (response.ok && data.valid === true) {
-                window.location.href = "/Testface";
+            // Check if verification was successful and 'valid' is true
+            if (response.ok && data.valid === true && data.test) {
+                
+                // Success: Pass the entire response data (test details and summary) 
+                // to the next route using navigate's state.
+                navigate("/Testface", { state: { testData: data } });
+                
             } else {
+                // Handle invalid code or verification failure
                 alert(data.message || "Invalid start code. Try again.");
             }
 
         } catch (error) {
-            console.error(error);
+            console.error('Test verification error:', error);
             alert("Server error. Please try again.");
         }
     };
+    // --- END UPDATED FUNCTION ---
 
     const isCodeComplete = code.join('').length === 6;
 
@@ -93,7 +105,6 @@ const StartCodeScreen = () => {
                 </div>
                 <div className="nav-right">
                     <span>Return to Home</span>
-                    {/* UPDATED: Use the new CustomHomeIcon */}
                     <CustomHomeIcon className="nav-icon" />
                 </div>
             </header>
@@ -119,7 +130,6 @@ const StartCodeScreen = () => {
                                 value={data}
                                 onChange={e => handleChange(e.target, index)}
                                 onFocus={e => e.target.select()}
-                                // Added a check to ensure only numbers are allowed (although already in handleChange, this prevents non-numeric soft keyboards on mobile)
                                 inputMode="numeric" 
                                 pattern="[0-9]*"
                             />
@@ -129,7 +139,7 @@ const StartCodeScreen = () => {
                     <button
                         className={`start-test-button ${isCodeComplete ? 'start-test-button-ready' : ''}`}
                         onClick={handleStartTest}
-                        disabled={!isCodeComplete} // Simplified check
+                        disabled={!isCodeComplete}
                     >
                         Start Test
                     </button>
@@ -138,7 +148,6 @@ const StartCodeScreen = () => {
                 <footer className="instructions-footer">
                     <div className="instruction-box">
                         <div className="document-icon-wrapper">
-                            {/* UPDATED: Use the new CustomDocumentIcon */}
                             <CustomDocumentIcon className="document-icon" />
                         </div>
                         <p>

@@ -280,3 +280,227 @@
     gap: 20px;
   }
 }
+
+
+
+
+/* --- OTP MODAL STYLES (Enhanced) --- */
+
+.otp-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* Semi-transparent background, consistent with a professional modal */
+    background: rgba(0, 0, 0, 0.6); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.otp-modal {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    /* Refined shadow matching .register-card */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); 
+    border: 1px solid #e8e8e8;
+    width: 90%;
+    max-width: 400px; 
+    animation: fadeIn 0.3s ease-out;
+    text-align: center; 
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.otp-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f0f0f0; 
+}
+
+.otp-modal-header h3 {
+    margin: 0;
+    color: #1a1a1a;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.close-btn {
+    cursor: pointer;
+    font-size: 24px;
+    color: #aaa;
+    transition: color 0.2s;
+    line-height: 1;
+}
+
+.close-btn:hover {
+    color: #333;
+}
+
+.otp-instruction {
+    margin-top: 0;
+    margin-bottom: 20px;
+    line-height: 1.5;
+    color: #666;
+    font-size: 14px;
+}
+
+.otp-instruction strong {
+    /* Uses the primary color */
+    color: #324dc7; 
+    word-break: break-all;
+    font-weight: 600;
+}
+
+/* --- Multi-Input OTP Container --- */
+.otp-input-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px; 
+    margin-bottom: 20px;
+    direction: ltr; 
+}
+
+.otp-input-box {
+    width: 45px; 
+    height: 55px; 
+    text-align: center;
+    font-size: 24px; 
+    font-weight: 600;
+    /* Matches input border style */
+    border: 1px solid #ccc; 
+    border-radius: 6px; /* Matches form input border-radius */
+    transition: all 0.2s ease;
+    background-color: #fcfcfc;
+    color: #1a1a1a;
+    caret-color: #324dc7; 
+    box-shadow: none; /* Remove default shadow */
+}
+
+.otp-input-box:focus {
+    outline: none;
+    /* Matches form input focus style */
+    border-color: #324dc7;
+    box-shadow: 0 0 0 2px rgba(50, 77, 199, 0.2);
+    background-color: white;
+}
+
+.otp-input-box.error {
+    border-color: #ef4444;
+}
+
+.otp-error-text {
+    /* Inherits from .error-text but centered in modal */
+    display: block;
+    margin-top: 5px;
+    text-align: center;
+}
+
+.otp-verify-btn {
+    /* Directly uses the primary button style for consistency */
+    background-color: #324dc7; 
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+    min-height: 48px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.otp-verify-btn:hover:not(:disabled) {
+    background-color: #2a42b5;
+    box-shadow: 0 4px 10px rgba(50, 77, 199, 0.4);
+}
+
+.otp-verify-btn:disabled {
+    background-color: #aeb8c9; 
+    opacity: 1; /* Don't change opacity so the disabled color is clear */
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.otp-modal-footer {
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid #f0f0f0;
+    text-align: center;
+    font-size: 13px;
+    color: #777;
+}
+
+.resend-btn {
+    background: none;
+    border: none;
+    color: #324dc7;
+    cursor: pointer;
+    padding: 0;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.resend-btn:hover:not(:disabled) {
+    color: #2a42b5;
+    text-decoration: underline;
+}
+
+.resend-btn:disabled {
+    color: #aaa;
+    cursor: not-allowed;
+}
+
+/* Responsive adjustments for OTP inputs */
+@media (max-width: 480px) {
+    .otp-input-box {
+        width: 40px;
+        height: 50px;
+        font-size: 20px;
+    }
+}
+
+
+
+/* Add this to your register.css file */
+
+/* Style adjustment when only the success message is shown */
+.single-message-header {
+    /* Remove padding and border-bottom that is not needed when content is empty */
+    padding-bottom: 0 !important;
+    border-bottom: none !important;
+    /* Ensure close button is still positioned correctly */
+    justify-content: flex-end !important;
+}
+.single-message-header h3 {
+    /* Hide the main title when success message is active */
+    display: none;
+}
+
+.single-message-body {
+    /* Remove unnecessary padding when content is simplified */
+    padding: 0 0 10px 0 !important; 
+}

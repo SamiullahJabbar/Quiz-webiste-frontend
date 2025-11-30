@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { TokenManager, BASE_URL } from '../api/baseurls';
 import '../css/dashboard.css';
@@ -17,16 +17,19 @@ const BigFutureCard = {
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  // State for user data
   const [user, setUser] = useState({ first_name: 'Khan', last_name: 'Jabbar' }); 
-  const [tests, setTests] = useState([]);
+  // State for fetching the new test summary data
+  const [testSummaries, setTestSummaries] = useState([]); 
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('Active'); 
+  // Renamed activeTab to testSummaryTab for clarity
+  const [testSummaryTab, setTestSummaryTab] = useState('Active'); 
   const [practiceTab, setPracticeTab] = useState('Active'); 
   const [error, setError] = useState('');
 
   useEffect(() => {
     fetchUserData();
-    fetchTests(); 
+    fetchTestSummaries(); // Fetch the new test summary data
   }, []);
 
   const fetchUserData = () => {
@@ -40,7 +43,8 @@ const Dashboard = () => {
     }
   };
 
-  const fetchTests = async () => {
+  // --- NEW/UPDATED: Function to fetch Test Summaries ---
+  const fetchTestSummaries = async () => {
     try {
       const token = TokenManager.getToken();
       if (!token) {
@@ -49,7 +53,8 @@ const Dashboard = () => {
         return;
       }
 
-      const response = await fetch(`${BASE_URL}/tests/`, {
+      // API Endpoint updated to test-summary/
+      const response = await fetch(`${BASE_URL}/test-summary/`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -59,24 +64,26 @@ const Dashboard = () => {
 
       if (response.ok) {
         const testsData = await response.json();
-        setTests(testsData);
+        setTestSummaries(testsData); // Set the new state
+        // Since test-summary/ only returns generic tests, we will show them all under "Active" (or "Available")
       } else if (response.status === 401) {
         TokenManager.removeToken && TokenManager.removeToken(); 
         navigate('/login');
       } else {
-        setError('Failed to fetch tests');
+        setError('Failed to fetch test summaries.');
       }
     } catch (error) {
-      console.error('Error fetching tests:', error);
+      console.error('Error fetching test summaries:', error);
       setError('Network error. Please try again.');
     } finally {
       setTimeout(() => setLoading(false), 500); 
     }
   };
 
-  const handleStartTest = (testCode) => {
-    // Redirects to TestCodeVerification page
-    navigate('/TestCodeVerification', { state: { preFilledCode: testCode } });
+  const handleStartTest = (testId) => {
+    // Redirects to TestCodeVerification page, passing testId for the next step.
+    // Assuming you will use the ID to fetch test details in the next component.
+    navigate('/TestCodeVerification', { state: { testId: testId } });
   };
 
   const handleLogout = () => {
@@ -90,51 +97,22 @@ const Dashboard = () => {
     if (!user) return 'U';
     return `${user.first_name?.[0] || ''}${user.last_name?.[0] || ''}`.toUpperCase() || 'U';
   };
-
-  const formatDate = (dateString) => {
-    if (!dateString) return 'N/A';
-    return new Date(dateString).toLocaleString('en-GB', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: true,
-      timeZoneName: 'short'
-    });
+  
+  // NOTE: date functions (formatDate, isTestActive/Upcoming/Past) are no longer needed
+  // as the new API does not provide time/date fields. They are removed for cleanliness.
+  
+  // Since test-summary/ API does not provide status, we simply filter based on the tab chosen.
+  const getFilteredTestSummaries = () => {
+    // In a real scenario, you'd likely have a separate endpoint for Past tests/results.
+    // For now, we will show all fetched summaries under the 'Active' tab
+    if (testSummaryTab === 'Active') {
+        return testSummaries;
+    } 
+    // If 'Past' is selected but we only fetched summaries, show nothing for 'Past'
+    return []; 
   };
 
-  const isTestActive = (test) => {
-    const now = new Date();
-    const startTime = new Date(test.start_time);
-    const endTime = new Date(test.end_time);
-    return now >= startTime && now <= endTime;
-  };
-
-  const isTestUpcoming = (test) => {
-    const now = new Date();
-    const startTime = new Date(test.start_time);
-    return now < startTime;
-  };
-
-  const isTestPast = (test) => {
-    const now = new Date();
-    const endTime = new Date(test.end_time);
-    return now > endTime;
-  };
-
-  // Filter tests based on active tab
-  const getFilteredTests = () => {
-    if (activeTab === 'Active') {
-      // Active tab shows tests that are currently running OR upcoming (non-past)
-      return tests.filter(test => !isTestPast(test));
-    } else {
-      // Past tab shows tests that have ended
-      return tests.filter(test => isTestPast(test));
-    }
-  };
-
-  const filteredTests = getFilteredTests();
+  const filteredTestSummaries = getFilteredTestSummaries();
 
   if (loading) {
     return (
@@ -178,7 +156,7 @@ const Dashboard = () => {
           {/* Test Sections */}
           <div className="tests-and-practice-wrapper">
             
-            {/* 1. Practice Tiles */}
+            {/* 1. Practice Tiles (Static) */}
             <div className="practice-tiles">
               {StaticTestTiles.map((tile) => (
                 <div key={tile.name} className="tile-card">
@@ -189,22 +167,22 @@ const Dashboard = () => {
               ))}
             </div>
 
-            {/* 2. Your Tests (Active / Past) */}
+            {/* 2. Your Tests (Integrated with new test-summary API) */}
             <div className="your-tests-section">
               <div className="section-header-row">
-                <h3>Your Tests</h3>
+                <h3>Your Available Tests</h3>
                 <div className="tab-buttons">
                   <button 
-                    className={`tab-btn ${activeTab === 'Active' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('Active')}
+                    className={`tab-btn ${testSummaryTab === 'Active' ? 'active' : ''}`}
+                    onClick={() => setTestSummaryTab('Active')}
                   >
-                    Active
+                    Available
                   </button>
                   <button 
-                    className={`tab-btn ${activeTab === 'Past' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('Past')}
+                    className={`tab-btn ${testSummaryTab === 'Past' ? 'active' : ''}`}
+                    onClick={() => setTestSummaryTab('Past')}
                   >
-                    Past
+                    Past Results
                   </button>
                 </div>
               </div>
@@ -217,101 +195,37 @@ const Dashboard = () => {
                   </div>
                 )}
 
-                {/* Display Active/Upcoming Tests */}
-                {activeTab === 'Active' && (
-                  filteredTests.length === 0 ? (
+                {/* Display Available Tests */}
+                {testSummaryTab === 'Active' && (
+                  filteredTestSummaries.length === 0 ? (
                     <div className="no-upcoming-tests-card">
-                      <h4>You Have No Upcoming Tests</h4>
-                      <p>Tests appear here a few weeks before test day. If you got a paper ticket from your school, **sign out and sign in with it**.</p>
+                      <h4>No Tests Available Right Now</h4>
+                      <p>Available tests will appear here. Please check back later.</p>
                     </div>
                   ) : (
                     <div className="active-tests-list">
-                      {filteredTests.map((test) => {
-                        const active = isTestActive(test);
-                        const upcoming = isTestUpcoming(test);
-                        
-                        return (
-                          <div key={test.id} className="test-card">
-                            <div className="test-card-header">
-                              <h4 className="test-title">{test.name}</h4>
-                              {/* Test code removed */}
-                            </div>
-                            
-                            <div className="test-details">
-                              <div className="test-info-item">
-                                <span className="info-label">Duration:</span>
-                                <span className="info-value">{test.duration_minutes} mins</span>
-                              </div>
-                              <div className="test-info-item">
-                                <span className="info-label">Questions:</span>
-                                <span className="info-value">{test.questions?.length || 0}</span>
-                              </div>
-                              <div className="test-info-item">
-                                <span className="info-label">Starts:</span>
-                                <span className="info-value">{formatDate(test.start_time)}</span>
-                              </div>
-                              <div className="test-info-item">
-                                <span className="info-label">Ends:</span>
-                                <span className="info-value">{formatDate(test.end_time)}</span>
-                              </div>
-                            </div>
-
-                            <div className="test-actions">
-                              <button 
-                                className={`start-test-btn ${active ? 'active' : 'upcoming'}`}
-                                onClick={() => handleStartTest(test.code)}
-                                disabled={!active} 
-                              >
-                                {active ? 'Start Test' : 'Starts Soon'}
-                              </button>
-                            </div>
-
-                            {!active && upcoming && (
-                              <div className="test-status">
-                                <span className="status-upcoming">Available at {formatDate(test.start_time)}</span>
-                              </div>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )
-                )}
-
-                {/* Display Past Tests (Updated button) */}
-                {activeTab === 'Past' && (
-                  filteredTests.length === 0 ? (
-                    <div className="empty-state">
-                      <p>No past tests available.</p>
-                    </div>
-                  ) : (
-                    <div className="past-tests-list">
-                      {filteredTests.map((test) => (
-                        <div key={test.id} className="test-card past">
+                      {filteredTestSummaries.map((test) => (
+                        <div key={test.id} className="test-card">
                           <div className="test-card-header">
                             <h4 className="test-title">{test.name}</h4>
                           </div>
                           
+                          {/* Display total_duration and total_questions */}
                           <div className="test-details">
                             <div className="test-info-item">
                               <span className="info-label">Duration:</span>
-                              <span className="info-value">{test.duration_minutes} mins</span>
+                              <span className="info-value">{test.total_duration} mins</span>
                             </div>
                             <div className="test-info-item">
                               <span className="info-label">Questions:</span>
-                              <span className="info-value">{test.questions?.length || 0}</span>
-                            </div>
-                            <div className="test-info-item">
-                              <span className="info-label">Completed:</span>
-                              <span className="info-value">{formatDate(test.end_time)}</span>
+                              <span className="info-value">{test.total_questions}</span>
                             </div>
                           </div>
 
                           <div className="test-actions">
-                            {/* Changed View Results to Start Test, maintaining its style for past state */}
                             <button 
-                                className="view-results-btn" // Reusing the style for past tests
-                                onClick={() => handleStartTest(test.code)}
+                              className='start-test-btn active' // Always show as active to start
+                              onClick={() => handleStartTest(test.id)} // Pass test ID to next screen
                             >
                               Start Test
                             </button>
@@ -321,10 +235,17 @@ const Dashboard = () => {
                     </div>
                   )
                 )}
+
+                {/* Display Past Results (Since no API data for this, show empty) */}
+                {testSummaryTab === 'Past' && (
+                    <div className="empty-state">
+                      <p>No past test results available yet. Past results will show here.</p>
+                    </div>
+                )}
               </div>
             </div>
             
-            {/* 3. Practice and Prepare */}
+            {/* 3. Practice and Prepare (Remains static) */}
             <div className="practice-and-prepare-section">
                 <div className="section-header-row">
                     <h3>Practice and Prepare</h3>
@@ -366,7 +287,7 @@ const Dashboard = () => {
                 </div>
             </div>
             
-            {/* 4. Explore BigFuture */}
+            {/* 4. Explore BigFuture (Static) */}
             <div className="explore-bigfuture-section">
                 <h2>Explore BigFuture</h2>
                 <div className="bigfuture-card">

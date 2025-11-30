@@ -9,6 +9,7 @@ import TestCodeVerification from "./pages/TestCodeVerification";
 import TestInterface from "./pages/TestInterface";
 import BreakScreen from './pages/BreakScreen';
 import FinishTestScreen from './pages/FinishTestScreen';
+import ModuleOver from './pages/ModuleOver';
 
 
 
@@ -26,7 +27,8 @@ function App() {
           <Route path="/TestCodeVerification" element={<TestCodeVerification />} />
           <Route path="/Testface" element={<TestInterface />} />
           <Route path="/break" element={<BreakScreen />} />
-          <Route path="/finshTest" element={<FinishTestScreen />} />
+          <Route path="/finishTest" element={<FinishTestScreen />} />
+          <Route path="/module-over" element={<ModuleOver />} />
         </Routes>
       </div>
     </Router>

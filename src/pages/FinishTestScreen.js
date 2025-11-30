@@ -1,7 +1,9 @@
-import React from 'react';
+// FinishTestScreen.jsx
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/FinishTestScreen.css'; 
 import laptopImage from '../images/finalscreen.png'; 
+import FeedbackPopup from '../component/FeedbackPopup'; // Import the updated component
 
 // --- SVG Icons (Unchanged) ---
 const HouseIcon = () => (
@@ -23,14 +25,41 @@ const HelpIcon = () => (
 // 1. Main FinishTestScreen Component
 const FinishTestScreen = () => {
     const navigate = useNavigate();
+    // State to control the visibility of the popup
+    const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
+
+    // Use useEffect to open the popup 5 seconds after component mounts
+    useEffect(() => {
+        // 5000 milliseconds = 5 seconds
+        const timer = setTimeout(() => {
+            setIsFeedbackOpen(true); 
+        }, 5000); 
+
+        return () => clearTimeout(timer); // Cleanup the timer on component unmount
+    }, []);
 
     const handleReturnToHomepage = () => {
         navigate('/dashboard'); 
+    };
+    
+    // Function to handle the feedback submission 
+    const handleFeedbackSubmit = (data) => {
+        console.log("Feedback submitted to API:", data);
+        // You would typically send the data to your server here
+        setIsFeedbackOpen(false); // Close popup after successful submission
     };
 
     return (
         <div className="finish-screen-container">
             
+            {/* FEEDBACK POPUP COMPONENT (Opens after 5 seconds) */}
+            <FeedbackPopup 
+                isOpen={isFeedbackOpen}
+                onClose={() => setIsFeedbackOpen(false)} // Allows user to dismiss it
+                onSubmit={handleFeedbackSubmit}
+            />
+
+            {/* --- Original Content Starts Here --- */}
             <div className="finish-screen-header">
                 <div className="header-left">
                     <span className="header-link help-link">
@@ -108,6 +137,7 @@ const FinishTestScreen = () => {
                     Return to Homepage
                 </button>
             </div>
+            {/* --- Original Content Ends Here --- */}
         </div>
     );
 };
