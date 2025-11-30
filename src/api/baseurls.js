@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 // Base URL for API requests
-export const BASE_URL = 'https://litigation-practices-markets-fabrics.trycloudflare.com/api';
+export const BASE_URL = 'https://admin.easyexam.online/api';
 
 // TokenManager to handle JWT access and refresh tokens
 export const TokenManager = {
