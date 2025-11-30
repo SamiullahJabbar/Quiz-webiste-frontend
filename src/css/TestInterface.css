@@ -16,17 +16,17 @@
   height: 75px;
   position: relative; 
   /* Dashed bottom border using gradient */
-  background-image: linear-gradient(
+  /* background-image: linear-gradient(
     to right, 
-    #020202 20%, /* 1. Black */
-    brown 20%, brown 40%, /* 2. Brown */
-    rgb(9, 61, 9) 40%, rgb(16, 112, 16) 60%, /* 3. Half Green (Lime) */
-    #020202 60%, #020202 80%, /* 4. Black */
-    transparent 80% /* 5. Transparent Gap */
+    #020202 20%,
+    brown 20%, brown 40%, 
+    rgb(9, 61, 9) 40%, rgb(16, 112, 16) 60%, 
+    #020202 60%, #020202 80%, 
+    transparent 80% 
   );
   background-position: bottom;
-  background-size: 60px 2.5px; /* dash length = 50px, thickness = 2.4px */
-  background-repeat: repeat-x;
+  background-size: 60px 2.5px; 
+  background-repeat: repeat-x; */
 }
 
 /* --- TOP HEADER LEFT (Section Info & Directions) --- */
@@ -175,7 +175,7 @@
 /* Top Color Lines */
 .color-lines {
   display: flex;
-  height: 3px;
+  height: 6px;
 }
 
 .color-line {
@@ -373,18 +373,20 @@
     gap: 1px;
     width: 100%;
     /* Dashed line on top */
-    background-image: linear-gradient(
+    /* background-image: linear-gradient(
     to right, 
-    #020202 20%, /* 1. Black */
-    brown 20%, brown 40%, /* 2. Brown */
-    rgb(9, 61, 9) 40%, rgb(16, 112, 16) 60%, /* 3. Half Green (Lime) */
-    #020202 60%, #020202 80%, /* 4. Black */
-    transparent 80% /* 5. Transparent Gap */
+    #020202 20%, 
+    brown 20%, brown 40%, 
+    rgb(9, 61, 9) 40%, rgb(16, 112, 16) 60%, 
+    #020202 60%, #020202 80%, 
+    transparent 80% 
   );
   background-position: bottom;
-  background-size: 60px 2.5px; /* dash length = 50px, thickness = 2.4px */
-  background-repeat: repeat-x;
+  background-size: 60px 2.5px; 
+  background-repeat: repeat-x; */
 }
+
+
 
 .color-bar {
     flex: 10;
@@ -579,9 +581,6 @@
     display: flex;
     height: 3px; 
     width: 100%;
-    position: fixed; 
-    bottom: 60px; /* 60px is the height of the bottom navbar */
-    left: 0;
     z-index: 1001; 
     flex-wrap: wrap;
     margin-bottom: 10px;
@@ -609,18 +608,22 @@
   padding: 0 20px;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  /* Dashed top border using gradient */
-  background-image: linear-gradient(
-    to right, 
-    #020202 20%, /* 1. Black */
-    brown 20%, brown 40%, /* 2. Brown */
-    rgb(9, 61, 9) 40%, rgb(16, 112, 16) 60%, /* 3. Half Green (Lime) */
-    #020202 60%, #020202 80%, /* 4. Black */
-    transparent 80% /* 5. Transparent Gap */
-  );
-  background-position: top;
-  background-size: 60px 2.4px; /* dash length = 50px, thickness = 2.4px */
-  background-repeat: repeat-x;
+
+  
+}
+/* Color lines ka container */
+.color-line-container {
+
+  display: flex; 
+
+  width: 100%; 
+ 
+  position: absolute; 
+
+  top: 0; 
+  left: 0;
+  z-index: 1001; 
+  gap: 4px;
 }
 
 .nav-left-image-style {

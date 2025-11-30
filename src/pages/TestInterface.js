@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { TokenManager, BASE_URL } from '../api/baseurls';
 import '../css/TestInterface.css';
-// ✅ 1. IMPORT THE DIRECTIONS MODAL COMPONENT (Existing)
+// ✅ IMPORT THE DIRECTIONS MODAL COMPONENT
 import DirectionsModal from '../component/DirectionsModal';
-// ✅ 1. IMPORT THE NEW NAVIGATOR MODAL COMPONENT (NEW)
-import QuestionNavigatorModal from '../component/QuestionNavigatorModal'; 
+// ✅ IMPORT THE NEW NAVIGATOR MODAL COMPONENT
+// import QuestionNavigatorModal from '../component/QuestionNavigatorModal'; 
 
 // --- SVG Icons (Keep all your existing icons) ---
 
@@ -16,16 +16,11 @@ const NotesIcon = () => (
     </svg>
 );
 
-{/* <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M80 0v-160h800V0H80Zm504-480L480-584 320-424l103 104 161-160Zm-47-160 103 103 160-159-104-104-159 160Zm-84-29 216 216-189 190q-24 24-56.5 24T367-263l-27 23H140l126-125q-24-24-25-57.5t23-57.5l189-189Zm0 0 187-187q24-24 56.5-24t56.5 24l104 103q24 24 24 56.5T857-640L669-453 453-669Z"/></svg> */}
-
-
 // 2. HIGHLIGHT ICON
 const HighlightIcon = () => (
     <svg className="tool-icon-highlight" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="40px" fill="#555252ff">
         <path d="M80 0v-134h800V0H80Zm502-476L470.67-587.33 296-412.67l111 111.34L582-476Zm-63.67-158.67 111 111 177.34-177L695.33-812l-177 177.33Zm-70.66-23.66L653-453 460.67-260.33q-20.67 20.66-53.84 20.66-33.16 0-53.83-20.66l-7.33-7.34L308-231.33H138L260-353l-2.67-2.67q-22.66-22.66-22.66-56.16T257.33-468l190.34-190.33Zm0 0L650-860.67Q669.33-880 697.5-880t47.5 19.33l109.33 109q19.34 19.34 19 49.17-.33 29.83-19.66 49.17L653-453 447.67-658.33Z"/>
     </svg>
-
-    
 );
 
 // 3. MARK ICON (Bookmark) - UPDATED WITH RED FILL WHEN ACTIVE
@@ -36,7 +31,7 @@ const MarkIcon = ({ isMarked }) => (
         height="40px" 
         viewBox="0 -960 960 960" 
         width="35px" 
-        fill={isMarked ? "#e53935" : "#4e4c4cff"} // Red when marked, gray when not
+        fill={isMarked ? "#e53935" : "#4e4c4cff"}
     >
         <path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Zm80-122 200-86 200 86v-518H280v518Zm0-518h400-400Z"/>
     </svg>
@@ -44,7 +39,7 @@ const MarkIcon = ({ isMarked }) => (
 
 const BatteryIcon = () => (
     <svg className="battery-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#af960aff">
-        <path d="M160-240q-50 0-85-35t-35-85v-240q0-50 35-85t-85-35h540q50 0 85 35t35 85v240q0 50-35 85t-85 35H160Zm0-80h540q17 0 28.5-11.5T740-360v-240q0-17-11.5-28.5T700-640H160q-17 0-28.5 11.5T120-600v240q0 17 11.5 28.5T160-320Zm700-60v-200h20q17 0 28.5 11.5T920-540v120q0 17-11.5 28.5T880-380h-20Zm-700 20v-240h400v240H160Z"/>
+        <path d="M160-240q-50 0-85-35t-35-85v-240q0-50 35-85t85-35h540q50 0 85 35t35 85v240q0 50-35 85t-85 35H160Zm0-80h540q17 0 28.5-11.5T740-360v-240q0-17-11.5-28.5T700-640H160q-17 0-28.5 11.5T120-600v240q0 17 11.5 28.5T160-320Zm700-60v-200h20q17 0 28.5 11.5T920-540v120q0 17-11.5 28.5T880-380h-20Zm-700 20v-240h400v240H160Z"/>
     </svg>
 );
 
@@ -76,22 +71,69 @@ const AbcIcon = () => (
     </svg>
 );
 
+// ✅ NEW: Component to render question text with proper HTML and mathematical content
+const QuestionTextRenderer = ({ content }) => {
+  if (!content) return null;
+
+  // Check if content contains mathematical patterns
+  const hasMathContent = /[\\\(\)\$\^_\{\}]|frac|sqrt|sum|int|alpha|beta|gamma|pi|theta/.test(content);
+  
+  // If it's HTML content with tables or other HTML elements
+  if (content.includes('<') && content.includes('>')) {
+    return (
+      <div 
+        className="question-html-content"
+        dangerouslySetInnerHTML={{ __html: content }}
+      />
+    );
+  }
+  
+  // If it's mathematical content, render with special styling
+  if (hasMathContent) {
+    return (
+      <div className="question-math-content">
+        {content}
+      </div>
+    );
+  }
+  
+  // Regular text content
+  return <div className="question-text-content">{content}</div>;
+};
+
+// ✅ NEW: Component to render option text with proper formatting
+const OptionTextRenderer = ({ content }) => {
+  if (!content) return null;
+
+  // Check for mathematical content
+  const hasMathContent = /[\\\(\)\$\^_\{\}]|frac|sqrt|sum|int|alpha|beta|gamma|pi|theta/.test(content);
+  
+  if (hasMathContent) {
+    return (
+      <span className="option-math-content">
+        {content}
+      </span>
+    );
+  }
+  
+  return <span className="option-text-content">{content}</span>;
+};
+
 const TestInterface = () => {
   const navigate = useNavigate();
   const location = useLocation();
   
-  // ✅ 2. ADD STATE FOR DIRECTIONS MODAL (Existing)
-  // Set to TRUE initially based on the user's images showing it open by default
+  // ✅ STATE FOR DIRECTIONS MODAL
   const [isDirectionsOpen, setIsDirectionsOpen] = useState(true); 
   
-  // ✅ 2. ADD STATE FOR NAVIGATOR MODAL (NEW)
+  // ✅ STATE FOR NAVIGATOR MODAL
   const [isNavigatorOpen, setIsNavigatorOpen] = useState(false);
   
   const [currentSection, setCurrentSection] = useState(null);
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState('');
-  const [markedQuestions, setMarkedQuestions] = useState(new Set([3, 11, 20])); // Example marked questions
+  const [markedQuestions, setMarkedQuestions] = useState(new Set([3, 11, 20]));
   const [timeLeft, setTimeLeft] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -99,7 +141,7 @@ const TestInterface = () => {
   const [userAnswers, setUserAnswers] = useState({});
   const [showSubmitPopup, setShowSubmitPopup] = useState(false);
   
-  // ✅ NEW STATE: For open-ended question answer
+  // ✅ STATE: For open-ended question answer
   const [openEndedAnswer, setOpenEndedAnswer] = useState('');
 
   const currentQuestion = questions[currentQuestionIndex];
@@ -129,7 +171,7 @@ const TestInterface = () => {
     } catch (error) {
       console.error('Error getting user data:', error);
     }
-    return 'khan Jabbar'; // Updated default name
+    return 'khan Jabbar';
   };
 
   const getCurrentSectionInfo = () => {
@@ -138,29 +180,26 @@ const TestInterface = () => {
     const sectionIndex = actualSections.findIndex(section => section.id === currentSection.id);
     if (sectionIndex === -1) return 'Loading...';
     
-    // Updated to match the expected format in the image
     return `Section ${sectionIndex + 1}, Module ${sectionIndex + 1}: ${currentSection.title || 'Reading and Writing'}`;
   };
 
-// ✅ Fixed Function to get full image URL
-const getImageUrl = (imagePath) => {
-  if (!imagePath) return null;
-  if (imagePath.startsWith('http')) return imagePath;
-  
-  // Agar path already /media/ se start ho raha hai toh direct use karo
-  if (imagePath.startsWith('/media/')) {
-    return `${BASE_URL.replace('/api', '')}${imagePath}`;
-  }
-  
-  // Agar /questions/ ya /options/ se start ho raha hai toh /media/ add karo
-  const mediaPath = imagePath
-    .replace('/questions/', '/media/questions/')
-    .replace('/options/', '/media/options/');
+  // ✅ Fixed Function to get full image URL
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return null;
+    if (imagePath.startsWith('http')) return imagePath;
     
-  return `${BASE_URL.replace('/api', '')}${mediaPath}`;
-};
+    if (imagePath.startsWith('/media/')) {
+      return `${BASE_URL.replace('/api', '')}${imagePath}`;
+    }
+    
+    const mediaPath = imagePath
+      .replace('/questions/', '/media/questions/')
+      .replace('/options/', '/media/options/');
+      
+    return `${BASE_URL.replace('/api', '')}${mediaPath}`;
+  };
 
-  // ✅ NEW HANDLER: Toggle mark for current question
+  // ✅ HANDLER: Toggle mark for current question
   const handleMarkQuestion = () => {
     const currentQuestionNumber = currentQuestionIndex + 1;
     setMarkedQuestions(prev => {
@@ -176,22 +215,21 @@ const getImageUrl = (imagePath) => {
 
   // --- Handlers & Effects ---
   
-  // ✅ 3. ADD HANDLER FOR DIRECTIONS MODAL (Existing)
+  // ✅ HANDLER FOR DIRECTIONS MODAL
   const toggleDirectionsPopup = () => {
       setIsDirectionsOpen(prev => !prev);
   };
   
-  // ✅ 3. ADD HANDLER FOR NAVIGATOR MODAL (NEW)
+  // ✅ HANDLER FOR NAVIGATOR MODAL
   const toggleNavigatorPopup = () => {
       setIsNavigatorOpen(prev => !prev);
   };
   
-  // ✅ NEW HANDLER: To switch question from the navigator
+  // ✅ HANDLER: To switch question from the navigator
   const handleQuestionSelect = (questionNumber) => {
     setCurrentQuestionIndex(questionNumber - 1);
-    setIsNavigatorOpen(false); // Close modal after selection
+    setIsNavigatorOpen(false);
   };
-
 
   useEffect(() => {
     if (actualSections.length > 0) {
@@ -202,20 +240,19 @@ const getImageUrl = (imagePath) => {
     }
   }, [actualTestData, initialSectionIndex]);
   
-  // ✅ NEW useEffect: To load/reset selected option/open-ended answer when question changes
+  // ✅ useEffect: To load/reset selected option/open-ended answer when question changes
   useEffect(() => {
     if (currentQuestion) {
       const savedAnswer = userAnswers[currentQuestion.id];
       if (currentQuestion.is_open_ended) {
         setOpenEndedAnswer(savedAnswer || '');
-        setSelectedOption(''); // Clear MCQ selection
+        setSelectedOption('');
       } else {
         setSelectedOption(savedAnswer || '');
-        setOpenEndedAnswer(''); // Clear open-ended answer
+        setOpenEndedAnswer('');
       }
     }
   }, [currentQuestionIndex, questions, userAnswers]);
-
 
   useEffect(() => {
     if (currentSection && currentSection.duration_minutes) {
@@ -246,7 +283,6 @@ const getImageUrl = (imagePath) => {
       setError('');
       
       if (!actualSections || sectionIndex >= actualSections.length) {
-        // ✅ LAST SECTION: Redirect to finishTest
         await finalSubmitTest();
         navigate('/finishTest');
         return;
@@ -254,10 +290,8 @@ const getImageUrl = (imagePath) => {
 
       const section = actualSections[sectionIndex];
       
-      // ✅ Check if this is a break section (ONLY after Section 2)
       const currentSectionNumber = sectionIndex + 1;
       if (section.type === 'break' && currentSectionNumber === 3) {
-        // ✅ Break after Section 2 (Module 2)
         navigate('/break', {
           state: {
             nextSectionIndex: sectionIndex + 1,
@@ -268,14 +302,12 @@ const getImageUrl = (imagePath) => {
         });
         return;
       } else if (section.type === 'break') {
-        // ✅ Skip other break sections and move to next section
         initializeSection(sectionIndex + 1);
         return;
       }
 
       setCurrentSection(section);
       
-      // Use questions from the section data
       if (section.questions && section.questions.length > 0) {
         setQuestions(section.questions);
       } else {
@@ -318,7 +350,6 @@ const getImageUrl = (imagePath) => {
   };
 
   const handleTimeUp = async () => {
-    // Auto-save current answers when time is up
     if (Object.keys(userAnswers).length > 0) {
       await submitSectionAnswers();
     }
@@ -326,23 +357,19 @@ const getImageUrl = (imagePath) => {
     const currentSectionIndex = actualSections.findIndex(section => section.id === currentSection.id);
     const currentSectionNumber = currentSectionIndex + 1;
     
-    // ✅ FOLLOW EXACT FLOW:
     if (currentSectionNumber === 4) {
-      // ✅ Section 4 (Math 2) -> Auto redirect to finishTest
       await finalSubmitTest();
       navigate('/finishTest');
     } else if (currentSectionNumber === 2) {
-      // ✅ Section 2 (Reading and Writing 2) -> Break screen
       navigate('/break', {
         state: {
           nextSectionIndex: currentSectionIndex + 1,
           sections: actualSections,
           testData: actualTestData,
-          breakDuration: 1 // Use actual break duration from section if available
+          breakDuration: 1
         }
       });
     } else {
-      // ✅ Section 1 & 3 -> Module over screen (4 seconds)
       navigate('/module-over', {
         state: {
           nextSectionIndex: currentSectionIndex + 1,
@@ -382,7 +409,7 @@ const getImageUrl = (imagePath) => {
   };
 
   const handleOptionSelect = (option) => {
-    if (currentQuestion?.is_open_ended) return; // Ignore for open-ended questions
+    if (currentQuestion?.is_open_ended) return;
     
     setSelectedOption(option);
     
@@ -395,7 +422,7 @@ const getImageUrl = (imagePath) => {
     }
   };
   
-  // ✅ NEW HANDLER: For open-ended input
+  // ✅ HANDLER: For open-ended input
   const handleOpenEndedChange = (event) => {
     const answer = event.target.value;
     setOpenEndedAnswer(answer);
@@ -403,14 +430,13 @@ const getImageUrl = (imagePath) => {
     if (currentQuestion) {
       const updatedAnswers = {
         ...userAnswers,
-        [currentQuestion.id]: answer // Save the string answer
+        [currentQuestion.id]: answer
       };
       setUserAnswers(updatedAnswers);
     }
   };
 
   const handleNextQuestion = () => {
-    // Save current answer state before moving (important for open-ended)
     if (currentQuestion?.is_open_ended) {
         if (currentQuestion) {
             const updatedAnswers = {
@@ -427,13 +453,10 @@ const getImageUrl = (imagePath) => {
       }
     } else if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(prev => prev + 1);
-      
-      // ✅ Handled in useEffect now
     }
   };
 
   const handlePreviousQuestion = () => {
-    // Save current answer state before moving (important for open-ended)
     if (currentQuestion?.is_open_ended) {
         if (currentQuestion) {
             const updatedAnswers = {
@@ -446,8 +469,6 @@ const getImageUrl = (imagePath) => {
     
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(prev => prev - 1);
-      
-      // ✅ Handled in useEffect now
     }
   };
 
@@ -461,13 +482,10 @@ const getImageUrl = (imagePath) => {
     const currentSectionIndex = actualSections.findIndex(section => section.id === currentSection.id);
     const currentSectionNumber = currentSectionIndex + 1;
     
-    // ✅ FOLLOW EXACT FLOW for manual finish:
     if (currentSectionNumber === 4) {
-      // ✅ Section 4 (Math 2) -> Auto redirect to finishTest
       await finalSubmitTest();
       navigate('/finishTest');
     } else if (currentSectionNumber === 2) {
-      // ✅ Section 2 (Reading and Writing 2) -> Break screen
       navigate('/break', {
         state: {
           nextSectionIndex: currentSectionIndex + 1,
@@ -477,7 +495,6 @@ const getImageUrl = (imagePath) => {
         }
       });
     } else {
-      // ✅ Section 1 & 3 -> Module over screen (4 seconds)
       navigate('/module-over', {
         state: {
           nextSectionIndex: currentSectionIndex + 1,
@@ -519,9 +536,6 @@ const getImageUrl = (imagePath) => {
   }
 
   return (
-    // NOTE: For the absolute positioning of the modal to work correctly (to prevent content shifting), 
-    // the CSS for the .test-interface-container MUST include 'position: relative;'. 
-    // This is the fundamental CSS requirement to fix the overlay issue.
     <div className="test-interface-container">
       {/* Top Header Section */}
       <div className="test-header">
@@ -531,7 +545,7 @@ const getImageUrl = (imagePath) => {
           <span className="section-info-top"><strong>{getCurrentSectionInfo()}</strong></span>
           <div 
             className="directions-dropdown-style"
-            onClick={toggleDirectionsPopup} // ✅ 4. ADD CLICK HANDLER
+            onClick={toggleDirectionsPopup}
           >
             <span className="directions-text-top">Directions</span>
             <span className="directions-icon-top">⌄</span>
@@ -557,7 +571,7 @@ const getImageUrl = (imagePath) => {
                
               <div 
                 className="tool-set-more-option"
-                onClick={toggleNavigatorPopup} // ✅ 4. ADD CLICK HANDLER TO OPEN NAVIGATOR
+                onClick={toggleNavigatorPopup}
               >
                 <span className="tool-more-icon-top">⋮</span>
                 <span className="tool-text-top">More</span>
@@ -566,21 +580,77 @@ const getImageUrl = (imagePath) => {
               <div className="battery-container">
                 <div className="battery-icon-wrapper">
                   <BatteryIcon />
-                  <span className="battery-percentage-overlay">81%</span>
+                  <span className="battery-percentage-overlay">70%</span>
                 </div>
               </div>
             </div>
         </div>
       </div>
+
+      {/* Color Line Divider */}
+      <div className="question-divider-color-line" style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
+         <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#d1d40bff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#d1d40bff', height: '4px', width: '30px' }}></div>
+         <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+         <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#d1d40bff', height: '4px', width: '30px' }}></div>
+         <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#d1d40bff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+         <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+         <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#d1d40bff', height: '4px', width: '30px' }}></div>
+         <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#d1d40bff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#d1d40bff', height: '4px', width: '30px' }}></div>
+         <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        
+      </div>
       
-      {/* ✅ 5. RENDER THE DIRECTIONS MODAL (Existing Overlay) */}
+      {/* ✅ RENDER THE DIRECTIONS MODAL */}
       <DirectionsModal 
         isOpen={isDirectionsOpen} 
         onClose={toggleDirectionsPopup} 
       />
       
-      {/* ✅ 5. RENDER THE NAVIGATOR MODAL (NEW Overlay) */}
-      <QuestionNavigatorModal
+      {/* ✅ RENDER THE NAVIGATOR MODAL */}
+      {/* <QuestionNavigatorModal
         isOpen={isNavigatorOpen}
         onClose={toggleNavigatorPopup}
         sectionTitle={getCurrentSectionInfo()}
@@ -588,18 +658,18 @@ const getImageUrl = (imagePath) => {
         currentQuestionIndex={currentQuestionIndex}
         markedQuestions={markedQuestions}
         onQuestionSelect={handleQuestionSelect}
-      />
+      /> */}
 
       {/* Main Content Area */}
       <div className="test-main-content">
         
         {/* LEFT SIDE: Question Text / Passage Area */}
         <div className="question-text-area"> 
-            {/* ✅ Question Text */}
+            {/* ✅ UPDATED: Use QuestionTextRenderer for proper HTML and math rendering */}
             {currentQuestion?.question_text && (
-              <p className="passage-text">
-                {currentQuestion.question_text}
-              </p>
+              <div className="passage-text">
+                <QuestionTextRenderer content={currentQuestion.question_text} />
+              </div>
             )}
             
             {/* ✅ Question Image */}
@@ -648,14 +718,30 @@ const getImageUrl = (imagePath) => {
               </div>
           </div>
           
-          {/* ✅ NEW DEDICATED DIVIDER ELEMENT ADDED HERE */}
-          <div className="question-divider-color-line"></div>
+          {/* Color Line Divider */}
+          <div className="question-divider-color-line" style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
+             <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#d1d40bff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#d1d40bff', height: '4px', width: '30px' }}></div>
+         <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+     
+       
+          </div>
           
           <div className="question-content-image-style">
               <p className="question-stem">
-                {currentQuestion?.question_text ? 
-                  (currentQuestion.is_open_ended ? "Type your answer below:" : "Which choice completes the text with the most logical and precise word or phrase?") : 
-                  "Loading question..."}
+                {currentQuestion?.is_open_ended ? "Type your answer below:" : "Which choice completes the text with the most logical and precise word or phrase?"}
               </p>
           </div>
 
@@ -669,7 +755,6 @@ const getImageUrl = (imagePath) => {
                         className="open-ended-input-box"
                         value={openEndedAnswer}
                         onChange={handleOpenEndedChange}
-                        // placeholder="__________"
                         rows={6} 
                     />
                 </div>
@@ -701,11 +786,11 @@ const getImageUrl = (imagePath) => {
                             <span className="option-label-text">{option}</span>
                         </div>
                         
-                        {/* ✅ Option Content - Text and/or Image */}
+                        {/* ✅ UPDATED: Use OptionTextRenderer for proper text/math rendering */}
                         <div className="option-content-wrapper">
                           {hasOptionText && (
                             <span className="option-text-image-style">
-                              {optionData.text}
+                              <OptionTextRenderer content={optionData.text} />
                             </span>
                           )}
                           
@@ -750,32 +835,63 @@ const getImageUrl = (imagePath) => {
         </div>
       </div>
 
-      {/* Submit Popup */}
-      {/* {showSubmitPopup && (
-        <div className="submit-popup-overlay">
-          <div className="submit-popup">
-            <h3>Finish Section?</h3>
-            <p>You have {formatTime(timeLeft)} remaining. Are you sure you want to finish this section?</p>
-            <div className="popup-buttons">
-              <button 
-                className="popup-cancel-btn"
-                onClick={() => setShowSubmitPopup(false)}
-              >
-                Cancel
-              </button>
-              <button 
-                className="popup-submit-btn"
-                onClick={handleFinishSection}
-              >
-                Finish Section
-              </button>
-            </div>
-          </div>
-        </div>
-      )} */}
-
-      {/* Bottom Fixed Navigation Bar */}
+      {/* Bottom Navigation */}
       <div className="test-bottom-navbar">
+        <div className="color-line-container">
+           <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#d1d40bff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#d1d40bff', height: '4px', width: '30px' }}></div>
+         <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+         <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#d1d40bff', height: '4px', width: '30px' }}></div>
+         <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#d1d40bff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+         <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+         <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#d1d40bff', height: '4px', width: '30px' }}></div>
+         <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#d1d40bff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#d1d40bff', height: '4px', width: '30px' }}></div>
+         <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        
+        </div>
+        
         <div className="nav-left-image-style">
           <span className="user-name">{getUserName()}</span>
         </div>
