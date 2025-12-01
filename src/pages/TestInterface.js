@@ -250,42 +250,30 @@ const TestInterface = () => {
   };
 
   // ✅ UPDATED: Get current section info with new format
-  const getCurrentSectionInfo = () => {
-    if (!currentSection || !actualSections.length) return 'Loading...';
-    
-    // Get section number (excluding break section)
-    const nonBreakSections = actualSections.filter(section => section.type !== 'break');
-    const sectionIndex = nonBreakSections.findIndex(section => section.id === currentSection.id);
-    
-    // Get module number based on sequence
-    const moduleNumber = getCurrentModuleNumber();
-    
-    // Format: "Section X, Module Y: Title"
-    return `Section ${sectionIndex + 1}, Module ${moduleNumber}: ${currentSection.title || 'Reading and Writing'}`;
-  };
+const getCurrentSectionInfo = () => {
+  if (!currentSection || !actualSections.length) return 'Loading...';
+  
+  const nonBreakSections = actualSections.filter(section => section.type !== 'break');
+  const sectionIndex = nonBreakSections.findIndex(section => section.id === currentSection.id);
+  
+  const moduleNumber = getCurrentModuleNumber();
+  const sectionNumber = Math.floor(sectionIndex / 2) + 1;
+  
+  return `Section ${sectionNumber}, Module ${moduleNumber}: ${currentSection.title || ''}`;
+};
 
   // ✅ UPDATED: Function to get current module number
-  const getCurrentModuleNumber = () => {
-    if (!currentSection || !actualSections.length) return 1;
-    
-    const sectionType = currentSection.type;
-    const typeIndex = REQUIRED_SEQUENCE.indexOf(sectionType);
-    
-    // Map type to module number:
-    // rw1 -> Module 1
-    // rw2 -> Module 1  
-    // m1 -> Module 2
-    // m2 -> Module 2
-    // break -> Module 2 (but won't show in title)
-    
-    if (sectionType === 'rw1' || sectionType === 'rw2') {
-      return 1; // Both Reading sections are Module 1
-    } else if (sectionType === 'm1' || sectionType === 'm2' || sectionType === 'break') {
-      return 2; // Both Math sections and break are Module 2
-    }
-    
-    return 1; // Default
-  };
+// ✅ UPDATED: Get current module number (section position ke hisaab se)
+const getCurrentModuleNumber = () => {
+  if (!currentSection || !actualSections.length) return 1;
+  
+  // Non-break sections mein current section ka index nikalo
+  const nonBreakSections = actualSections.filter(section => section.type !== 'break');
+  const sectionIndex = nonBreakSections.findIndex(section => section.id === currentSection.id);
+  
+
+  return (sectionIndex % 2 === 0) ? 1 : 2;
+};
 
   // ✅ UPDATED: Function to update battery percentage based on module (excluding break)
   const updateBatteryPercentage = (sectionType) => {

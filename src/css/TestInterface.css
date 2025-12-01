@@ -1,8 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Arboto:wght@400;600&display=swap');
-
-body {
-  font-family: 'Arboto', sans-serif;
+@font-face {
+  font-family: "Araboto";
+  src: url("./ArabotoNormal400.ttf") format("truetype");
+  font-weight: 400;
 }
+
+
 
 /* General Layout and Reset */
 .test-interface-container {
@@ -46,10 +48,11 @@ body {
 
 .section-info-top {
   font-size: 22px;
-  font-weight: 700;
+  font-weight: 800;
   color: #1a1a1a;
   margin-left: 20px;
-  font-family: 'Arboto', sans-serif !important;
+  font-family: "Araboto", sans-serif;
+  margin-top: 4%;
 }
 
 .directions-dropdown-style {
@@ -87,17 +90,12 @@ body {
     padding-top: 5px; 
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Arboto:wght@400;600&display=swap');
-
-body {
-  font-family: 'Arboto', sans-serif;
-}
 
 .timer {
   font-size: 26px;
   font-weight: 700;
   color: #1a1a1a;
-  font-family: 'Arboto', sans-serif;
+  font-family: "Araboto", sans-serif;
   background-color: #e9ecf7;
   padding: 1px 6px;
   border-radius: 4px;
@@ -130,6 +128,7 @@ body {
     align-items: flex-start; 
     padding-top: 5px; 
     gap: 16px;
+    
 }
 
 /* --- PARENT CONTAINER: Aligns Highlights and More horizontally --- */
@@ -154,6 +153,10 @@ body {
     align-items: center; 
     gap: 4px; 
     color: #0c0d0e; 
+    
+
+    
+
 }
 
 .tool-icon-row {
@@ -185,6 +188,8 @@ body {
     font-size: 12px;
     font-weight: 550;
     color: #000000;
+    
+    
 }
 
 /* Top Color Lines */
@@ -307,13 +312,13 @@ body {
   color: #a30e0e;
   width: 800px;
   height: 50px; 
-  /* border: 25px solid #ffffff; */
-  justify-content: center; 
-  width: 80%; 
-  margin: 0 auto; 
-  padding: 0 20px; 
-  margin-top: 2%
-
+  justify-content: center;
+  padding: 0 15px;
+  width: 100%;
+  max-width: 700px; 
+  margin: 0 auto;
+  margin-top: 2%;
+  box-sizing: border-box;
 }
 
 
@@ -326,7 +331,7 @@ body {
   font-weight: 900;
   font-size: 21px;
   font-family :cursive     !important;
-  margin-left: -3%;
+  margin-left: -2.5% ;
   
 }
 
@@ -341,7 +346,7 @@ body {
   color: #0f0f0f;
   font-weight: 500;
   margin-right: auto; 
-  font-family: Verdana, Geneva, Tahoma, sans-serif !important;
+  font-family: "Araboto", sans-serif !;
   margin-left: -1%;
 }
 
@@ -357,7 +362,7 @@ body {
     border-radius: 7px;
     margin-left: 10%;
     transition: all 0.3s ease;
-    margin-right: -2.5%;
+    margin-right: -2.3%;
 
 
 }
@@ -405,11 +410,12 @@ body {
     margin-top: 0px;
     margin-bottom: 20px;
     gap: 1px;
-    width: 100%;
-    max-width: 750px;
+    width: 90%;
+    max-width: 700px; 
     margin-left: auto;
     margin-right: auto;
     padding: 0 15px;
+    
   
 }
 
@@ -441,7 +447,7 @@ body {
 }
 
 .question-stem {
-  font-size: 23px; 
+  font-size: 21px; 
   line-height: 1.5;
   color: #1a1a1a;
   font-weight: 500;
@@ -453,11 +459,10 @@ body {
   width: 100%;
   max-width: 800px; 
   margin-left: auto;
-  margin-right: 3%;
+  margin-right: 5%;
  
   word-break: keep-all; 
 }
-
 /* Options Section (List) */
 .options-section {
   margin-top: 25px;
@@ -476,7 +481,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 15px;
+  padding: 15px 15px;
   border: 1px solid #cbd5e0;
   border-radius: 10px;
   cursor: pointer;
@@ -487,8 +492,8 @@ body {
   position: relative; /* IMPORTANT for .option-right-box-style */
   /* font-size: 16px !important; */
   margin-left: auto;
-  margin-right: 80px;
-  margin-left: 70px !important;
+  margin-right: 80px auto;
+  margin-left: 90px  auto!important;
 
 }
 
@@ -699,7 +704,7 @@ body {
   display: flex;
   align-items: center;
   border-radius: 4px;
-  font-family: Georgia, 'Times New Roman', Times, serif !important;
+  font-family: "Araboto", sans-serif;
 }
 
 .nav-center-image-style {
@@ -716,7 +721,7 @@ body {
   font-size: 13px;
   font-weight: 700;
   text-align: center;
-  font-family: Georgia, 'Times New Roman', Times, serif; 
+   font-family: "Araboto", sans-serif;
   margin-right: -7%;
 }
 
@@ -743,14 +748,22 @@ body {
   display: block; 
 }
 
+.nav-btn-bottom back-btn {
+  font-family: "Araboto", sans-serif;
+}
+
 .back-btn {
   background: #324cbf; 
   color: white; 
+  font-family: "Araboto", sans-serif;
+
+  
 }
 
 .next-btn {
   background: #304dcf; 
   color: white; 
+  font-family: "Araboto", sans-serif;
 }
 
 .next-btn:hover {
