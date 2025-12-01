@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Arboto:wght@400;600&display=swap');
+
+body {
+  font-family: 'Arboto', sans-serif;
+}
+
 /* General Layout and Reset */
 .test-interface-container {
   min-height: 100vh;
@@ -39,10 +45,11 @@
 }
 
 .section-info-top {
-  font-size: 23px;
+  font-size: 22px;
   font-weight: 700;
   color: #1a1a1a;
   margin-left: 20px;
+  font-family: 'Arboto', sans-serif !important;
 }
 
 .directions-dropdown-style {
@@ -79,17 +86,25 @@
     height: 100%;
     padding-top: 5px; 
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Arboto:wght@400;600&display=swap');
+
+body {
+  font-family: 'Arboto', sans-serif;
+}
+
 .timer {
-  font-size: 25px;
+  font-size: 26px;
   font-weight: 700;
   color: #1a1a1a;
-  font-family: 'Courier New', monospace;
+  font-family: 'Arboto', sans-serif;
   background-color: #e9ecf7;
   padding: 1px 6px;
   border-radius: 4px;
   letter-spacing: -1.8px;
   margin-bottom: 7px;
   margin-top: 27%;
+  gap: 5;
 }
 
 .hide-time-btn {
@@ -211,8 +226,8 @@
 
 /* Main Content (Split 50/50: Question Text | Options) */
 .test-main-content {
-  min-height: calc(100vh - 63px - 3px - 60px); 
   display: flex;
+  min-height: calc(100vh - 63px - 3px - 60px);
   position: relative;
 }
 
@@ -258,9 +273,17 @@
   font-size: 19px;
   line-height: 1.6;
   color: #1a1a1a;
-  margin: 0; 
+ 
   font-weight: 450;
   font-family :Georgia, 'Times New Roman', Times, serif;
+  /* font-family: "Noto Serif Myanmar", serif !important; */
+  margin-top: -40px; 
+  
+  
+  margin-bottom: 10px; 
+  margin-left: 20px;
+  margin-right: 10px;
+  
 }
 
 /* RIGHT SIDE: Options Only Area */
@@ -282,18 +305,28 @@
   background-color: #e4e4e4da;
   /* Set color for Mark Icon group */
   color: #a30e0e;
-  
+  width: 800px;
+  height: 50px; 
+  /* border: 25px solid #ffffff; */
+  justify-content: center; 
+  width: 80%; 
+  margin: 0 auto; 
+  padding: 0 20px; 
+  margin-top: 2%
+
 }
+
 
 /* Question Number Box - NOTE: CSS class name should match JSX - updated */
 .question-number-box-center { 
-  padding: 8px 12px;
+  padding: 10px 16px;
   background: #1a1a1a;
   color: white;
   border-radius: 2px;
   font-weight: 900;
   font-size: 21px;
   font-family :cursive     !important;
+  margin-left: -3%;
   
 }
 
@@ -304,7 +337,7 @@
 }
 
 .mark-for-review-text {
-  font-size: 17px;
+  font-size: 18px;
   color: #0f0f0f;
   font-weight: 500;
   margin-right: auto; 
@@ -324,6 +357,7 @@
     border-radius: 7px;
     margin-left: 10%;
     transition: all 0.3s ease;
+    margin-right: -2.5%;
 
 
 }
@@ -372,19 +406,25 @@
     margin-bottom: 20px;
     gap: 1px;
     width: 100%;
-    /* Dashed line on top */
-    /* background-image: linear-gradient(
-    to right, 
-    #020202 20%, 
-    brown 20%, brown 40%, 
-    rgb(9, 61, 9) 40%, rgb(16, 112, 16) 60%, 
-    #020202 60%, #020202 80%, 
-    transparent 80% 
-  );
-  background-position: bottom;
-  background-size: 60px 2.5px; 
-  background-repeat: repeat-x; */
+    max-width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 15px;
+  
 }
+
+
+.question-divider-line-colour {
+    display: flex;
+    height: 2px;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    gap: 1px;
+    width: 100%;
+  
+}
+
+
 
 
 
@@ -397,29 +437,39 @@
 /* Question Content/Stem */
 .question-content-image-style {
   margin-bottom: 5px;
+
 }
 
 .question-stem {
-  font-size: 23px;
-  line-height: 1.6;
+  font-size: 23px; 
+  line-height: 1.5;
   color: #1a1a1a;
   font-weight: 500;
   margin: 5;
-  font-family :Georgia, 'Times New Roman', Times, serif;
-  word-spacing: 3px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  word-spacing: 1px;
   margin-top: -1%;
+  
+  width: 100%;
+  max-width: 800px; 
+  margin-left: auto;
+  margin-right: 3%;
+ 
+  word-break: keep-all; 
 }
-
 
 /* Options Section (List) */
 .options-section {
-  margin-top: 16px;
+  margin-top: 25px;
+  margin-right: 20%;
+ 
 }
 
 .options-list {
   display: flex;
   flex-direction: column;
   gap: 15px; 
+  
 }
 
 .option-item-image-style {
@@ -432,8 +482,14 @@
   cursor: pointer;
   transition: all 0.2s ease;
   max-width: 600px; 
+  
   width: 100%;
   position: relative; /* IMPORTANT for .option-right-box-style */
+  /* font-size: 16px !important; */
+  margin-left: auto;
+  margin-right: 80px;
+  margin-left: 70px !important;
+
 }
 
 .option-item-image-style:hover {
@@ -907,9 +963,10 @@
   }
 
   .question-stem {
-    font-size: 18px;
+    font-size: 16px;
     line-height: 1.4;
     margin-top: 0;
+    font-family: "Noto Serif Myanmar", serif !important;
   }
 
   /* Options list mobile optimization */

@@ -86,11 +86,12 @@ const Dashboard = () => {
     navigate('/TestCodeVerification', { state: { testId: testId } });
   };
 
+  // --- UPDATED: handleLogout to redirect to "/" ---
   const handleLogout = () => {
     TokenManager.removeToken && TokenManager.removeToken();
     localStorage.removeItem('user_data');
     localStorage.removeItem('refresh_token');
-    navigate('/login');
+    navigate('/'); // Changed to redirect to the root path
   };
 
   const getUserInitials = () => {
@@ -98,17 +99,10 @@ const Dashboard = () => {
     return `${user.first_name?.[0] || ''}${user.last_name?.[0] || ''}`.toUpperCase() || 'U';
   };
   
-  // NOTE: date functions (formatDate, isTestActive/Upcoming/Past) are no longer needed
-  // as the new API does not provide time/date fields. They are removed for cleanliness.
-  
-  // Since test-summary/ API does not provide status, we simply filter based on the tab chosen.
   const getFilteredTestSummaries = () => {
-    // In a real scenario, you'd likely have a separate endpoint for Past tests/results.
-    // For now, we will show all fetched summaries under the 'Active' tab
     if (testSummaryTab === 'Active') {
         return testSummaries;
     } 
-    // If 'Past' is selected but we only fetched summaries, show nothing for 'Past'
     return []; 
   };
 
@@ -140,6 +134,11 @@ const Dashboard = () => {
             <div className="user-avatar-header">
               {getUserInitials()}
             </div>
+            {/* --- NEW: Logout Button in Header --- */}
+            <button className="header-logout-btn" onClick={handleLogout}>
+              Logout
+            </button>
+            {/* --------------------------------- */}
           </div>
         </div>
       </header>
@@ -309,7 +308,7 @@ const Dashboard = () => {
         </div>
       </main>
       
-      {/* Logout button */}
+      {/* Original Logout button (Kept for consistency, but the header button is now primary) */}
       <div className="bottom-logout-area">
         <button className="logout-btn" onClick={handleLogout}>
           Logout

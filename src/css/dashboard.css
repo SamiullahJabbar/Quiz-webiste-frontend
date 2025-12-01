@@ -528,3 +528,40 @@
     width: 100%;
   }
 }
+
+
+
+/* --- Style for the Logout Button placed in the Header --- */
+.header-logout-btn {
+  /* Layout and positioning */
+  margin-left: 20px; /* User avatar aur button ke beech thoda gap */
+  padding: 6px 12px;
+  
+  /* Appearance */
+  background-color: transparent; /* Background color transparent rakha */
+  color: #1a1a1a; /* Text color dark rakha */
+  border: 2px solid #1a1717; /* Halki si grey border */
+  border-radius: 4px; /* Halka sa golai (rounded corners) */
+  cursor: pointer; /* Mouse over karne par pointer dikhayega */
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+/* --- Hover Effect --- */
+.header-logout-btn:hover {
+  background-color: #f0f0f0; /* Hover karne par halka grey background */
+  border-color: #a3a3a3; /* Border ko thoda dark karein */
+}
+
+/* --- Active/Pressed State --- */
+.header-logout-btn:active {
+  background-color: #e0e0e0;
+}
+
+/* --- Ensure User Section aligns items properly (if needed) --- */
+/* Agar aapka .user-section is tarah ka display nahi use kar raha toh add kar dein */
+.dashboard-header .user-section {
+    display: flex;
+    align-items: center; /* Items ko vertically center mein rakhega */
+}

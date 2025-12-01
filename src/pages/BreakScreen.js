@@ -66,7 +66,7 @@ const BreakScreen = () => {
         <div className="break-screen-container">
             <div className="battery-indicator">
                 <BatteryIcon />
-                <span>81%</span>
+                <span>72%</span>
             </div>
            
             <div className="break-content-wrapper">

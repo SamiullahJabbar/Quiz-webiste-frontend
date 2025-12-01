@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { TokenManager, BASE_URL } from '../api/baseurls';
 import '../css/TestInterface.css';
-// ✅ IMPORT THE DIRECTIONS MODAL COMPONENT
 import DirectionsModal from '../component/DirectionsModal';
-// ✅ IMPORT THE NEW NAVIGATOR MODAL COMPONENT
-// import QuestionNavigatorModal from '../component/QuestionNavigatorModal'; 
 
 // --- SVG Icons (Keep all your existing icons) ---
 
@@ -37,13 +34,21 @@ const MarkIcon = ({ isMarked }) => (
     </svg>
 );
 
-const BatteryIcon = () => (
-    <svg className="battery-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#af960aff">
-        <path d="M160-240q-50 0-85-35t-35-85v-240q0-50 35-85t85-35h540q50 0 85 35t35 85v240q0 50-35 85t-85 35H160Zm0-80h540q17 0 28.5-11.5T740-360v-240q0-17-11.5-28.5T700-640H160q-17 0-28.5 11.5T120-600v240q0 17 11.5 28.5T160-320Zm700-60v-200h20q17 0 28.5 11.5T920-540v120q0 17-11.5 28.5T880-380h-20Zm-700 20v-240h400v240H160Z"/>
-    </svg>
-);
+// 4. BATTERY ICON - MODIFIED TO SHOW PERCENTAGE
+const BatteryIcon = ({ percentage }) => {
+    let fillColor = "#000000ff";
+    if (percentage <= 48) fillColor = "#000000ff";
+    else if (percentage <= 64) fillColor = "#000000ff";
+    else if (percentage <= 80) fillColor = "#000000ff";
+    
+    return (
+        <svg className="battery-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill={fillColor}>
+            <path d="M160-240q-50 0-85-35t-35-85v-240q0-50 35-85t85-35h540q50 0 85 35t35 85v240q0 50-35 85t-85 35H160Zm0-80h540q17 0 28.5-11.5T740-360v-240q0-17-11.5-28.5T700-640H160q-17 0-28.5 11.5T120-600v240q0 17 11.5 28.5T160-320Zm700-60v-200h20q17 0 28.5 11.5T920-540v120q0 17-11.5 28.5T880-380h-20Zm-700 20v-240h400v240H160Z"/>
+        </svg>
+    );
+};
 
-// 4. FULLSCREEN ICON
+// 5. FULLSCREEN ICON
 const FullscreenIcon = () => (
     <svg 
         className="resize-handle-icon fullscreen-icon-style" 
@@ -71,14 +76,72 @@ const AbcIcon = () => (
     </svg>
 );
 
-// ✅ NEW: Component to render question text with proper HTML and mathematical content
+// ✅ NEW: Fixed sequence according to your requirement
+const REQUIRED_SEQUENCE = [
+    "rw1",      // Step 1: Reading and writing 1
+    "rw2",      // Step 2: Reading and writing 2  
+    "break",    // Step 3: Break
+    "m1",       // Step 4: Math 1
+    "m2"        // Step 5: Math 2
+];
+
+// ✅ Function to sort sections according to fixed sequence
+function sortSectionsByFixedSequence(sections) {
+    if (!sections || !Array.isArray(sections)) return [];
+    
+    // Create a map for quick lookup
+    const sectionsByType = {};
+    
+    // Group sections by their type
+    sections.forEach(section => {
+        if (section && section.type) {
+            sectionsByType[section.type] = section;
+        }
+    });
+    
+    // Create new array in fixed sequence order
+    const sortedSections = [];
+    
+    REQUIRED_SEQUENCE.forEach(type => {
+        if (sectionsByType[type]) {
+            sortedSections.push(sectionsByType[type]);
+        }
+    });
+    
+    return sortedSections;
+}
+
+// ✅ Function to sort summary according to fixed sequence
+function sortSummaryByFixedSequence(summary) {
+    if (!summary || !Array.isArray(summary)) return [];
+    
+    // Create a map for quick lookup
+    const summaryByType = {};
+    
+    // Group summary items by their type
+    summary.forEach(item => {
+        if (item && item.type) {
+            summaryByType[item.type] = item;
+        }
+    });
+    
+    // Create new array in fixed sequence order
+    const sortedSummary = [];
+    
+    REQUIRED_SEQUENCE.forEach(type => {
+        if (summaryByType[type]) {
+            sortedSummary.push(summaryByType[type]);
+        }
+    });
+    
+    return sortedSummary;
+}
+
+// ✅ Component to render question text
 const QuestionTextRenderer = ({ content }) => {
   if (!content) return null;
-
-  // Check if content contains mathematical patterns
   const hasMathContent = /[\\\(\)\$\^_\{\}]|frac|sqrt|sum|int|alpha|beta|gamma|pi|theta/.test(content);
   
-  // If it's HTML content with tables or other HTML elements
   if (content.includes('<') && content.includes('>')) {
     return (
       <div 
@@ -88,7 +151,6 @@ const QuestionTextRenderer = ({ content }) => {
     );
   }
   
-  // If it's mathematical content, render with special styling
   if (hasMathContent) {
     return (
       <div className="question-math-content">
@@ -97,15 +159,12 @@ const QuestionTextRenderer = ({ content }) => {
     );
   }
   
-  // Regular text content
   return <div className="question-text-content">{content}</div>;
 };
 
-// ✅ NEW: Component to render option text with proper formatting
+// ✅ Component to render option text
 const OptionTextRenderer = ({ content }) => {
   if (!content) return null;
-
-  // Check for mathematical content
   const hasMathContent = /[\\\(\)\$\^_\{\}]|frac|sqrt|sum|int|alpha|beta|gamma|pi|theta/.test(content);
   
   if (hasMathContent) {
@@ -144,14 +203,30 @@ const TestInterface = () => {
   // ✅ STATE: For open-ended question answer
   const [openEndedAnswer, setOpenEndedAnswer] = useState('');
 
+  // ✅ STATE: To track current section index
+  const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
+
   const currentQuestion = questions[currentQuestionIndex];
 
   // ✅ Get test data with proper structure from StartCodeScreen
-  const { testData, initialSectionIndex = 0 } = location.state || {};
+  const { testData, initialSectionIndex = 0, fromBreak = false } = location.state || {};
   
-  // ✅ Extract the actual test data from the response structure
+  // ✅ Extract and sort the actual test data from the response structure
   const actualTestData = testData?.test || testData;
-  const actualSections = actualTestData?.sections || [];
+  let actualSections = actualTestData?.sections || [];
+  let actualSummary = testData?.summary || [];
+  
+  // ✅ SORT SECTIONS AND SUMMARY BY FIXED SEQUENCE
+  if (actualSections.length > 0) {
+    actualSections = sortSectionsByFixedSequence(actualSections);
+  }
+  
+  if (actualSummary.length > 0) {
+    actualSummary = sortSummaryByFixedSequence(actualSummary);
+  }
+
+  // ✅ STATE: For battery percentage based on module
+  const [batteryPercentage, setBatteryPercentage] = useState(90);
 
   // --- Utility Functions ---
 
@@ -174,16 +249,67 @@ const TestInterface = () => {
     return 'khan Jabbar';
   };
 
+  // ✅ UPDATED: Get current section info with new format
   const getCurrentSectionInfo = () => {
     if (!currentSection || !actualSections.length) return 'Loading...';
     
-    const sectionIndex = actualSections.findIndex(section => section.id === currentSection.id);
-    if (sectionIndex === -1) return 'Loading...';
+    // Get section number (excluding break section)
+    const nonBreakSections = actualSections.filter(section => section.type !== 'break');
+    const sectionIndex = nonBreakSections.findIndex(section => section.id === currentSection.id);
     
-    return `Section ${sectionIndex + 1}, Module ${sectionIndex + 1}: ${currentSection.title || 'Reading and Writing'}`;
+    // Get module number based on sequence
+    const moduleNumber = getCurrentModuleNumber();
+    
+    // Format: "Section X, Module Y: Title"
+    return `Section ${sectionIndex + 1}, Module ${moduleNumber}: ${currentSection.title || 'Reading and Writing'}`;
   };
 
-  // ✅ Fixed Function to get full image URL
+  // ✅ UPDATED: Function to get current module number
+  const getCurrentModuleNumber = () => {
+    if (!currentSection || !actualSections.length) return 1;
+    
+    const sectionType = currentSection.type;
+    const typeIndex = REQUIRED_SEQUENCE.indexOf(sectionType);
+    
+    // Map type to module number:
+    // rw1 -> Module 1
+    // rw2 -> Module 1  
+    // m1 -> Module 2
+    // m2 -> Module 2
+    // break -> Module 2 (but won't show in title)
+    
+    if (sectionType === 'rw1' || sectionType === 'rw2') {
+      return 1; // Both Reading sections are Module 1
+    } else if (sectionType === 'm1' || sectionType === 'm2' || sectionType === 'break') {
+      return 2; // Both Math sections and break are Module 2
+    }
+    
+    return 1; // Default
+  };
+
+  // ✅ UPDATED: Function to update battery percentage based on module (excluding break)
+  const updateBatteryPercentage = (sectionType) => {
+    // Battery percentage based on section type, not module number
+    switch(sectionType) {
+      case 'rw1':
+        setBatteryPercentage(90);
+        break;
+      case 'rw2':
+        setBatteryPercentage(80);
+        break;
+      case 'm1':
+        setBatteryPercentage(64);
+        break;
+      case 'm2':
+        setBatteryPercentage(48);
+        break;
+      default:
+        // For break section, keep previous percentage
+        break;
+    }
+  };
+
+  // ✅ Function to get full image URL
   const getImageUrl = (imagePath) => {
     if (!imagePath) return null;
     if (imagePath.startsWith('http')) return imagePath;
@@ -231,14 +357,36 @@ const TestInterface = () => {
     setIsNavigatorOpen(false);
   };
 
+  // ✅ UPDATED useEffect: Initialize section with break handling
   useEffect(() => {
     if (actualSections.length > 0) {
-      initializeSection(initialSectionIndex);
+      // Agar break se aa rahe hain, toh next section load karo
+      if (fromBreak) {
+        // Break ke baad wala section find karo
+        const breakIndex = actualSections.findIndex(section => section.type === 'break');
+        if (breakIndex !== -1 && breakIndex + 1 < actualSections.length) {
+          loadSectionDirectly(breakIndex + 1);
+        } else {
+          loadSectionDirectly(currentSectionIndex || initialSectionIndex);
+        }
+      } else {
+        loadSectionDirectly(initialSectionIndex);
+      }
     } else {
       setError('No test data available. Please try again.');
       setLoading(false);
     }
-  }, [actualTestData, initialSectionIndex]);
+  }, [actualTestData, initialSectionIndex, fromBreak]);
+  
+  // ✅ UPDATED useEffect: Update battery percentage when section changes
+  useEffect(() => {
+    if (currentSection && currentSection.type) {
+      // Only update battery for non-break sections
+      if (currentSection.type !== 'break') {
+        updateBatteryPercentage(currentSection.type);
+      }
+    }
+  }, [currentSection]);
   
   // ✅ useEffect: To load/reset selected option/open-ended answer when question changes
   useEffect(() => {
@@ -277,11 +425,13 @@ const TestInterface = () => {
     return () => clearInterval(timer);
   }, [timeLeft]);
 
-  const initializeSection = async (sectionIndex) => {
+  // ✅ NEW: Direct section loading function (break skip logic included)
+  const loadSectionDirectly = async (sectionIndex) => {
     try {
       setLoading(true);
       setError('');
       
+      // ✅ Check if we're out of bounds
       if (!actualSections || sectionIndex >= actualSections.length) {
         await finalSubmitTest();
         navigate('/finishTest');
@@ -290,35 +440,78 @@ const TestInterface = () => {
 
       const section = actualSections[sectionIndex];
       
-      const currentSectionNumber = sectionIndex + 1;
-      if (section.type === 'break' && currentSectionNumber === 3) {
-        navigate('/break', {
-          state: {
-            nextSectionIndex: sectionIndex + 1,
-            sections: actualSections,
-            testData: actualTestData,
-            breakDuration: section.duration_minutes
-          }
-        });
-        return;
-      } else if (section.type === 'break') {
-        initializeSection(sectionIndex + 1);
+      // ✅ Agar section break hai aur hum already break dekh chuke hain, skip karo
+      if (section.type === 'break') {
+        // Next section load karo
+        loadSectionDirectly(sectionIndex + 1);
         return;
       }
 
       setCurrentSection(section);
+      setCurrentSectionIndex(sectionIndex);
       
       if (section.questions && section.questions.length > 0) {
         setQuestions(section.questions);
+        setCurrentQuestionIndex(0);
       } else {
         setError('No questions found for this section');
       }
       
     } catch (error) {
-      console.error('Error initializing section:', error);
+      console.error('Error loading section:', error);
       setError('Failed to load section');
     } finally {
       setLoading(false);
+    }
+  };
+
+  // ✅ UPDATED: Time up handler - Module 2 (rw2) ke baad break screen aayegi
+  const handleTimeUp = async () => {
+    if (Object.keys(userAnswers).length > 0) {
+      await submitSectionAnswers();
+    }
+    
+    if (!currentSection || !actualSections.length) return;
+    
+    const currentSectionType = currentSection.type;
+    const currentSequencePosition = REQUIRED_SEQUENCE.indexOf(currentSectionType);
+    
+    // ✅ Check if we should show module over or break based on sequence
+    if (currentSequencePosition === 0) {
+      // rw1 -> module over
+      navigate('/module-over', {
+        state: {
+          nextSectionIndex: currentSectionIndex + 1,
+          sections: actualSections,
+          testData: actualTestData
+        }
+      });
+    } 
+    else if (currentSequencePosition === 1) {
+      // rw2 -> break screen (Module 2 ke baad break)
+      navigate('/break', {
+        state: {
+          nextSectionIndex: currentSectionIndex + 1,
+          sections: actualSections,
+          testData: actualTestData,
+          breakDuration: 1
+        }
+      });
+    }
+    else if (currentSequencePosition === 3) {
+      // m1 -> module over
+      navigate('/module-over', {
+        state: {
+          nextSectionIndex: currentSectionIndex + 1,
+          sections: actualSections,
+          testData: actualTestData
+        }
+      });
+    }
+    else if (currentSequencePosition === 4) {
+      // m2 -> finish test
+      await finalSubmitTest();
+      navigate('/finishTest');
     }
   };
 
@@ -346,37 +539,6 @@ const TestInterface = () => {
       }
     } catch (error) {
       console.error('Error submitting section answers:', error);
-    }
-  };
-
-  const handleTimeUp = async () => {
-    if (Object.keys(userAnswers).length > 0) {
-      await submitSectionAnswers();
-    }
-    
-    const currentSectionIndex = actualSections.findIndex(section => section.id === currentSection.id);
-    const currentSectionNumber = currentSectionIndex + 1;
-    
-    if (currentSectionNumber === 4) {
-      await finalSubmitTest();
-      navigate('/finishTest');
-    } else if (currentSectionNumber === 2) {
-      navigate('/break', {
-        state: {
-          nextSectionIndex: currentSectionIndex + 1,
-          sections: actualSections,
-          testData: actualTestData,
-          breakDuration: 1
-        }
-      });
-    } else {
-      navigate('/module-over', {
-        state: {
-          nextSectionIndex: currentSectionIndex + 1,
-          sections: actualSections,
-          testData: actualTestData
-        }
-      });
     }
   };
 
@@ -436,6 +598,7 @@ const TestInterface = () => {
     }
   };
 
+  // ✅ MODIFIED: Next question handler with sequence check
   const handleNextQuestion = () => {
     if (currentQuestion?.is_open_ended) {
         if (currentQuestion) {
@@ -472,6 +635,7 @@ const TestInterface = () => {
     }
   };
 
+  // ✅ UPDATED: Finish section handler - Module 2 (rw2) ke baad break screen
   const handleFinishSection = async () => {
     setShowSubmitPopup(false);
     
@@ -479,13 +643,24 @@ const TestInterface = () => {
       await submitSectionAnswers();
     }
     
-    const currentSectionIndex = actualSections.findIndex(section => section.id === currentSection.id);
-    const currentSectionNumber = currentSectionIndex + 1;
+    if (!currentSection || !actualSections.length) return;
     
-    if (currentSectionNumber === 4) {
-      await finalSubmitTest();
-      navigate('/finishTest');
-    } else if (currentSectionNumber === 2) {
+    const currentSectionType = currentSection.type;
+    const currentSequencePosition = REQUIRED_SEQUENCE.indexOf(currentSectionType);
+    
+    // ✅ Navigate based on sequence position
+    if (currentSequencePosition === 0) {
+      // rw1 -> module over
+      navigate('/module-over', {
+        state: {
+          nextSectionIndex: currentSectionIndex + 1,
+          sections: actualSections,
+          testData: actualTestData
+        }
+      });
+    } 
+    else if (currentSequencePosition === 1) {
+      // rw2 -> break screen
       navigate('/break', {
         state: {
           nextSectionIndex: currentSectionIndex + 1,
@@ -494,7 +669,9 @@ const TestInterface = () => {
           breakDuration: 1
         }
       });
-    } else {
+    }
+    else if (currentSequencePosition === 3) {
+      // m1 -> module over
       navigate('/module-over', {
         state: {
           nextSectionIndex: currentSectionIndex + 1,
@@ -502,6 +679,11 @@ const TestInterface = () => {
           testData: actualTestData
         }
       });
+    }
+    else if (currentSequencePosition === 4) {
+      // m2 -> finish test
+      await finalSubmitTest();
+      navigate('/finishTest');
     }
   };
 
@@ -579,8 +761,8 @@ const TestInterface = () => {
               
               <div className="battery-container">
                 <div className="battery-icon-wrapper">
-                  <BatteryIcon />
-                  <span className="battery-percentage-overlay">70%</span>
+                  <BatteryIcon percentage={batteryPercentage} />
+                  <span className="battery-percentage-overlay">{batteryPercentage}%</span>
                 </div>
               </div>
             </div>
@@ -588,7 +770,7 @@ const TestInterface = () => {
       </div>
 
       {/* Color Line Divider */}
-      <div className="question-divider-color-line" style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
+      <div className=".question-divider-line-colour " style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
          <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
         <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
         <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
@@ -649,30 +831,17 @@ const TestInterface = () => {
         onClose={toggleDirectionsPopup} 
       />
       
-      {/* ✅ RENDER THE NAVIGATOR MODAL */}
-      {/* <QuestionNavigatorModal
-        isOpen={isNavigatorOpen}
-        onClose={toggleNavigatorPopup}
-        sectionTitle={getCurrentSectionInfo()}
-        totalQuestions={questions.length}
-        currentQuestionIndex={currentQuestionIndex}
-        markedQuestions={markedQuestions}
-        onQuestionSelect={handleQuestionSelect}
-      /> */}
-
       {/* Main Content Area */}
       <div className="test-main-content">
         
         {/* LEFT SIDE: Question Text / Passage Area */}
         <div className="question-text-area"> 
-            {/* ✅ UPDATED: Use QuestionTextRenderer for proper HTML and math rendering */}
             {currentQuestion?.question_text && (
               <div className="passage-text">
                 <QuestionTextRenderer content={currentQuestion.question_text} />
               </div>
             )}
             
-            {/* ✅ Question Image */}
             {currentQuestion?.question_image && (
               <div className="question-image-container">
                 <img 
@@ -693,14 +862,15 @@ const TestInterface = () => {
 
         {/* RIGHT SIDE: Options Only Area */}
         <div className="options-only-area">
+          <div className="options-container"></div>
+        
           
-          {/* Question Header Area */}
+     
           <div className="question-header-image-style">
               <div className="question-number-box-center">
                {currentQuestionIndex + 1}
               </div>
               
-              {/* ✅ UPDATED MARK ICON WITH CLICK HANDLER */}
               <div 
                 className="mark-icon-container"
                 onClick={handleMarkQuestion}
@@ -786,7 +956,6 @@ const TestInterface = () => {
                             <span className="option-label-text">{option}</span>
                         </div>
                         
-                        {/* ✅ UPDATED: Use OptionTextRenderer for proper text/math rendering */}
                         <div className="option-content-wrapper">
                           {hasOptionText && (
                             <span className="option-text-image-style">
