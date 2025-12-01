@@ -452,7 +452,7 @@
 .question-stem {
  font-family: Georgia, 'Times New Roman', Times, serif;
  text-align: center;
- margin-left: -6%;
+ margin-left: auto;
  font-weight: 400px;
  font-size: 21px;
 }
