@@ -74,10 +74,10 @@
     left: 20%; 
     transform: translateY(-50%);
     background-color: #2c2c2c; 
-    padding: 20px 30px;
+    padding: 20px 50px;
     border-radius: 8px;
     text-align: center;
-    width: 220px;
+    width: 290px;
     /* box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); */
     border: 1px solid #f8f8f8; 
 }
@@ -99,7 +99,7 @@
 .break-user-name {
     position: absolute;
     bottom: 20px;
-    left: 20px; 
+    left: -100px; 
     font-size: 20px;
     color: rgb(214, 212, 212);
     font-weight: 600;

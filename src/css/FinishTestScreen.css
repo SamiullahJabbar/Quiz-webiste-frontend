@@ -78,10 +78,10 @@
     background-color: white;
     color: #1a1a1a; 
     /* ✅ Width aur Max-Width fixed rakhi gayi hain */
-    width: 90%; /* Thoda kam kiya taake 1000px max-width theek se kaam kare */
+    width: 100%; /* Thoda kam kiya taake 1000px max-width theek se kaam kare */
     max-width: 1000px; 
     /* ✅ Height fixed rakhi gayi hai taake zoom karne par box na badhe */
-    height: 350px; /* Height ko badha kar fixed rakha gaya hai */
+    height: 450px; /* Height ko badha kar fixed rakha gaya hai */
     padding: 80px 80px;
     border-radius: 8px;
     text-align: center;
