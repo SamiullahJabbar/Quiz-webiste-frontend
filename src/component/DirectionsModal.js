@@ -19,8 +19,8 @@ const DirectionsModal = ({ isOpen, onClose }) => {
         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
         padding: '20px',
         width: '80vw',  /* ✅ 80% of viewport width */
-        maxWidth: '1600px', /* ✅ Maximum limit */
-        height: '70vh', /* ✅ 70% of viewport height */
+        maxWidth: '1200px', /* ✅ Maximum limit */
+        height: '50vh', /* ✅ 70% of viewport height */
         maxHeight: '650px', /* ✅ Maximum limit */
         zIndex: 1000,
         display: 'flex',

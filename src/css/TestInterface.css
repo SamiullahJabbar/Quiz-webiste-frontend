@@ -319,6 +319,7 @@
   margin: 0 auto;
   margin-top: 2%;
   box-sizing: border-box;
+  margin-left: 10%;
 }
 
 
@@ -414,7 +415,8 @@
     max-width: 700px; 
     margin-left: auto;
     margin-right: auto;
-    padding: 0 15px;
+    /* padding: 0 15px; */
+    margin-left: 10%;
     
   
 }
@@ -451,15 +453,22 @@
   line-height: 1.5;
   color: #1a1a1a;
   font-weight: 500;
-  margin: 5;
+  margin: 5px 0; /* ✅ Top-bottom margins only */
   font-family: Georgia, 'Times New Roman', Times, serif;
   word-spacing: 1px;
   margin-top: -1%;
   
   width: 100%;
   max-width: 800px; 
+  
+  /* ✅ Ek hi tarah se align karein */
+  /* Ya to center align: */
   margin-left: auto;
-  margin-right: 5%;
+  margin-right: auto;
+  
+  /* Ya left align: */
+  /* margin-left: 20px; */
+  /* margin-right: 0; */
  
   word-break: keep-all; 
 }
@@ -491,9 +500,9 @@
   width: 100%;
   position: relative; /* IMPORTANT for .option-right-box-style */
   /* font-size: 16px !important; */
-  margin-left: auto;
+
   margin-right: 80px auto;
-  margin-left: 90px  auto!important;
+  margin-left: 90px  !important;
 
 }
 
