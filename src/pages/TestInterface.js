@@ -897,7 +897,8 @@ const getCurrentModuleNumber = () => {
        
           </div>
           
-          <div className="question-content-image-style">
+          {/* <div className="question-content-image-style"> */}
+          <div className="question-stem">
               <p className="question-stem">
                 {currentQuestion?.is_open_ended ? "Type your answer below:" : "Which choice completes the text with the most logical and precise word or phrase?"}
               </p>
