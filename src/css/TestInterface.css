@@ -449,28 +449,27 @@
 } */
 
 .question-stem {
+  /* --- Typography and Basic Styles --- */
   font-size: 21px; 
   line-height: 1.5;
   color: #1a1a1a;
   font-weight: 500;
-  margin: 5px 0; /* ✅ Top-bottom margins only */
   font-family: Georgia, 'Times New Roman', Times, serif;
   word-spacing: 1px;
-  margin-top: -1%;
   
+  /* --- Width and Centering (Bahut Zaroori) --- */
   width: 100%;
   max-width: 800px; 
   
-  /* ✅ Ek hi tarah se align karein */
-  /* Ya to center align: */
-  margin-left: auto;
-  margin-right: auto;
+  margin: 5px auto 5px auto; 
+
+  padding: 0 10px; /* Added slight left/right padding for better spacing, adjust as needed */
   
-  /* Ya left align: */
-  /* margin-left: 20px; */
-  /* margin-right: 0; */
- 
-  word-break: keep-all; 
+  word-break: break-word; /* Changed to break-word for mobile screens */
+}
+
+* {
+    box-sizing: border-box; 
 }
 /* Options Section (List) */
 .options-section {
