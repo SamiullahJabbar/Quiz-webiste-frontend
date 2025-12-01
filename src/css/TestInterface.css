@@ -67,6 +67,7 @@
 .directions-text-top {
     font-weight: 550;
     margin-left: 20px;
+    margin-top: -5% !important;
 }
 
 .directions-icon-top {
@@ -461,9 +462,9 @@
   width: 100%;
   max-width: 800px; 
   
-  margin: 5px auto 5px auto; 
+  margin: 10px auto 10px auto; 
 
-  padding: 0 10px; /* Added slight left/right padding for better spacing, adjust as needed */
+  padding: 5 10px; /* Added slight left/right padding for better spacing, adjust as needed */
   
   word-break: break-word; /* Changed to break-word for mobile screens */
 }
@@ -471,6 +472,7 @@
 * {
     box-sizing: border-box; 
 }
+
 /* Options Section (List) */
 .options-section {
   margin-top: 25px;
@@ -864,6 +866,7 @@
   .directions-text-top {
     margin-left: 0;
     font-size: 14px;
+    margin-top: -5% !important;
   }
 
   /* Center section - timer row mein */
