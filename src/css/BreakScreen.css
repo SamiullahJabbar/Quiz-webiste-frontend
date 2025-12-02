@@ -103,7 +103,8 @@
     font-size: 20px;
     color: rgb(214, 212, 212);
     font-weight: 600;
-    margin-left: 30% auto;
+    margin-left: -90% ;
+    /* padding: auto; */
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
