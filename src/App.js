@@ -10,6 +10,8 @@ import TestInterface from "./pages/TestInterface";
 import BreakScreen from './pages/BreakScreen';
 import FinishTestScreen from './pages/FinishTestScreen';
 import ModuleOver from './pages/ModuleOver';
+import ExamCompletionScreen from './pages/ExamCompletionScreen';
+
 
 
 
@@ -29,6 +31,7 @@ function App() {
           <Route path="/break" element={<BreakScreen />} />
           <Route path="/finishTest" element={<FinishTestScreen />} />
           <Route path="/module-over" element={<ModuleOver />} />
+          <Route path="/examcompletion" element={<ExamCompletionScreen />} />
         </Routes>
       </div>
     </Router>
