@@ -422,7 +422,7 @@ const getCurrentModuleNumber = () => {
       // ✅ Check if we're out of bounds
       if (!actualSections || sectionIndex >= actualSections.length) {
         await finalSubmitTest();
-        navigate('/examcompletion"');
+        navigate('/examcompletion');
         return;
       }
 
