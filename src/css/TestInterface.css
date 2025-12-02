@@ -451,7 +451,7 @@
 
 } */
 
-.question-stem {
+/* .question-stem {
  font-family: Georgia, 'Times New Roman', Times, serif;
  text-align: center;
  margin-left: auto;
@@ -461,6 +461,21 @@
 
 * {
     box-sizing: border-box; 
+} */
+
+
+.question-tagline {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    text-align: center;
+    margin-left: auto;
+    font-weight: 400;
+    font-size: 21px;
+    box-sizing: border-box;
+}
+
+/* Optional: Apply to specific elements only */
+body, div, section, article, header, footer, nav, aside, main {
+    box-sizing: border-box;
 }
 
 /* Options Section (List) */
