@@ -422,7 +422,7 @@ const getCurrentModuleNumber = () => {
       // ✅ Check if we're out of bounds
       if (!actualSections || sectionIndex >= actualSections.length) {
         await finalSubmitTest();
-        navigate('/finishTest');
+        navigate('/examcompletion"');
         return;
       }
 
@@ -453,55 +453,60 @@ const getCurrentModuleNumber = () => {
     }
   };
 
-  // ✅ UPDATED: Time up handler - Module 2 (rw2) ke baad break screen aayegi
-  const handleTimeUp = async () => {
-    if (Object.keys(userAnswers).length > 0) {
-      await submitSectionAnswers();
-    }
-    
-    if (!currentSection || !actualSections.length) return;
-    
-    const currentSectionType = currentSection.type;
-    const currentSequencePosition = REQUIRED_SEQUENCE.indexOf(currentSectionType);
-    
-    // ✅ Check if we should show module over or break based on sequence
-    if (currentSequencePosition === 0) {
-      // rw1 -> module over
-      navigate('/module-over', {
-        state: {
-          nextSectionIndex: currentSectionIndex + 1,
-          sections: actualSections,
-          testData: actualTestData
-        }
-      });
-    } 
-    else if (currentSequencePosition === 1) {
-      // rw2 -> break screen (Module 2 ke baad break)
-      navigate('/break', {
-        state: {
-          nextSectionIndex: currentSectionIndex + 1,
-          sections: actualSections,
-          testData: actualTestData,
-          breakDuration: 1
-        }
-      });
-    }
-    else if (currentSequencePosition === 3) {
-      // m1 -> module over
-      navigate('/module-over', {
-        state: {
-          nextSectionIndex: currentSectionIndex + 1,
-          sections: actualSections,
-          testData: actualTestData
-        }
-      });
-    }
-    else if (currentSequencePosition === 4) {
-      // m2 -> finish test
-      await finalSubmitTest();
-      navigate('/finishTest');
-    }
-  };
+const handleTimeUp = async () => {
+  if (Object.keys(userAnswers).length > 0) {
+    await submitSectionAnswers();
+  }
+  
+  if (!currentSection || !actualSections.length) return;
+  
+  const currentSectionType = currentSection.type;
+  const currentSequencePosition = REQUIRED_SEQUENCE.indexOf(currentSectionType);
+  
+  // ✅ Navigate based on sequence position
+  if (currentSequencePosition === 0) {
+    // rw1 -> module over
+    navigate('/module-over', {
+      state: {
+        nextSectionIndex: currentSectionIndex + 1,
+        sections: actualSections,
+        testData: actualTestData
+      }
+    });
+  } 
+  else if (currentSequencePosition === 1) {
+    // rw2 -> break screen
+    navigate('/break', {
+      state: {
+        nextSectionIndex: currentSectionIndex + 1,
+        sections: actualSections,
+        testData: actualTestData,
+        breakDuration: 1
+      }
+    });
+  }
+  else if (currentSequencePosition === 3) {
+    // m1 -> module over
+    navigate('/module-over', {
+      state: {
+        nextSectionIndex: currentSectionIndex + 1,
+        sections: actualSections,
+        testData: actualTestData
+      }
+    });
+  }
+  else if (currentSequencePosition === 4) {
+    // ✅ CHANGED: m2 -> module over (pehle), phir finish test
+    navigate('/module-over', {
+      state: {
+        nextSectionIndex: currentSectionIndex + 1,
+        sections: actualSections,
+        testData: actualTestData,
+        isFinalModule: true  // ✅ NEW: Flag for final module
+      }
+    });
+  }
+};
 
   const submitSectionAnswers = async () => {
     try {
@@ -625,55 +630,61 @@ const getCurrentModuleNumber = () => {
 
   // ✅ UPDATED: Finish section handler - Module 2 (rw2) ke baad break screen
   const handleFinishSection = async () => {
-    setShowSubmitPopup(false);
-    
-    if (Object.keys(userAnswers).length > 0) {
-      await submitSectionAnswers();
-    }
-    
-    if (!currentSection || !actualSections.length) return;
-    
-    const currentSectionType = currentSection.type;
-    const currentSequencePosition = REQUIRED_SEQUENCE.indexOf(currentSectionType);
-    
-    // ✅ Navigate based on sequence position
-    if (currentSequencePosition === 0) {
-      // rw1 -> module over
-      navigate('/module-over', {
-        state: {
-          nextSectionIndex: currentSectionIndex + 1,
-          sections: actualSections,
-          testData: actualTestData
-        }
-      });
-    } 
-    else if (currentSequencePosition === 1) {
-      // rw2 -> break screen
-      navigate('/break', {
-        state: {
-          nextSectionIndex: currentSectionIndex + 1,
-          sections: actualSections,
-          testData: actualTestData,
-          breakDuration: 1
-        }
-      });
-    }
-    else if (currentSequencePosition === 3) {
-      // m1 -> module over
-      navigate('/module-over', {
-        state: {
-          nextSectionIndex: currentSectionIndex + 1,
-          sections: actualSections,
-          testData: actualTestData
-        }
-      });
-    }
-    else if (currentSequencePosition === 4) {
-      // m2 -> finish test
-      await finalSubmitTest();
-      navigate('/finishTest');
-    }
-  };
+  setShowSubmitPopup(false);
+  
+  if (Object.keys(userAnswers).length > 0) {
+    await submitSectionAnswers();
+  }
+  
+  if (!currentSection || !actualSections.length) return;
+  
+  const currentSectionType = currentSection.type;
+  const currentSequencePosition = REQUIRED_SEQUENCE.indexOf(currentSectionType);
+  
+  // ✅ Navigate based on sequence position
+  if (currentSequencePosition === 0) {
+    // rw1 -> module over
+    navigate('/module-over', {
+      state: {
+        nextSectionIndex: currentSectionIndex + 1,
+        sections: actualSections,
+        testData: actualTestData
+      }
+    });
+  } 
+  else if (currentSequencePosition === 1) {
+    // rw2 -> break screen
+    navigate('/break', {
+      state: {
+        nextSectionIndex: currentSectionIndex + 1,
+        sections: actualSections,
+        testData: actualTestData,
+        breakDuration: 1
+      }
+    });
+  }
+  else if (currentSequencePosition === 3) {
+    // m1 -> module over
+    navigate('/module-over', {
+      state: {
+        nextSectionIndex: currentSectionIndex + 1,
+        sections: actualSections,
+        testData: actualTestData
+      }
+    });
+  }
+  else if (currentSequencePosition === 4) {
+    // ✅ CHANGED: m2 -> module over (pehle), phir finish test
+    navigate('/module-over', {
+      state: {
+        nextSectionIndex: currentSectionIndex + 1,
+        sections: actualSections,
+        testData: actualTestData,
+        isFinalModule: true  // ✅ NEW: Flag for final module
+      }
+    });
+  }
+};
 
   if (loading) {
     return (
@@ -898,8 +909,8 @@ const getCurrentModuleNumber = () => {
           </div>
           
           {/* <div className="question-content-image-style"> */}
-          <div className="question-tagline">
-              <p className="question-tagline">
+          <div className="question-header-image-styles">
+              <p className="question-text">
                 {currentQuestion?.is_open_ended ? "Type your answer below:" : "Which choice completes the text with the most logical and precise word or phrase?"}
               </p>
           </div>
