@@ -1335,26 +1335,3 @@ body, div, section, article, header, footer, nav, aside, main {
 
 
 
-
-
-@font-face {
-  font-family: 'LatinModernMath';
-  src: url('../font/latinmodern-math.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-.math-digit {
-  font-family: 'LatinModernMath', sans-serif !important;
-  font-feature-settings: "lnum" !important;
-  font-variant-numeric: lining-nums !important;
-}
-
-
-.option-text-content .math-digit,
-.question-text-content .math-digit,
-.question-html-content .math-digit {
-  font-family: 'LatinModernMath', sans-serif !important;
-  font-feature-settings: "lnum" !important;
-  font-variant-numeric: lining-nums !important;
-}
