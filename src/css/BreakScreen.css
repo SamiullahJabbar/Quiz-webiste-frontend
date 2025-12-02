@@ -99,7 +99,7 @@
 .break-user-name {
     position: absolute;
     bottom: 20px;
-    left: -100px; 
+    /* left: -100px;  */
     font-size: 20px;
     color: rgb(214, 212, 212);
     font-weight: 600;
