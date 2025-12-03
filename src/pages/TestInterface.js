@@ -9,7 +9,7 @@ import DirectionsModal from '../component/DirectionsModal';
 // 1. NOTES ICON
 const NotesIcon = () => (
     <svg className="tool-icon-note" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#615d5dff">
-        <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h440l200 200v440q0 33-23.5 56.5T760-120H200Zm0-80h560v-400H600v-160H200v560Zm80-80h400v-80H280v80Zm0-320h200v-80H280v80Zm0 160h400v-80H280v80Zm-80-320v160-160 560-560Z"/>
+        <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h440l200 200v440q0 33 23.5 56.5T760-120H200Zm0-80h560v-400H600v-160H200v560Zm80-80h400v-80H280v80Zm0-320h200v-80H280v80Zm0 160h400v-80H280v80Zm-80-320v160-160 560-560Z"/>
     </svg>
 );
 
@@ -228,6 +228,9 @@ const TestInterface = () => {
   // ✅ STATE: For battery percentage based on module
   const [batteryPercentage, setBatteryPercentage] = useState(90);
 
+  // --- NEW: Check if current section is Math Module ---
+  const isMathModule = currentSection?.type === 'm1' || currentSection?.type === 'm2';
+
   // --- Utility Functions ---
 
   const formatTime = (seconds) => {
@@ -263,7 +266,6 @@ const getCurrentSectionInfo = () => {
 };
 
   // ✅ UPDATED: Function to get current module number
-// ✅ UPDATED: Get current module number (section position ke hisaab se)
 const getCurrentModuleNumber = () => {
   if (!currentSection || !actualSections.length) return 1;
   
@@ -717,7 +719,7 @@ const handleTimeUp = async () => {
   }
 
   return (
-    <div className="test-interface-container">
+    <div className={`test-interface-container ${isMathModule ? 'math-module-active' : 'reading-module-active'}`}>
       {/* Top Header Section */}
       <div className="test-header">
         
@@ -769,7 +771,7 @@ const handleTimeUp = async () => {
       </div>
 
       {/* Color Line Divider */}
-      <div className=".question-divider-line-colour " style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
+      <div className="question-divider-line-colour" style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
          <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
         <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
         <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
@@ -830,44 +832,13 @@ const handleTimeUp = async () => {
         onClose={toggleDirectionsPopup} 
       />
       
-      {/* Main Content Area */}
-      <div className="test-main-content">
-        
-        {/* LEFT SIDE: Question Text / Passage Area */}
-        <div className="question-text-area"> 
-            {currentQuestion?.question_text && (
-              <div className="passage-text">
-                <QuestionTextRenderer content={currentQuestion.question_text} />
-              </div>
-            )}
-            
-            {currentQuestion?.question_image && (
-              <div className="question-image-container">
-                <img 
-                  src={getImageUrl(currentQuestion.question_image)} 
-                  alt="Question" 
-                  className="question-image"
-                  onError={(e) => {
-                    e.target.style.display = 'none';
-                  }}
-                />
-              </div>
-            )}
-            
-            <div className="fullscreen-handle-container">
-                <FullscreenIcon /> 
-            </div>
-        </div>
-
-        {/* RIGHT SIDE: Options Only Area */}
-        <div className="options-only-area">
-          <div className="options-container"></div>
-        
-          
-     
-          <div className="question-header-image-style">
+      {/* CONDITIONAL RENDERING BASED ON MODULE TYPE */}
+      {isMathModule ? (
+        <div className="math-module-layout">
+          <div className="math-top-bar">
+            <div className="question-header-image-style math-top-header">
               <div className="question-number-box-center">
-               {currentQuestionIndex + 1}
+                {currentQuestionIndex + 1}
               </div>
               
               <div 
@@ -885,12 +856,11 @@ const handleTimeUp = async () => {
               >
                   <AbcIcon />
               </div>
+            </div>
           </div>
           
-          {/* Color Line Divider */}
-          <div className="question-divider-color-line" style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
-             <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
-        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+          <div className="question-divider-color-line math-divider-line">
+            <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
         <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
         <div className="color-line" style={{ backgroundColor: '#d1d40bff', height: '4px', width: '30px' }}></div>
         <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
@@ -904,105 +874,279 @@ const handleTimeUp = async () => {
          <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
         <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
         <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
-     
-       
           </div>
           
-          {/* <div className="question-content-image-style"> */}
-          <div className="question-header-image-styles">
-              <p className="question-text">
-                {currentQuestion?.is_open_ended ? "Type your answer below:" : "Which choice completes the text with the most logical and precise word or phrase?"}
-              </p>
+          <div className="math-center-question">
+            {currentQuestion?.question_text && (
+              <div className="math-question-content">
+                <QuestionTextRenderer content={currentQuestion.question_text} />
+              </div>
+            )}
+            
+            {currentQuestion?.question_image && (
+              <div className="math-question-image">
+                <img 
+                  src={getImageUrl(currentQuestion.question_image)} 
+                  alt="Question" 
+                  className="question-image"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                  }}
+                />
+              </div>
+            )}
+          
+          </div>
+          
+          {/* <div className="math-bottom-divider-line">
+            <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+            <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+            <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+            <div className="color-line" style={{ backgroundColor: '#d1d40bff', height: '4px', width: '30px' }}></div>
+          </div> */}
+          
+          <div className="math-bottom-options">
+            {currentQuestion?.is_open_ended ? (
+              <div className="open-ended-input-section math-open-ended">
+                  <div className="answer-input-container">
+                      <textarea
+                          className="open-ended-input-box"
+                          value={openEndedAnswer}
+                          onChange={handleOpenEndedChange}
+                          rows={6} 
+                      />
+                  </div>
+                  
+                  <div className="answer-preview-container">
+                      <p><strong>Answer Preview:</strong></p>
+                      <div className="answer-preview-box">
+                          {openEndedAnswer || ''}
+                      </div>
+                  </div>
+              </div>
+            ) : (
+              <div className="options-section math-options-section">
+                <div className="options-list math-options-list">
+                  {['A', 'B', 'C', 'D'].map((option) => {
+                    const optionData = currentQuestion?.[`option_${option.toLowerCase()}`];
+                    const hasOptionImage = optionData?.image;
+                    const hasOptionText = optionData?.text;
+                    
+                    return (
+                      <div 
+                          key={option} 
+                          className={`option-item-image-style math-option-item ${selectedOption === option ? 'selected' : ''} ${hasOptionImage ? 'has-image' : ''}`}
+                          onClick={() => handleOptionSelect(option)}
+                      >
+                        <label className="option-label-container">
+                          <div className="option-circle-label">
+                              <span className="option-label-text">{option}</span>
+                          </div>
+                          
+                          <div className="option-content-wrapper">
+                            {hasOptionText && (
+                              <span className="option-text-image-style">
+                                <OptionTextRenderer content={optionData.text} />
+                              </span>
+                            )}
+                            
+                            {hasOptionImage && (
+                              <div className="option-image-container">
+                                <img 
+                                  src={getImageUrl(optionData.image)} 
+                                  alt={`Option ${option}`}
+                                  className="option-image"
+                                  onError={(e) => {
+                                    e.target.style.display = 'none';
+                                  }}
+                                />
+                              </div>
+                            )}
+                          </div>
+                          
+                          <input
+                            type="radio"
+                            name="answer"
+                            value={option}
+                            checked={selectedOption === option}
+                            onChange={() => handleOptionSelect(option)}
+                            style={{ display: 'none' }}
+                          />
+                        </label>
+                        <button className="option-add-btn"></button>
+                        
+                        {abcIconClicked && (
+                            <div className="option-right-box-style math-option-right-box">
+                                <div className="option-circle-with-line">
+                                    <span className="option-right-label">{option}</span>
+                                </div>
+                            </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      ) : (
+        <div className="test-main-content reading-module-layout">
+          <div className="question-text-area"> 
+              {currentQuestion?.question_text && (
+                <div className="passage-text">
+                  <QuestionTextRenderer content={currentQuestion.question_text} />
+                </div>
+              )}
+              
+              {currentQuestion?.question_image && (
+                <div className="question-image-container">
+                  <img 
+                    src={getImageUrl(currentQuestion.question_image)} 
+                    alt="Question" 
+                    className="question-image"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                    }}
+                  />
+                </div>
+              )}
+              
+              <div className="fullscreen-handle-container">
+                  <FullscreenIcon /> 
+              </div>
           </div>
 
+          <div className="options-only-area">
+            <div className="options-container"></div>
           
-          {/* ✅ CONDITIONAL RENDERING FOR OPEN-ENDED / MCQS */}
-          {currentQuestion?.is_open_ended ? (
-            /* --- Open Ended Input Area --- */
-            <div className="open-ended-input-section">
-                <div className="answer-input-container">
-                    <textarea
-                        className="open-ended-input-box"
-                        value={openEndedAnswer}
-                        onChange={handleOpenEndedChange}
-                        rows={6} 
-                    />
+            
+       
+            <div className="question-header-image-style">
+                <div className="question-number-box-center">
+                 {currentQuestionIndex + 1}
                 </div>
                 
-                <div className="answer-preview-container">
-                    <p><strong>Answer Preview:</strong></p>
-                    <div className="answer-preview-box">
-                        {openEndedAnswer || ''}
-                    </div>
+                <div 
+                  className="mark-icon-container"
+                  onClick={handleMarkQuestion}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <MarkIcon isMarked={markedQuestions.has(currentQuestionIndex + 1)} />
+                </div>
+                <span className="mark-for-review-text">Mark for Review</span>
+                
+                <div 
+                    className={`abc-icon-container ${abcIconClicked ? 'clicked' : ''}`}
+                    onClick={handleAbcIconClick}
+                >
+                    <AbcIcon />
                 </div>
             </div>
-          ) : (
-            /* --- Standard MCQs Section --- */
-            <div className="options-section">
-              <div className="options-list">
-                {['A', 'B', 'C', 'D'].map((option) => {
-                  const optionData = currentQuestion?.[`option_${option.toLowerCase()}`];
-                  const hasOptionImage = optionData?.image;
-                  const hasOptionText = optionData?.text;
-                  
-                  return (
-                    <div 
-                        key={option} 
-                        className={`option-item-image-style ${selectedOption === option ? 'selected' : ''} ${hasOptionImage ? 'has-image' : ''}`}
-                        onClick={() => handleOptionSelect(option)}
-                    >
-                      <label className="option-label-container">
-                        <div className="option-circle-label">
-                            <span className="option-label-text">{option}</span>
-                        </div>
-                        
-                        <div className="option-content-wrapper">
-                          {hasOptionText && (
-                            <span className="option-text-image-style">
-                              <OptionTextRenderer content={optionData.text} />
-                            </span>
-                          )}
-                          
-                          {hasOptionImage && (
-                            <div className="option-image-container">
-                              <img 
-                                src={getImageUrl(optionData.image)} 
-                                alt={`Option ${option}`}
-                                className="option-image"
-                                onError={(e) => {
-                                  e.target.style.display = 'none';
-                                }}
-                              />
-                            </div>
-                          )}
-                        </div>
-                        
-                        <input
-                          type="radio"
-                          name="answer"
-                          value={option}
-                          checked={selectedOption === option}
-                          onChange={() => handleOptionSelect(option)}
-                          style={{ display: 'none' }}
-                        />
-                      </label>
-                      <button className="option-add-btn"></button>
-                      
-                      {abcIconClicked && (
-                          <div className="option-right-box-style">
-                              <div className="option-circle-with-line">
-                                  <span className="option-right-label">{option}</span>
-                              </div>
-                          </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
+            
+            <div className="question-divider-color-line">
+               <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+          <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+          <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+          <div className="color-line" style={{ backgroundColor: '#d1d40bff', height: '4px', width: '30px' }}></div>
+          <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+          <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+          <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+         
             </div>
-          )}
+            
+            <div className="question-header-image-styles">
+                <p className="question-text">
+                  {currentQuestion?.is_open_ended ? "Type your answer below:" : "Which choice completes the text with the most logical and precise word or phrase?"}
+                </p>
+            </div>
+
+            
+            {currentQuestion?.is_open_ended ? (
+              <div className="open-ended-input-section">
+                  <div className="answer-input-container">
+                      <textarea
+                          className="open-ended-input-box"
+                          value={openEndedAnswer}
+                          onChange={handleOpenEndedChange}
+                          rows={6} 
+                      />
+                  </div>
+                  
+                  <div className="answer-preview-container">
+                      <p><strong>Answer Preview:</strong></p>
+                      <div className="answer-preview-box">
+                          {openEndedAnswer || ''}
+                      </div>
+                  </div>
+              </div>
+            ) : (
+              <div className="options-section">
+                <div className="options-list">
+                  {['A', 'B', 'C', 'D'].map((option) => {
+                    const optionData = currentQuestion?.[`option_${option.toLowerCase()}`];
+                    const hasOptionImage = optionData?.image;
+                    const hasOptionText = optionData?.text;
+                    
+                    return (
+                      <div 
+                          key={option} 
+                          className={`option-item-image-style ${selectedOption === option ? 'selected' : ''} ${hasOptionImage ? 'has-image' : ''}`}
+                          onClick={() => handleOptionSelect(option)}
+                      >
+                        <label className="option-label-container">
+                          <div className="option-circle-label">
+                              <span className="option-label-text">{option}</span>
+                          </div>
+                          
+                          <div className="option-content-wrapper">
+                            {hasOptionText && (
+                              <span className="option-text-image-style">
+                                <OptionTextRenderer content={optionData.text} />
+                              </span>
+                            )}
+                            
+                            {hasOptionImage && (
+                              <div className="option-image-container">
+                                <img 
+                                  src={getImageUrl(optionData.image)} 
+                                  alt={`Option ${option}`}
+                                  className="option-image"
+                                  onError={(e) => {
+                                    e.target.style.display = 'none';
+                                  }}
+                                />
+                              </div>
+                            )}
+                          </div>
+                          
+                          <input
+                            type="radio"
+                            name="answer"
+                            value={option}
+                            checked={selectedOption === option}
+                            onChange={() => handleOptionSelect(option)}
+                            style={{ display: 'none' }}
+                          />
+                        </label>
+                        <button className="option-add-btn"></button>
+                        
+                        {abcIconClicked && (
+                            <div className="option-right-box-style">
+                                <div className="option-circle-with-line">
+                                    <span className="option-right-label">{option}</span>
+                                </div>
+                            </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Bottom Navigation */}
       <div className="test-bottom-navbar">
