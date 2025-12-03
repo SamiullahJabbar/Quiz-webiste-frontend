@@ -228,7 +228,7 @@ const TestInterface = () => {
   const [timeLeft, setTimeLeft] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [abcIconClicked, setAbcIconClicked] = useState(false);
+  const [abcIconClicked, setAbcIconClicked] = useState(true);
   const [userAnswers, setUserAnswers] = useState({});
   const [showSubmitPopup, setShowSubmitPopup] = useState(false);
   
@@ -594,8 +594,8 @@ const handleTimeUp = async () => {
   };
 
   const handleAbcIconClick = () => {
-    setAbcIconClicked(!abcIconClicked);
-  };
+  setAbcIconClicked(!abcIconClicked);
+};
 
   const handleOptionSelect = (option) => {
     if (currentQuestion?.is_open_ended) return;

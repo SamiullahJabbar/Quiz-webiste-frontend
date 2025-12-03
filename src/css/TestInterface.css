@@ -390,7 +390,7 @@
   margin-left: -1%;
 }
 
-/* ABC Icon Container */
+
 .abc-icon-container {
     display: flex;
     flex-direction: column;
@@ -398,17 +398,15 @@
     gap: 2px;
     padding: 0 5px;
     position: relative;
-    background-color: #372AAC ; /* BLUE BACKGROUND */
+    background-color: #372AAC;
     border-radius: 7px;
     margin-left: 10%;
     transition: all 0.3s ease;
     margin-right: -2.3%;
-
-
 }
 
-/* Click hone par tershi line lag jayegi */
-.abc-icon-container.clicked::after {
+
+.abc-icon-container::after {
     content: '';
     position: absolute;
     top: 0;
@@ -425,8 +423,18 @@
         transparent 100%
     );
     pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.3s ease;
 }
 
+.abc-icon-container:not(.clicked)::after {
+    opacity: 0 !important;
+}
+
+
+.abc-icon-container.clicked::after {
+    opacity: 1 !important;
+}
 
 
 .abc-icon-text {
