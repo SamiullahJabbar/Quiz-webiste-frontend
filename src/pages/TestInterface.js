@@ -76,6 +76,38 @@ const AbcIcon = () => (
     </svg>
 );
 
+// NEW: Calculator Icon for Math Modules
+const CalculatorIcon = () => (
+    <svg 
+        className="calculator-icon" 
+        xmlns="http://www.w3.org/2000/svg" 
+        height="26px" 
+        viewBox="0 0 640 640" 
+        width="26px"
+        fill="#555252ff"
+    >
+        <path d="M192 64C156.7 64 128 92.7 128 128L128 512C128 547.3 156.7 576 192 576L448 576C483.3 576 512 547.3 512 512L512 128C512 92.7 483.3 64 448 64L192 64zM224 128L416 128C433.7 128 448 142.3 448 160L448 192C448 209.7 433.7 224 416 224L224 224C206.3 224 192 209.7 192 192L192 160C192 142.3 206.3 128 224 128zM240 296C240 309.3 229.3 320 216 320C202.7 320 192 309.3 192 296C192 282.7 202.7 272 216 272C229.3 272 240 282.7 240 296zM320 320C306.7 320 296 309.3 296 296C296 282.7 306.7 272 320 272C333.3 272 344 282.7 344 296C344 309.3 333.3 320 320 320zM448 296C448 309.3 437.3 320 424 320C410.7 320 400 309.3 400 296C400 282.7 410.7 272 424 272C437.3 272 448 282.7 448 296zM216 416C202.7 416 192 405.3 192 392C192 378.7 202.7 368 216 368C229.3 368 240 378.7 240 392C240 405.3 229.3 416 216 416zM344 392C344 405.3 333.3 416 320 416C306.7 416 296 405.3 296 392C296 378.7 306.7 368 320 368C333.3 368 344 378.7 344 392zM424 416C410.7 416 400 405.3 400 392C400 378.7 410.7 368 424 368C437.3 368 448 378.7 448 392C448 405.3 437.3 416 424 416zM192 488C192 474.7 202.7 464 216 464L328 464C341.3 464 352 474.7 352 488C352 501.3 341.3 512 328 512L216 512C202.7 512 192 501.3 192 488zM424 464C437.3 464 448 474.7 448 488C448 501.3 437.3 512 424 512C410.7 512 400 501.3 400 488C400 474.7 410.7 464 424 464z"/>
+    </svg>
+);
+
+
+
+
+
+// NEW: Reference Icon for Math Modules
+const ReferenceIcon = () => (
+    <svg 
+        className="reference-icon" 
+        xmlns="http://www.w3.org/2000/svg" 
+        height="26px" 
+        viewBox="0 0 640 640" 
+        width="26px" 
+        fill="#555252ff"
+    >
+        <path d="M504.6 148.5C515.9 134.9 514.1 114.7 500.5 103.4C486.9 92.1 466.7 93.9 455.4 107.5L320 270L184.6 107.5C173.3 93.9 153.1 92.1 139.5 103.4C125.9 114.7 124.1 134.9 135.4 148.5L278.3 320L135.4 491.5C124.1 505.1 125.9 525.3 139.5 536.6C153.1 547.9 173.3 546.1 184.6 532.5L320 370L455.4 532.5C466.7 546.1 486.9 547.9 500.5 536.6C514.1 525.3 515.9 505.1 504.6 491.5L361.7 320L504.6 148.5z"/>
+    </svg>
+);
+
 // ✅ NEW: Fixed sequence according to your requirement
 const REQUIRED_SEQUENCE = [
     "rw1",      // Step 1: Reading and writing 1
@@ -744,13 +776,26 @@ const handleTimeUp = async () => {
         {/* RIGHT SIDE: Tools/Icons */}
         <div className="header-right-image-style">
             <div className="tool-options-horizontal">
-              <div className="tool-set-highlights">
-                <div className="tool-icon-row"> 
-                    <HighlightIcon />
-                    <NotesIcon />
+              {/* CONDITIONAL: Reading Modules vs Math Modules */}
+              {isMathModule ? (
+                // ✅ MATH MODULES: Calculator & Reference Icons
+                <div className="tool-set-math-tools">
+                  <div className="tool-icon-row"> 
+                      <CalculatorIcon />
+                      <ReferenceIcon />
+                  </div>
+                  <span className="tool-text-top">Calculator   Reference</span>
                 </div>
-                <span className="tool-text-top">Highlights & Notes</span>
-              </div>
+              ) : (
+                // ✅ READING MODULES: Highlights & Notes Icons (Original)
+                <div className="tool-set-highlights">
+                  <div className="tool-icon-row"> 
+                      <HighlightIcon />
+                      <NotesIcon />
+                  </div>
+                  <span className="tool-text-top">Highlights & Notes</span>
+                </div>
+              )}
                
               <div 
                 className="tool-set-more-option"
@@ -867,8 +912,16 @@ const handleTimeUp = async () => {
         <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
         <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
         <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
         <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
         <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+         <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
         <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
         <div className="color-line" style={{ backgroundColor: '#d1d40bff', height: '4px', width: '30px' }}></div>
          <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
@@ -897,13 +950,6 @@ const handleTimeUp = async () => {
             )}
           
           </div>
-          
-          {/* <div className="math-bottom-divider-line">
-            <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
-            <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
-            <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
-            <div className="color-line" style={{ backgroundColor: '#d1d40bff', height: '4px', width: '30px' }}></div>
-          </div> */}
           
           <div className="math-bottom-options">
             {currentQuestion?.is_open_ended ? (
@@ -1046,12 +1092,27 @@ const handleTimeUp = async () => {
             
             <div className="question-divider-color-line">
                <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
-          <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
-          <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
-          <div className="color-line" style={{ backgroundColor: '#d1d40bff', height: '4px', width: '30px' }}></div>
-          <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
-          <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
-          <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+           <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#d1d40bff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+         <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#d1d40bff', height: '4px', width: '30px' }}></div>
+         <div className="color-line" style={{ backgroundColor: '#062a79ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#07ac38ff', height: '4px', width: '30px' }}></div>
+        <div className="color-line" style={{ backgroundColor: '#b90707ff', height: '4px', width: '25px' }}></div>
          
             </div>
             
