@@ -585,6 +585,7 @@ body, div, section, article, header, footer, nav, aside, main {
   font-weight: 700;
   color: #5A5A5A;
   font-size: 16px;
+  font-family: 'Times New Roman', Times, serif !important;
   
 }
 
@@ -593,7 +594,7 @@ body, div, section, article, header, footer, nav, aside, main {
   line-height: 1.5;
   color: #1a1a1a;
   font-weight: 500;
-  font-family: Georgia, 'Times New Roman', Times, serif !important;
+  font-family: 'Times New Roman', Times, serif !important;
   
 }
 
@@ -1387,7 +1388,7 @@ body, div, section, article, header, footer, nav, aside, main {
 }
 
 /* Black number box - UPDATED */
-.question-number-box-center {
+.math-question-number-box-center {
   padding: 10px 16px;
   background: #1a1a1a;
   color: white;
@@ -1480,7 +1481,6 @@ body, div, section, article, header, footer, nav, aside, main {
   max-width: 700px;
   margin: -30px auto;
   margin-left: -8%;
-  font-family: 'Times New Roman', Times, serif !important;
 }
 
 .math-option-item {

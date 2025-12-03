@@ -837,7 +837,7 @@ const handleTimeUp = async () => {
         <div className="math-module-layout">
           <div className="math-top-bar">
             <div className="question-header-image-style math-top-header">
-              <div className="question-number-box-center">
+              <div className="math-question-number-box-center">
                 {currentQuestionIndex + 1}
               </div>
               
