@@ -4,7 +4,6 @@ import { TokenManager, BASE_URL } from '../api/baseurls';
 import '../css/TestInterface.css';
 import DirectionsModal from '../component/DirectionsModal';
 
-// --- SVG Icons (Keep all your existing icons) ---
 
 // 1. NOTES ICON
 const NotesIcon = () => (
@@ -90,10 +89,6 @@ const CalculatorIcon = () => (
     </svg>
 );
 
-
-
-
-
 // NEW: Reference Icon for Math Modules
 const ReferenceIcon = () => (
     <svg 
@@ -121,17 +116,14 @@ const REQUIRED_SEQUENCE = [
 function sortSectionsByFixedSequence(sections) {
     if (!sections || !Array.isArray(sections)) return [];
     
-    // Create a map for quick lookup
     const sectionsByType = {};
     
-    // Group sections by their type
     sections.forEach(section => {
         if (section && section.type) {
             sectionsByType[section.type] = section;
         }
     });
     
-    // Create new array in fixed sequence order
     const sortedSections = [];
     
     REQUIRED_SEQUENCE.forEach(type => {
@@ -147,17 +139,14 @@ function sortSectionsByFixedSequence(sections) {
 function sortSummaryByFixedSequence(summary) {
     if (!summary || !Array.isArray(summary)) return [];
     
-    // Create a map for quick lookup
     const summaryByType = {};
     
-    // Group summary items by their type
     summary.forEach(item => {
         if (item && item.type) {
             summaryByType[item.type] = item;
         }
     });
     
-    // Create new array in fixed sequence order
     const sortedSummary = [];
     
     REQUIRED_SEQUENCE.forEach(type => {
@@ -243,12 +232,12 @@ const TestInterface = () => {
   // ✅ Get test data with proper structure from StartCodeScreen
   const { testData, initialSectionIndex = 0, fromBreak = false } = location.state || {};
   
-  // ✅ Extract and sort the actual test data from the response structure
+  //  Extract and sort the actual test data from the response structure
   const actualTestData = testData?.test || testData;
   let actualSections = actualTestData?.sections || [];
   let actualSummary = testData?.summary || [];
   
-  // ✅ SORT SECTIONS AND SUMMARY BY FIXED SEQUENCE
+  //  SORT SECTIONS AND SUMMARY BY FIXED SEQUENCE
   if (actualSections.length > 0) {
     actualSections = sortSectionsByFixedSequence(actualSections);
   }
@@ -257,7 +246,7 @@ const TestInterface = () => {
     actualSummary = sortSummaryByFixedSequence(actualSummary);
   }
 
-  // ✅ STATE: For battery percentage based on module
+  // TATE: For battery percentage based on module
   const [batteryPercentage, setBatteryPercentage] = useState(90);
 
   // --- NEW: Check if current section is Math Module ---
@@ -284,34 +273,28 @@ const TestInterface = () => {
     return 'khan Jabbar';
   };
 
-  // ✅ UPDATED: Get current section info with new format
-const getCurrentSectionInfo = () => {
-  if (!currentSection || !actualSections.length) return 'Loading...';
-  
-  const nonBreakSections = actualSections.filter(section => section.type !== 'break');
-  const sectionIndex = nonBreakSections.findIndex(section => section.id === currentSection.id);
-  
-  const moduleNumber = getCurrentModuleNumber();
-  const sectionNumber = Math.floor(sectionIndex / 2) + 1;
-  
-  return `Section ${sectionNumber}, Module ${moduleNumber}: ${currentSection.title || ''}`;
-};
+  const getCurrentSectionInfo = () => {
+    if (!currentSection || !actualSections.length) return 'Loading...';
+    
+    const nonBreakSections = actualSections.filter(section => section.type !== 'break');
+    const sectionIndex = nonBreakSections.findIndex(section => section.id === currentSection.id);
+    
+    const moduleNumber = getCurrentModuleNumber();
+    const sectionNumber = Math.floor(sectionIndex / 2) + 1;
+    
+    return `Section ${sectionNumber}, Module ${moduleNumber}: ${currentSection.title || ''}`;
+  };
 
-  // ✅ UPDATED: Function to get current module number
-const getCurrentModuleNumber = () => {
-  if (!currentSection || !actualSections.length) return 1;
-  
-  // Non-break sections mein current section ka index nikalo
-  const nonBreakSections = actualSections.filter(section => section.type !== 'break');
-  const sectionIndex = nonBreakSections.findIndex(section => section.id === currentSection.id);
-  
+  const getCurrentModuleNumber = () => {
+    if (!currentSection || !actualSections.length) return 1;
+    
+    const nonBreakSections = actualSections.filter(section => section.type !== 'break');
+    const sectionIndex = nonBreakSections.findIndex(section => section.id === currentSection.id);
+    
+    return (sectionIndex % 2 === 0) ? 1 : 2;
+  };
 
-  return (sectionIndex % 2 === 0) ? 1 : 2;
-};
-
-  // ✅ UPDATED: Function to update battery percentage based on module (excluding break)
   const updateBatteryPercentage = (sectionType) => {
-    // Battery percentage based on section type, not module number
     switch(sectionType) {
       case 'rw1':
         setBatteryPercentage(90);
@@ -326,12 +309,10 @@ const getCurrentModuleNumber = () => {
         setBatteryPercentage(48);
         break;
       default:
-        // For break section, keep previous percentage
         break;
     }
   };
 
-  // ✅ Function to get full image URL
   const getImageUrl = (imagePath) => {
     if (!imagePath) return null;
     if (imagePath.startsWith('http')) return imagePath;
@@ -361,8 +342,6 @@ const getCurrentModuleNumber = () => {
     });
   };
 
-  // --- Handlers & Effects ---
-  
   // ✅ HANDLER FOR DIRECTIONS MODAL
   const toggleDirectionsPopup = () => {
       setIsDirectionsOpen(prev => !prev);
@@ -382,9 +361,7 @@ const getCurrentModuleNumber = () => {
   // ✅ UPDATED useEffect: Initialize section with break handling
   useEffect(() => {
     if (actualSections.length > 0) {
-      // Agar break se aa rahe hain, toh next section load karo
       if (fromBreak) {
-        // Break ke baad wala section find karo
         const breakIndex = actualSections.findIndex(section => section.type === 'break');
         if (breakIndex !== -1 && breakIndex + 1 < actualSections.length) {
           loadSectionDirectly(breakIndex + 1);
@@ -403,7 +380,6 @@ const getCurrentModuleNumber = () => {
   // ✅ UPDATED useEffect: Update battery percentage when section changes
   useEffect(() => {
     if (currentSection && currentSection.type) {
-      // Only update battery for non-break sections
       if (currentSection.type !== 'break') {
         updateBatteryPercentage(currentSection.type);
       }
@@ -447,13 +423,12 @@ const getCurrentModuleNumber = () => {
     return () => clearInterval(timer);
   }, [timeLeft]);
 
-  // ✅ NEW: Direct section loading function (break skip logic included)
+  //  NEW: Direct section loading function
   const loadSectionDirectly = async (sectionIndex) => {
     try {
       setLoading(true);
       setError('');
       
-      // ✅ Check if we're out of bounds
       if (!actualSections || sectionIndex >= actualSections.length) {
         await finalSubmitTest();
         navigate('/examcompletion');
@@ -462,9 +437,7 @@ const getCurrentModuleNumber = () => {
 
       const section = actualSections[sectionIndex];
       
-      // ✅ Agar section break hai aur hum already break dekh chuke hain, skip karo
       if (section.type === 'break') {
-        // Next section load karo
         loadSectionDirectly(sectionIndex + 1);
         return;
       }
@@ -487,60 +460,77 @@ const getCurrentModuleNumber = () => {
     }
   };
 
-const handleTimeUp = async () => {
-  if (Object.keys(userAnswers).length > 0) {
-    await submitSectionAnswers();
-  }
-  
-  if (!currentSection || !actualSections.length) return;
-  
-  const currentSectionType = currentSection.type;
-  const currentSequencePosition = REQUIRED_SEQUENCE.indexOf(currentSectionType);
-  
-  // ✅ Navigate based on sequence position
-  if (currentSequencePosition === 0) {
-    // rw1 -> module over
-    navigate('/module-over', {
-      state: {
-        nextSectionIndex: currentSectionIndex + 1,
-        sections: actualSections,
-        testData: actualTestData
+  // ✅ UPDATED: handleTimeUp with DYNAMIC BREAK DURATION
+  const handleTimeUp = async () => {
+    if (Object.keys(userAnswers).length > 0) {
+      await submitSectionAnswers();
+    }
+    
+    if (!currentSection || !actualSections.length) return;
+    
+    const currentSectionType = currentSection.type;
+    const currentSequencePosition = REQUIRED_SEQUENCE.indexOf(currentSectionType);
+    
+    // ✅ DYNAMIC BREAK DURATION: Get actual break time from backend
+    let breakDuration = 1; // Default fallback
+    
+    // Check in actualSections array
+    const breakSection = actualSections.find(section => section.type === 'break');
+    if (breakSection && breakSection.duration_minutes) {
+      breakDuration = breakSection.duration_minutes;
+    } 
+    // Check in summary array
+    else if (actualSummary && actualSummary.length > 0) {
+      const breakSummary = actualSummary.find(item => item.type === 'break');
+      if (breakSummary && breakSummary.duration_minutes) {
+        breakDuration = breakSummary.duration_minutes;
       }
-    });
-  } 
-  else if (currentSequencePosition === 1) {
-    // rw2 -> break screen
-    navigate('/break', {
-      state: {
-        nextSectionIndex: currentSectionIndex + 1,
-        sections: actualSections,
-        testData: actualTestData,
-        breakDuration: 1
-      }
-    });
-  }
-  else if (currentSequencePosition === 3) {
-    // m1 -> module over
-    navigate('/module-over', {
-      state: {
-        nextSectionIndex: currentSectionIndex + 1,
-        sections: actualSections,
-        testData: actualTestData
-      }
-    });
-  }
-  else if (currentSequencePosition === 4) {
-    // ✅ CHANGED: m2 -> module over (pehle), phir finish test
-    navigate('/module-over', {
-      state: {
-        nextSectionIndex: currentSectionIndex + 1,
-        sections: actualSections,
-        testData: actualTestData,
-        isFinalModule: true  // ✅ NEW: Flag for final module
-      }
-    });
-  }
-};
+    }
+    
+    // ✅ Navigate based on sequence position
+    if (currentSequencePosition === 0) {
+      // rw1 -> module over
+      navigate('/module-over', {
+        state: {
+          nextSectionIndex: currentSectionIndex + 1,
+          sections: actualSections,
+          testData: actualTestData
+        }
+      });
+    } 
+    else if (currentSequencePosition === 1) {
+      // rw2 -> break screen WITH DYNAMIC DURATION
+      navigate('/break', {
+        state: {
+          nextSectionIndex: currentSectionIndex + 1,
+          sections: actualSections,
+          testData: actualTestData,
+          breakDuration: breakDuration  // ✅ Dynamic duration from backend
+        }
+      });
+    }
+    else if (currentSequencePosition === 3) {
+      // m1 -> module over
+      navigate('/module-over', {
+        state: {
+          nextSectionIndex: currentSectionIndex + 1,
+          sections: actualSections,
+          testData: actualTestData
+        }
+      });
+    }
+    else if (currentSequencePosition === 4) {
+      // m2 -> module over
+      navigate('/module-over', {
+        state: {
+          nextSectionIndex: currentSectionIndex + 1,
+          sections: actualSections,
+          testData: actualTestData,
+          isFinalModule: true
+        }
+      });
+    }
+  };
 
   const submitSectionAnswers = async () => {
     try {
@@ -594,8 +584,8 @@ const handleTimeUp = async () => {
   };
 
   const handleAbcIconClick = () => {
-  setAbcIconClicked(!abcIconClicked);
-};
+    setAbcIconClicked(!abcIconClicked);
+  };
 
   const handleOptionSelect = (option) => {
     if (currentQuestion?.is_open_ended) return;
@@ -625,7 +615,7 @@ const handleTimeUp = async () => {
     }
   };
 
-  // ✅ MODIFIED: Next question handler with sequence check
+  // ✅ MODIFIED: Next question handler
   const handleNextQuestion = () => {
     if (currentQuestion?.is_open_ended) {
         if (currentQuestion) {
@@ -662,63 +652,79 @@ const handleTimeUp = async () => {
     }
   };
 
-  // ✅ UPDATED: Finish section handler - Module 2 (rw2) ke baad break screen
+  // ✅ UPDATED: handleFinishSection with DYNAMIC BREAK DURATION
   const handleFinishSection = async () => {
-  setShowSubmitPopup(false);
-  
-  if (Object.keys(userAnswers).length > 0) {
-    await submitSectionAnswers();
-  }
-  
-  if (!currentSection || !actualSections.length) return;
-  
-  const currentSectionType = currentSection.type;
-  const currentSequencePosition = REQUIRED_SEQUENCE.indexOf(currentSectionType);
-  
-  // ✅ Navigate based on sequence position
-  if (currentSequencePosition === 0) {
-    // rw1 -> module over
-    navigate('/module-over', {
-      state: {
-        nextSectionIndex: currentSectionIndex + 1,
-        sections: actualSections,
-        testData: actualTestData
+    setShowSubmitPopup(false);
+    
+    if (Object.keys(userAnswers).length > 0) {
+      await submitSectionAnswers();
+    }
+    
+    if (!currentSection || !actualSections.length) return;
+    
+    const currentSectionType = currentSection.type;
+    const currentSequencePosition = REQUIRED_SEQUENCE.indexOf(currentSectionType);
+    
+    // ✅ DYNAMIC BREAK DURATION: Get actual break time from backend
+    let breakDuration = 1; // Default fallback
+    
+    // Check in actualSections array
+    const breakSection = actualSections.find(section => section.type === 'break');
+    if (breakSection && breakSection.duration_minutes) {
+      breakDuration = breakSection.duration_minutes;
+    } 
+    // Check in summary array
+    else if (actualSummary && actualSummary.length > 0) {
+      const breakSummary = actualSummary.find(item => item.type === 'break');
+      if (breakSummary && breakSummary.duration_minutes) {
+        breakDuration = breakSummary.duration_minutes;
       }
-    });
-  } 
-  else if (currentSequencePosition === 1) {
-    // rw2 -> break screen
-    navigate('/break', {
-      state: {
-        nextSectionIndex: currentSectionIndex + 1,
-        sections: actualSections,
-        testData: actualTestData,
-        breakDuration: 1
-      }
-    });
-  }
-  else if (currentSequencePosition === 3) {
-    // m1 -> module over
-    navigate('/module-over', {
-      state: {
-        nextSectionIndex: currentSectionIndex + 1,
-        sections: actualSections,
-        testData: actualTestData
-      }
-    });
-  }
-  else if (currentSequencePosition === 4) {
-    // ✅ CHANGED: m2 -> module over (pehle), phir finish test
-    navigate('/module-over', {
-      state: {
-        nextSectionIndex: currentSectionIndex + 1,
-        sections: actualSections,
-        testData: actualTestData,
-        isFinalModule: true  // ✅ NEW: Flag for final module
-      }
-    });
-  }
-};
+    }
+    
+    // ✅ Navigate based on sequence position
+    if (currentSequencePosition === 0) {
+      // rw1 -> module over
+      navigate('/module-over', {
+        state: {
+          nextSectionIndex: currentSectionIndex + 1,
+          sections: actualSections,
+          testData: actualTestData
+        }
+      });
+    } 
+    else if (currentSequencePosition === 1) {
+      // rw2 -> break screen WITH DYNAMIC DURATION
+      navigate('/break', {
+        state: {
+          nextSectionIndex: currentSectionIndex + 1,
+          sections: actualSections,
+          testData: actualTestData,
+          breakDuration: breakDuration  // ✅ Dynamic duration from backend
+        }
+      });
+    }
+    else if (currentSequencePosition === 3) {
+      // m1 -> module over
+      navigate('/module-over', {
+        state: {
+          nextSectionIndex: currentSectionIndex + 1,
+          sections: actualSections,
+          testData: actualTestData
+        }
+      });
+    }
+    else if (currentSequencePosition === 4) {
+      // m2 -> module over
+      navigate('/module-over', {
+        state: {
+          nextSectionIndex: currentSectionIndex + 1,
+          sections: actualSections,
+          testData: actualTestData,
+          isFinalModule: true
+        }
+      });
+    }
+  };
 
   if (loading) {
     return (
@@ -776,9 +782,7 @@ const handleTimeUp = async () => {
         {/* RIGHT SIDE: Tools/Icons */}
         <div className="header-right-image-style">
             <div className="tool-options-horizontal">
-              {/* CONDITIONAL: Reading Modules vs Math Modules */}
               {isMathModule ? (
-                // ✅ MATH MODULES: Calculator & Reference Icons
                 <div className="tool-set-math-tools">
                   <div className="tool-icon-row"> 
                       <CalculatorIcon />
@@ -787,7 +791,6 @@ const handleTimeUp = async () => {
                   <span className="tool-text-top">Calculator   Reference</span>
                 </div>
               ) : (
-                // ✅ READING MODULES: Highlights & Notes Icons (Original)
                 <div className="tool-set-highlights">
                   <div className="tool-icon-row"> 
                       <HighlightIcon />
@@ -1065,9 +1068,6 @@ const handleTimeUp = async () => {
 
           <div className="options-only-area">
             <div className="options-container"></div>
-          
-            
-       
             <div className="question-header-image-style">
                 <div className="question-number-box-center">
                  {currentQuestionIndex + 1}
