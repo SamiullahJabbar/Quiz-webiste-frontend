@@ -604,7 +604,8 @@ body, div, section, article, header, footer, nav, aside, main {
   line-height: 1.5;
   color: #1a1a1a;
   font-weight: 500;
-  font-family: 'Times New Roman', Times, serif !important;
+  /* font-family: 'Times New Roman', Times, serif !important; */
+  font-family: serif !important;
   
 }
 
@@ -1425,11 +1426,13 @@ body, div, section, article, header, footer, nav, aside, main {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 10px 20px 0 20px !important;
+  /* padding: 10px 20px 0 20px !important; */
+  padding: 0% !important;
   width: 100%;
   margin: 0;
   max-height: 40vh;
   overflow-y: auto;
+   /* margin-bottom: -30px !important; */
 }
 
 .math-question-content {
