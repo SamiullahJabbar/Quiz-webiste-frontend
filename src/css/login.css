@@ -1,259 +1,315 @@
+/* --- Variables and Global Reset --- */
+:root {
+    --bluebook-dark-blue: #324dc7; 
+    --bluebook-link-blue: #324dc7; /* Link/active color */
+    --card-background: #FFFFFF;
+    --text-color: #333333;
+    --label-color: #555555;
+    --button-disabled: #f0f0f0; /* Light gray for disabled button */
+    --border-radius: 8px;
+    --button-active: #324dc7;
+    --input-border: #cccccc;
+    --alert-text-color: #585858; /* Darker text for the alert */
+    --alert-border-color: #dee2e6; /* Light gray/blue border for the alert */
+    --alert-background-color: #f7f7f7; /* Very light gray/white background */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* --- Login Container (Full Page) --- */
 .login-container {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #f4f7f9; /* Light background matching the image */
-  padding: 20px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; /* Standardized font */
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--bluebook-dark-blue);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    padding: 20px;
+    overflow: hidden;
+  
+}
+
+/* --- Background Illustration/Icons --- */
+.background-illustration {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* --- Main Login Card Positioning --- */
+.login-card-wrapper {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
 }
 
 .login-card {
-  background: white;
-  padding: 40px; 
-  border-radius: 12px; /* Slightly tighter border-radius to match image */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06); /* Subtle shadow matching image */
-  border: 1px solid #e0e0e0; /* Subtle border */
-  width: 100%;
-  max-width: 400px; /* Adjusted width to closely match image appearance */
-}
-
-.login-header {
-  text-align: center;
-  margin-bottom: 25px; /* Adjusted spacing */
-}
-
-/* --- LOGO STYLING (Blue Circle Acorn) --- */
-.logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 18px; /* Spacing below the logo */
-}
-
-.logo-icon {
-  width: 60px; /* Size match */
-  height: 60px;
-  background-color: #324dc7; /* Primary blue color matching image */
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.logo-icon svg {
-  width: 28px; 
-  height: 28px;
-  fill: white; 
-}
-
-.login-header h2 {
-  color: #1a1a1a;
-  margin: 0; 
-  font-size: 24px;
-  font-weight: 600;
-}
-
-/* Step 2: User Email */
-.user-email {
-  color: #4b5563; /* Darker grey color for the email text */
-  font-weight: 400;
-  font-size: 14px;
-  margin-top: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-
-.email-icon {
-    font-size: 16px;
-    color: #4b5563; /* Icon color matching the email text */
-}
-
-.login-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px; /* Spacing between form groups/button */
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 4px; /* Space between label and input */
-}
-
-.form-group label {
-  color: #1a1a1a;
-  font-size: 13px;
-  font-weight: 500;
-}
-
-/* Input/Password Wrapper Styling */
-.password-wrapper {
+    background-color: var(--card-background);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
     position: relative;
-    display: flex;
-    align-items: center;
 }
 
-.password-wrapper input {
-    flex-grow: 1;
-    padding-right: 40px !important; /* Space for the toggle button */
-}
-
-.toggle-password {
+/* --- Logo Section (Bluebook Logo) --- */
+.logo-section {
     position: absolute;
-    right: 1px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: transparent;
-    border: none;
-    padding: 0 10px;
-    cursor: pointer;
-    color: #9ca3af; /* Light grey for the eye icon */
-    height: 100%;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
-    align-items: center;
+    justify-content: center;
+    width: 100%;
 }
 
-.toggle-password:hover {
+.bluebook-logo {
+    width: 240px;
+    height: auto;
+    margin-top: -8%;
+}
+
+/* --- Back Link with Icon --- */
+.back-link {
+    background: none;
+    border: none;
+    color: #494949;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    align-self: flex-start;
+    padding: 10px 0;
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s;
+    margin-top: -5%;
+}
+
+.back-link:hover {
     color: #324dc7;
 }
 
-.eye-icon-span {
-    font-size: 18px;
+.back-link svg {
+    display: inline-block;
+    vertical-align: middle;
 }
 
-/* Input styling */
-.form-group input {
-  padding: 12px 14px; 
-  border: 1px solid #d1d5db; /* Light border color */
-  border-radius: 6px;
-  font-size: 15px;
-  transition: all 0.2s ease;
-  background-color: white;
-  color: #1a1a1a;
-  font-family: inherit;
+.back-text {
+    display: inline-block;
+    vertical-align: middle;
 }
 
-.form-group input:focus {
-  outline: none;
-  border-color: #324dc7;
-  box-shadow: 0 0 0 1px #324dc7; /* Single line focus shadow */
+/* --- Card Title --- */
+.card-title {
+    color: var(--text-color);
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: -5px;
+    text-align: center;
+}
+/* --- ALERT MESSAGE with Icon --- */
+.alert-message-bluebook {
+    /* background-color: var(--alert-background-color); */
+    color: var(--alert-text-color);
+    border: 1px solid #504e4e;
+    padding: 12px 15px;
+    border-radius: var(--border-radius);
+    font-size: 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.alert-message-bluebook svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+
+}
+
+.alert-text {
+    line-height: 1.3;
+    font-size: 95%;
+}
+
+/* --- Form Elements --- */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    color: var(--label-color);
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--input-border);
+    border-radius: 4px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.password-input-wrapper {
+    position: relative;
+}
+
+.password-toggle-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #999;
+}
+
+.forgot-password-link {
+    align-self: flex-start;
+    font-size: 14px;
+    color: var(--bluebook-link-blue);
+    text-decoration: none;
+    margin-top: 5px;
+    transition: opacity 0.2s;
+}
+
+.forgot-password-link:hover {
+    opacity: 0.8;
+}
+
+/* --- Submit Button --- */
+.submit-button {
+    padding: 12px;
+    background-color: var(--button-disabled);
+    color: #999999;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: not-allowed;
+    margin-top: 10px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+/* --- Help Link --- */
+.help-link {
+    color: var(--bluebook-link-blue);
+    font-size: 14px;
+    text-decoration: none;
+    align-self: center;
+    margin-top: 0px;
+    transition: opacity 0.2s;
+}
+
+.help-link:hover {
+    opacity: 0.8;
+}
+
+/* --- Responsiveness --- */
+@media (max-width: 600px) {
+    .login-container {
+        padding: 10px;
+        align-items: flex-start;
+    }
+
+    .login-card-wrapper {
+        max-width: 100%;
+        padding: 0;
+        margin-top: 100px;
+    }
+
+    .login-card {
+        padding: 30px 20px;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    
+    .logo-section {
+        top: -40px;
+    }
+    
+    .bluebook-logo {
+        width: 120px;
+    }
+}
+
+
+
+
+.form-input.input-error {
+    border-color: var(--error-color);
 }
 
 .error-text {
-  color: #dc2626;
-  font-size: 12px;
-  font-weight: 400;
+    color: var(--error-color);
+    font-size: 12px;
+    margin-top: 5px;
 }
 
-/* General Error Message (Optional, for API errors) */
-.general-error {
-  background-color: #fef2f2;
-  border: 1px solid #fecaca;
-  color: #dc2626;
-  padding: 10px 14px;
-  border-radius: 6px;
-  margin-bottom: 16px;
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+/* General API Error Message */
+.api-error-message {
+    padding: 10px;
+    background-color: #f8d7da; /* Light red background */
+    color: var(--error-color);
+    border: 1px solid var(--error-color);
+    border-radius: var(--border-radius);
+    font-size: 14px;
+    text-align: center;
+    margin-top: 5px;
 }
 
-.login-btn {
-  background-color: #324dc7; /* Primary blue button */
-  color: white;
-  border: none;
-  padding: 13px 24px; /* Slightly less padding to match image */
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-height: 48px; /* Min height to maintain size */
-  margin-top: 5px; /* Spacing above button */
+/* Active Submit Button State */
+.submit-button.active-button {
+    background-color: var(--button-active);
+    color: white;
+    cursor: pointer;
 }
 
-.login-btn:hover:not(:disabled) {
-  background-color: #2a42b5;
+.submit-button.active-button:hover {
+    background-color: #2a3e9c; /* Slightly darker on hover */
 }
 
-.login-btn:disabled {
-  background-color: #a4b2e2; /* Lighter blue disabled color for better visual */
-  cursor: not-allowed;
-}
-
-/* Loading Spinner (if needed) */
+/* Loading Spinner for Submit Button */
 .loading-spinner {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border: 2px solid transparent;
-  border-top: 2px solid white;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 8px;
+    vertical-align: middle;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* --- STEP 1 & STEP 2 LINKS (Centralized, vertically stacked) --- */
-.help-links, .password-options {
-  display: flex;
-  flex-direction: column;
-  gap: 12px; 
-  align-items: center;
-  margin-top: 10px; /* Space after button */
-  padding-top: 15px;
-}
-
-.help-link-item, .link-only {
-  color: #324dc7;
-  text-decoration: none; 
-  font-size: 14px;
-  font-weight: 500;
-  transition: text-decoration 0.2s ease, color 0.2s ease;
-  background: none; /* For button to look like link */
-  border: none; /* For button to look like link */
-  cursor: pointer;
-  padding: 0;
-}
-
-.help-link-item:hover, .link-only:hover {
-  text-decoration: underline; 
-}
-
-/* --- REGISTER LINK (Bottom link, matches image style) --- */
-.register-link {
-  text-align: center;
-  margin-top: 30px;
-  padding-top: 20px;
-  border-top: 1px solid #f0f0f0; /* Separator line matching image */
-}
-
-.register-link-text {
-  color: #1a1a1a; /* Dark text for the bottom link as per image */
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 14px;
-}
-
-.register-link-text:hover {
-  color: #324dc7;
-  text-decoration: underline;
-}
-
-/* Responsive Design */
-@media (max-width: 480px) {
-  .login-card {
-    padding: 24px 20px;
-  }
+    to {
+        transform: rotate(360deg);
+    }
 }
